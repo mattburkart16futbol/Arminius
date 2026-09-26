@@ -1,4 +1,4 @@
-import { readFileSync, writeFileSync } from "node:fs";
+import { readFileSync } from "node:fs";
 const exercises = JSON.parse(
   readFileSync(new URL("../src/data/exercises.json", import.meta.url), "utf8"),
 );
@@ -18,7 +18,4 @@ for (const exercise of exercises) {
   }
 }
 sql.push("commit;", "");
-writeFileSync(
-  new URL("../supabase/migrations/202609260002_catalog.sql", import.meta.url),
-  sql.join("\n"),
-);
+process.stdout.write(sql.join("\n"));

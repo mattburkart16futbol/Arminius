@@ -1,0 +1,1802 @@
+{
+  "squat": {
+    "mode": "reps",
+    "load": "added",
+    "category": "legs",
+    "e1rm": false
+  },
+  "push-up": {
+    "mode": "reps",
+    "load": "added",
+    "category": "push",
+    "e1rm": false
+  },
+  "row": {
+    "mode": "reps",
+    "load": "per_dumbbell",
+    "category": "pull",
+    "e1rm": false
+  },
+  "hinge": {
+    "mode": "reps",
+    "load": "external",
+    "category": "legs",
+    "e1rm": false
+  },
+  "calf-raise": {
+    "mode": "reps",
+    "load": "added",
+    "category": "legs",
+    "e1rm": false
+  },
+  "barbell-bench-press": {
+    "mode": "reps",
+    "load": "external",
+    "category": "push",
+    "e1rm": true
+  },
+  "incline-barbell-bench-press": {
+    "mode": "reps",
+    "load": "external",
+    "category": "push",
+    "e1rm": true
+  },
+  "decline-barbell-bench-press": {
+    "mode": "reps",
+    "load": "external",
+    "category": "push",
+    "e1rm": true
+  },
+  "close-grip-bench-press": {
+    "mode": "reps",
+    "load": "external",
+    "category": "push",
+    "e1rm": true
+  },
+  "paused-bench-press": {
+    "mode": "reps",
+    "load": "external",
+    "category": "push",
+    "e1rm": true
+  },
+  "tempo-bench-press": {
+    "mode": "reps",
+    "load": "external",
+    "category": "push",
+    "e1rm": false
+  },
+  "barbell-floor-press": {
+    "mode": "reps",
+    "load": "external",
+    "category": "push",
+    "e1rm": true
+  },
+  "dumbbell-bench-press": {
+    "mode": "reps",
+    "load": "per_dumbbell",
+    "category": "push",
+    "e1rm": false
+  },
+  "incline-dumbbell-press": {
+    "mode": "reps",
+    "load": "per_dumbbell",
+    "category": "push",
+    "e1rm": false
+  },
+  "decline-dumbbell-press": {
+    "mode": "reps",
+    "load": "per_dumbbell",
+    "category": "push",
+    "e1rm": false
+  },
+  "neutral-grip-dumbbell-press": {
+    "mode": "reps",
+    "load": "per_dumbbell",
+    "category": "push",
+    "e1rm": false
+  },
+  "dumbbell-floor-press": {
+    "mode": "reps",
+    "load": "per_dumbbell",
+    "category": "push",
+    "e1rm": false
+  },
+  "dumbbell-squeeze-press": {
+    "mode": "reps",
+    "load": "per_dumbbell",
+    "category": "push",
+    "e1rm": false
+  },
+  "single-arm-dumbbell-bench-press": {
+    "mode": "reps",
+    "load": "per_dumbbell",
+    "category": "push",
+    "e1rm": false
+  },
+  "machine-chest-press": {
+    "mode": "reps",
+    "load": "external",
+    "category": "push",
+    "e1rm": false
+  },
+  "incline-machine-chest-press": {
+    "mode": "reps",
+    "load": "external",
+    "category": "push",
+    "e1rm": false
+  },
+  "decline-machine-chest-press": {
+    "mode": "reps",
+    "load": "external",
+    "category": "push",
+    "e1rm": false
+  },
+  "plate-loaded-chest-press": {
+    "mode": "reps",
+    "load": "external",
+    "category": "push",
+    "e1rm": false
+  },
+  "single-arm-machine-chest-press": {
+    "mode": "reps",
+    "load": "external",
+    "category": "push",
+    "e1rm": false
+  },
+  "pec-deck-fly": {
+    "mode": "reps",
+    "load": "external",
+    "category": "push",
+    "e1rm": false
+  },
+  "cable-chest-press": {
+    "mode": "reps",
+    "load": "external",
+    "category": "push",
+    "e1rm": false
+  },
+  "single-arm-cable-chest-press": {
+    "mode": "reps",
+    "load": "external",
+    "category": "push",
+    "e1rm": false
+  },
+  "standing-cable-fly": {
+    "mode": "reps",
+    "load": "external",
+    "category": "push",
+    "e1rm": false
+  },
+  "low-to-high-cable-fly": {
+    "mode": "reps",
+    "load": "external",
+    "category": "push",
+    "e1rm": false
+  },
+  "high-to-low-cable-fly": {
+    "mode": "reps",
+    "load": "external",
+    "category": "push",
+    "e1rm": false
+  },
+  "cable-crossover": {
+    "mode": "reps",
+    "load": "external",
+    "category": "push",
+    "e1rm": false
+  },
+  "dumbbell-fly": {
+    "mode": "reps",
+    "load": "per_dumbbell",
+    "category": "push",
+    "e1rm": false
+  },
+  "incline-dumbbell-fly": {
+    "mode": "reps",
+    "load": "per_dumbbell",
+    "category": "push",
+    "e1rm": false
+  },
+  "chest-dip": {
+    "mode": "reps",
+    "load": "added",
+    "category": "push",
+    "e1rm": false
+  },
+  "incline-push-up": {
+    "mode": "reps",
+    "load": "added",
+    "category": "push",
+    "e1rm": false
+  },
+  "decline-push-up": {
+    "mode": "reps",
+    "load": "added",
+    "category": "push",
+    "e1rm": false
+  },
+  "diamond-push-up": {
+    "mode": "reps",
+    "load": "added",
+    "category": "push",
+    "e1rm": false
+  },
+  "wide-grip-push-up": {
+    "mode": "reps",
+    "load": "added",
+    "category": "push",
+    "e1rm": false
+  },
+  "weighted-push-up": {
+    "mode": "reps",
+    "load": "added",
+    "category": "push",
+    "e1rm": false
+  },
+  "deficit-push-up": {
+    "mode": "reps",
+    "load": "added",
+    "category": "push",
+    "e1rm": false
+  },
+  "ring-push-up": {
+    "mode": "reps",
+    "load": "added",
+    "category": "push",
+    "e1rm": false
+  },
+  "smith-machine-bench-press": {
+    "mode": "reps",
+    "load": "external",
+    "category": "push",
+    "e1rm": false
+  },
+  "smith-machine-incline-press": {
+    "mode": "reps",
+    "load": "external",
+    "category": "push",
+    "e1rm": false
+  },
+  "conventional-deadlift": {
+    "mode": "reps",
+    "load": "external",
+    "category": "legs",
+    "e1rm": true
+  },
+  "sumo-deadlift": {
+    "mode": "reps",
+    "load": "external",
+    "category": "legs",
+    "e1rm": true
+  },
+  "rack-pull": {
+    "mode": "reps",
+    "load": "external",
+    "category": "pull",
+    "e1rm": false
+  },
+  "barbell-bent-over-row": {
+    "mode": "reps",
+    "load": "external",
+    "category": "pull",
+    "e1rm": false
+  },
+  "pendlay-row": {
+    "mode": "reps",
+    "load": "external",
+    "category": "pull",
+    "e1rm": false
+  },
+  "underhand-barbell-row": {
+    "mode": "reps",
+    "load": "external",
+    "category": "pull",
+    "e1rm": false
+  },
+  "t-bar-row": {
+    "mode": "reps",
+    "load": "external",
+    "category": "pull",
+    "e1rm": false
+  },
+  "chest-supported-t-bar-row": {
+    "mode": "reps",
+    "load": "external",
+    "category": "pull",
+    "e1rm": false
+  },
+  "chest-supported-dumbbell-row": {
+    "mode": "reps",
+    "load": "per_dumbbell",
+    "category": "pull",
+    "e1rm": false
+  },
+  "seal-row": {
+    "mode": "reps",
+    "load": "external",
+    "category": "pull",
+    "e1rm": false
+  },
+  "meadows-row": {
+    "mode": "reps",
+    "load": "external",
+    "category": "pull",
+    "e1rm": false
+  },
+  "landmine-row": {
+    "mode": "reps",
+    "load": "external",
+    "category": "pull",
+    "e1rm": false
+  },
+  "seated-cable-row": {
+    "mode": "reps",
+    "load": "external",
+    "category": "pull",
+    "e1rm": false
+  },
+  "wide-grip-seated-cable-row": {
+    "mode": "reps",
+    "load": "external",
+    "category": "pull",
+    "e1rm": false
+  },
+  "close-grip-seated-cable-row": {
+    "mode": "reps",
+    "load": "external",
+    "category": "pull",
+    "e1rm": false
+  },
+  "single-arm-cable-row": {
+    "mode": "reps",
+    "load": "external",
+    "category": "pull",
+    "e1rm": false
+  },
+  "high-cable-row": {
+    "mode": "reps",
+    "load": "external",
+    "category": "pull",
+    "e1rm": false
+  },
+  "machine-row": {
+    "mode": "reps",
+    "load": "external",
+    "category": "pull",
+    "e1rm": false
+  },
+  "chest-supported-machine-row": {
+    "mode": "reps",
+    "load": "external",
+    "category": "pull",
+    "e1rm": false
+  },
+  "single-arm-machine-row": {
+    "mode": "reps",
+    "load": "external",
+    "category": "pull",
+    "e1rm": false
+  },
+  "lat-pulldown": {
+    "mode": "reps",
+    "load": "external",
+    "category": "pull",
+    "e1rm": false
+  },
+  "wide-grip-lat-pulldown": {
+    "mode": "reps",
+    "load": "external",
+    "category": "pull",
+    "e1rm": false
+  },
+  "close-grip-lat-pulldown": {
+    "mode": "reps",
+    "load": "external",
+    "category": "pull",
+    "e1rm": false
+  },
+  "neutral-grip-lat-pulldown": {
+    "mode": "reps",
+    "load": "external",
+    "category": "pull",
+    "e1rm": false
+  },
+  "underhand-lat-pulldown": {
+    "mode": "reps",
+    "load": "external",
+    "category": "pull",
+    "e1rm": false
+  },
+  "single-arm-lat-pulldown": {
+    "mode": "reps",
+    "load": "external",
+    "category": "pull",
+    "e1rm": false
+  },
+  "straight-arm-pulldown": {
+    "mode": "reps",
+    "load": "external",
+    "category": "pull",
+    "e1rm": false
+  },
+  "cable-pullover": {
+    "mode": "reps",
+    "load": "external",
+    "category": "pull",
+    "e1rm": false
+  },
+  "machine-pullover": {
+    "mode": "reps",
+    "load": "external",
+    "category": "pull",
+    "e1rm": false
+  },
+  "pull-up": {
+    "mode": "reps",
+    "load": "added",
+    "category": "pull",
+    "e1rm": false
+  },
+  "chin-up": {
+    "mode": "reps",
+    "load": "added",
+    "category": "pull",
+    "e1rm": false
+  },
+  "neutral-grip-pull-up": {
+    "mode": "reps",
+    "load": "added",
+    "category": "pull",
+    "e1rm": false
+  },
+  "wide-grip-pull-up": {
+    "mode": "reps",
+    "load": "added",
+    "category": "pull",
+    "e1rm": false
+  },
+  "weighted-pull-up": {
+    "mode": "reps",
+    "load": "added",
+    "category": "pull",
+    "e1rm": false
+  },
+  "assisted-pull-up": {
+    "mode": "reps",
+    "load": "assistance",
+    "category": "pull",
+    "e1rm": false
+  },
+  "inverted-row": {
+    "mode": "reps",
+    "load": "added",
+    "category": "pull",
+    "e1rm": false
+  },
+  "trx-row": {
+    "mode": "reps",
+    "load": "added",
+    "category": "pull",
+    "e1rm": false
+  },
+  "face-pull": {
+    "mode": "reps",
+    "load": "external",
+    "category": "pull",
+    "e1rm": false
+  },
+  "cable-reverse-fly": {
+    "mode": "reps",
+    "load": "external",
+    "category": "pull",
+    "e1rm": false
+  },
+  "reverse-pec-deck": {
+    "mode": "reps",
+    "load": "external",
+    "category": "pull",
+    "e1rm": false
+  },
+  "dumbbell-pullover": {
+    "mode": "reps",
+    "load": "per_dumbbell",
+    "category": "pull",
+    "e1rm": false
+  },
+  "back-extension": {
+    "mode": "reps",
+    "load": "added",
+    "category": "pull",
+    "e1rm": false
+  },
+  "weighted-back-extension": {
+    "mode": "reps",
+    "load": "external",
+    "category": "pull",
+    "e1rm": false
+  },
+  "good-morning": {
+    "mode": "reps",
+    "load": "external",
+    "category": "legs",
+    "e1rm": false
+  },
+  "snatch-grip-deadlift": {
+    "mode": "reps",
+    "load": "external",
+    "category": "legs",
+    "e1rm": false
+  },
+  "deficit-deadlift": {
+    "mode": "reps",
+    "load": "external",
+    "category": "legs",
+    "e1rm": false
+  },
+  "barbell-overhead-press": {
+    "mode": "reps",
+    "load": "external",
+    "category": "push",
+    "e1rm": true
+  },
+  "seated-barbell-overhead-press": {
+    "mode": "reps",
+    "load": "external",
+    "category": "push",
+    "e1rm": true
+  },
+  "push-press": {
+    "mode": "reps",
+    "load": "external",
+    "category": "push",
+    "e1rm": false
+  },
+  "dumbbell-shoulder-press": {
+    "mode": "reps",
+    "load": "per_dumbbell",
+    "category": "push",
+    "e1rm": false
+  },
+  "seated-dumbbell-shoulder-press": {
+    "mode": "reps",
+    "load": "per_dumbbell",
+    "category": "push",
+    "e1rm": false
+  },
+  "arnold-press": {
+    "mode": "reps",
+    "load": "per_dumbbell",
+    "category": "push",
+    "e1rm": false
+  },
+  "single-arm-dumbbell-shoulder-press": {
+    "mode": "reps",
+    "load": "per_dumbbell",
+    "category": "push",
+    "e1rm": false
+  },
+  "machine-shoulder-press": {
+    "mode": "reps",
+    "load": "external",
+    "category": "push",
+    "e1rm": false
+  },
+  "smith-machine-shoulder-press": {
+    "mode": "reps",
+    "load": "external",
+    "category": "push",
+    "e1rm": false
+  },
+  "landmine-press": {
+    "mode": "reps",
+    "load": "external",
+    "category": "push",
+    "e1rm": false
+  },
+  "single-arm-landmine-press": {
+    "mode": "reps",
+    "load": "external",
+    "category": "push",
+    "e1rm": false
+  },
+  "dumbbell-lateral-raise": {
+    "mode": "reps",
+    "load": "per_dumbbell",
+    "category": "push",
+    "e1rm": false
+  },
+  "cable-lateral-raise": {
+    "mode": "reps",
+    "load": "external",
+    "category": "push",
+    "e1rm": false
+  },
+  "machine-lateral-raise": {
+    "mode": "reps",
+    "load": "external",
+    "category": "push",
+    "e1rm": false
+  },
+  "leaning-cable-lateral-raise": {
+    "mode": "reps",
+    "load": "external",
+    "category": "push",
+    "e1rm": false
+  },
+  "incline-dumbbell-lateral-raise": {
+    "mode": "reps",
+    "load": "per_dumbbell",
+    "category": "push",
+    "e1rm": false
+  },
+  "dumbbell-front-raise": {
+    "mode": "reps",
+    "load": "per_dumbbell",
+    "category": "push",
+    "e1rm": false
+  },
+  "cable-front-raise": {
+    "mode": "reps",
+    "load": "external",
+    "category": "push",
+    "e1rm": false
+  },
+  "plate-front-raise": {
+    "mode": "reps",
+    "load": "external",
+    "category": "push",
+    "e1rm": false
+  },
+  "rear-delt-dumbbell-fly": {
+    "mode": "reps",
+    "load": "per_dumbbell",
+    "category": "pull",
+    "e1rm": false
+  },
+  "incline-rear-delt-dumbbell-fly": {
+    "mode": "reps",
+    "load": "per_dumbbell",
+    "category": "pull",
+    "e1rm": false
+  },
+  "cable-rear-delt-fly": {
+    "mode": "reps",
+    "load": "external",
+    "category": "pull",
+    "e1rm": false
+  },
+  "upright-row": {
+    "mode": "reps",
+    "load": "external",
+    "category": "pull",
+    "e1rm": false
+  },
+  "cable-upright-row": {
+    "mode": "reps",
+    "load": "external",
+    "category": "pull",
+    "e1rm": false
+  },
+  "dumbbell-upright-row": {
+    "mode": "reps",
+    "load": "per_dumbbell",
+    "category": "pull",
+    "e1rm": false
+  },
+  "dumbbell-shrug": {
+    "mode": "reps",
+    "load": "per_dumbbell",
+    "category": "pull",
+    "e1rm": false
+  },
+  "barbell-shrug": {
+    "mode": "reps",
+    "load": "external",
+    "category": "pull",
+    "e1rm": false
+  },
+  "machine-shrug": {
+    "mode": "reps",
+    "load": "external",
+    "category": "pull",
+    "e1rm": false
+  },
+  "cable-shrug": {
+    "mode": "reps",
+    "load": "external",
+    "category": "pull",
+    "e1rm": false
+  },
+  "barbell-curl": {
+    "mode": "reps",
+    "load": "external",
+    "category": "pull",
+    "e1rm": false
+  },
+  "ez-bar-curl": {
+    "mode": "reps",
+    "load": "external",
+    "category": "pull",
+    "e1rm": false
+  },
+  "dumbbell-curl": {
+    "mode": "reps",
+    "load": "per_dumbbell",
+    "category": "pull",
+    "e1rm": false
+  },
+  "alternating-dumbbell-curl": {
+    "mode": "reps",
+    "load": "per_dumbbell",
+    "category": "pull",
+    "e1rm": false
+  },
+  "incline-dumbbell-curl": {
+    "mode": "reps",
+    "load": "per_dumbbell",
+    "category": "pull",
+    "e1rm": false
+  },
+  "preacher-curl": {
+    "mode": "reps",
+    "load": "external",
+    "category": "pull",
+    "e1rm": false
+  },
+  "machine-preacher-curl": {
+    "mode": "reps",
+    "load": "external",
+    "category": "pull",
+    "e1rm": false
+  },
+  "cable-curl": {
+    "mode": "reps",
+    "load": "external",
+    "category": "pull",
+    "e1rm": false
+  },
+  "single-arm-cable-curl": {
+    "mode": "reps",
+    "load": "external",
+    "category": "pull",
+    "e1rm": false
+  },
+  "bayesian-cable-curl": {
+    "mode": "reps",
+    "load": "external",
+    "category": "pull",
+    "e1rm": false
+  },
+  "spider-curl": {
+    "mode": "reps",
+    "load": "per_dumbbell",
+    "category": "pull",
+    "e1rm": false
+  },
+  "concentration-curl": {
+    "mode": "reps",
+    "load": "per_dumbbell",
+    "category": "pull",
+    "e1rm": false
+  },
+  "hammer-curl": {
+    "mode": "reps",
+    "load": "per_dumbbell",
+    "category": "pull",
+    "e1rm": false
+  },
+  "cross-body-hammer-curl": {
+    "mode": "reps",
+    "load": "per_dumbbell",
+    "category": "pull",
+    "e1rm": false
+  },
+  "rope-hammer-curl": {
+    "mode": "reps",
+    "load": "external",
+    "category": "pull",
+    "e1rm": false
+  },
+  "reverse-curl": {
+    "mode": "reps",
+    "load": "external",
+    "category": "pull",
+    "e1rm": false
+  },
+  "zottman-curl": {
+    "mode": "reps",
+    "load": "per_dumbbell",
+    "category": "pull",
+    "e1rm": false
+  },
+  "high-cable-curl": {
+    "mode": "reps",
+    "load": "external",
+    "category": "pull",
+    "e1rm": false
+  },
+  "machine-biceps-curl": {
+    "mode": "reps",
+    "load": "external",
+    "category": "pull",
+    "e1rm": false
+  },
+  "wrist-curl": {
+    "mode": "reps",
+    "load": "external",
+    "category": "pull",
+    "e1rm": false
+  },
+  "dumbbell-wrist-curl": {
+    "mode": "reps",
+    "load": "per_dumbbell",
+    "category": "pull",
+    "e1rm": false
+  },
+  "reverse-wrist-curl": {
+    "mode": "reps",
+    "load": "external",
+    "category": "pull",
+    "e1rm": false
+  },
+  "dumbbell-reverse-wrist-curl": {
+    "mode": "reps",
+    "load": "per_dumbbell",
+    "category": "pull",
+    "e1rm": false
+  },
+  "wrist-roller": {
+    "mode": "time",
+    "load": "external",
+    "category": "pull",
+    "e1rm": false
+  },
+  "farmer-carry": {
+    "mode": "distance",
+    "load": "per_dumbbell",
+    "category": "pull",
+    "e1rm": false
+  },
+  "suitcase-carry": {
+    "mode": "distance",
+    "load": "per_dumbbell",
+    "category": "core",
+    "e1rm": false
+  },
+  "plate-pinch": {
+    "mode": "time",
+    "load": "external",
+    "category": "pull",
+    "e1rm": false
+  },
+  "dead-hang": {
+    "mode": "time",
+    "load": "added",
+    "category": "pull",
+    "e1rm": false
+  },
+  "towel-pull-up": {
+    "mode": "reps",
+    "load": "added",
+    "category": "pull",
+    "e1rm": false
+  },
+  "cable-triceps-pushdown": {
+    "mode": "reps",
+    "load": "external",
+    "category": "push",
+    "e1rm": false
+  },
+  "rope-triceps-pushdown": {
+    "mode": "reps",
+    "load": "external",
+    "category": "push",
+    "e1rm": false
+  },
+  "straight-bar-triceps-pushdown": {
+    "mode": "reps",
+    "load": "external",
+    "category": "push",
+    "e1rm": false
+  },
+  "reverse-grip-triceps-pushdown": {
+    "mode": "reps",
+    "load": "external",
+    "category": "push",
+    "e1rm": false
+  },
+  "single-arm-triceps-pushdown": {
+    "mode": "reps",
+    "load": "external",
+    "category": "push",
+    "e1rm": false
+  },
+  "overhead-rope-triceps-extension": {
+    "mode": "reps",
+    "load": "external",
+    "category": "push",
+    "e1rm": false
+  },
+  "single-arm-overhead-cable-extension": {
+    "mode": "reps",
+    "load": "external",
+    "category": "push",
+    "e1rm": false
+  },
+  "dumbbell-overhead-triceps-extension": {
+    "mode": "reps",
+    "load": "per_dumbbell",
+    "category": "push",
+    "e1rm": false
+  },
+  "single-arm-dumbbell-overhead-extension": {
+    "mode": "reps",
+    "load": "per_dumbbell",
+    "category": "push",
+    "e1rm": false
+  },
+  "ez-bar-skull-crusher": {
+    "mode": "reps",
+    "load": "external",
+    "category": "push",
+    "e1rm": false
+  },
+  "barbell-skull-crusher": {
+    "mode": "reps",
+    "load": "external",
+    "category": "push",
+    "e1rm": false
+  },
+  "dumbbell-skull-crusher": {
+    "mode": "reps",
+    "load": "per_dumbbell",
+    "category": "push",
+    "e1rm": false
+  },
+  "incline-skull-crusher": {
+    "mode": "reps",
+    "load": "external",
+    "category": "push",
+    "e1rm": false
+  },
+  "jm-press": {
+    "mode": "reps",
+    "load": "external",
+    "category": "push",
+    "e1rm": false
+  },
+  "bench-dip": {
+    "mode": "reps",
+    "load": "added",
+    "category": "push",
+    "e1rm": false
+  },
+  "parallel-bar-dip": {
+    "mode": "reps",
+    "load": "added",
+    "category": "push",
+    "e1rm": false
+  },
+  "weighted-dip": {
+    "mode": "reps",
+    "load": "added",
+    "category": "push",
+    "e1rm": false
+  },
+  "assisted-dip": {
+    "mode": "reps",
+    "load": "assistance",
+    "category": "push",
+    "e1rm": false
+  },
+  "machine-triceps-extension": {
+    "mode": "reps",
+    "load": "external",
+    "category": "push",
+    "e1rm": false
+  },
+  "triceps-kickback": {
+    "mode": "reps",
+    "load": "per_dumbbell",
+    "category": "push",
+    "e1rm": false
+  },
+  "cable-triceps-kickback": {
+    "mode": "reps",
+    "load": "external",
+    "category": "push",
+    "e1rm": false
+  },
+  "barbell-back-squat": {
+    "mode": "reps",
+    "load": "external",
+    "category": "legs",
+    "e1rm": true
+  },
+  "high-bar-back-squat": {
+    "mode": "reps",
+    "load": "external",
+    "category": "legs",
+    "e1rm": true
+  },
+  "low-bar-back-squat": {
+    "mode": "reps",
+    "load": "external",
+    "category": "legs",
+    "e1rm": true
+  },
+  "front-squat": {
+    "mode": "reps",
+    "load": "external",
+    "category": "legs",
+    "e1rm": true
+  },
+  "paused-squat": {
+    "mode": "reps",
+    "load": "external",
+    "category": "legs",
+    "e1rm": true
+  },
+  "box-squat": {
+    "mode": "reps",
+    "load": "external",
+    "category": "legs",
+    "e1rm": false
+  },
+  "goblet-squat": {
+    "mode": "reps",
+    "load": "per_dumbbell",
+    "category": "legs",
+    "e1rm": false
+  },
+  "dumbbell-squat": {
+    "mode": "reps",
+    "load": "per_dumbbell",
+    "category": "legs",
+    "e1rm": false
+  },
+  "hack-squat": {
+    "mode": "reps",
+    "load": "external",
+    "category": "legs",
+    "e1rm": false
+  },
+  "pendulum-squat": {
+    "mode": "reps",
+    "load": "external",
+    "category": "legs",
+    "e1rm": false
+  },
+  "smith-machine-squat": {
+    "mode": "reps",
+    "load": "external",
+    "category": "legs",
+    "e1rm": false
+  },
+  "belt-squat": {
+    "mode": "reps",
+    "load": "external",
+    "category": "legs",
+    "e1rm": false
+  },
+  "leg-press": {
+    "mode": "reps",
+    "load": "external",
+    "category": "legs",
+    "e1rm": false
+  },
+  "single-leg-press": {
+    "mode": "reps",
+    "load": "external",
+    "category": "legs",
+    "e1rm": false
+  },
+  "narrow-stance-leg-press": {
+    "mode": "reps",
+    "load": "external",
+    "category": "legs",
+    "e1rm": false
+  },
+  "wide-stance-leg-press": {
+    "mode": "reps",
+    "load": "external",
+    "category": "legs",
+    "e1rm": false
+  },
+  "leg-extension": {
+    "mode": "reps",
+    "load": "external",
+    "category": "legs",
+    "e1rm": false
+  },
+  "single-leg-extension": {
+    "mode": "reps",
+    "load": "external",
+    "category": "legs",
+    "e1rm": false
+  },
+  "walking-lunge": {
+    "mode": "reps",
+    "load": "per_dumbbell",
+    "category": "legs",
+    "e1rm": false
+  },
+  "reverse-lunge": {
+    "mode": "reps",
+    "load": "per_dumbbell",
+    "category": "legs",
+    "e1rm": false
+  },
+  "forward-lunge": {
+    "mode": "reps",
+    "load": "per_dumbbell",
+    "category": "legs",
+    "e1rm": false
+  },
+  "barbell-lunge": {
+    "mode": "reps",
+    "load": "external",
+    "category": "legs",
+    "e1rm": false
+  },
+  "bulgarian-split-squat": {
+    "mode": "reps",
+    "load": "per_dumbbell",
+    "category": "legs",
+    "e1rm": false
+  },
+  "smith-machine-split-squat": {
+    "mode": "reps",
+    "load": "external",
+    "category": "legs",
+    "e1rm": false
+  },
+  "rear-foot-elevated-split-squat": {
+    "mode": "reps",
+    "load": "per_dumbbell",
+    "category": "legs",
+    "e1rm": false
+  },
+  "step-up": {
+    "mode": "reps",
+    "load": "per_dumbbell",
+    "category": "legs",
+    "e1rm": false
+  },
+  "lateral-step-up": {
+    "mode": "reps",
+    "load": "per_dumbbell",
+    "category": "legs",
+    "e1rm": false
+  },
+  "sissy-squat": {
+    "mode": "reps",
+    "load": "added",
+    "category": "legs",
+    "e1rm": false
+  },
+  "spanish-squat": {
+    "mode": "reps",
+    "load": "external",
+    "category": "legs",
+    "e1rm": false
+  },
+  "cyclist-squat": {
+    "mode": "reps",
+    "load": "per_dumbbell",
+    "category": "legs",
+    "e1rm": false
+  },
+  "landmine-squat": {
+    "mode": "reps",
+    "load": "external",
+    "category": "legs",
+    "e1rm": false
+  },
+  "zercher-squat": {
+    "mode": "reps",
+    "load": "external",
+    "category": "legs",
+    "e1rm": false
+  },
+  "overhead-squat": {
+    "mode": "reps",
+    "load": "external",
+    "category": "legs",
+    "e1rm": false
+  },
+  "pistol-squat": {
+    "mode": "reps",
+    "load": "added",
+    "category": "legs",
+    "e1rm": false
+  },
+  "stiff-leg-deadlift": {
+    "mode": "reps",
+    "load": "external",
+    "category": "legs",
+    "e1rm": false
+  },
+  "dumbbell-romanian-deadlift": {
+    "mode": "reps",
+    "load": "per_dumbbell",
+    "category": "legs",
+    "e1rm": false
+  },
+  "single-leg-romanian-deadlift": {
+    "mode": "reps",
+    "load": "per_dumbbell",
+    "category": "legs",
+    "e1rm": false
+  },
+  "smith-machine-romanian-deadlift": {
+    "mode": "reps",
+    "load": "external",
+    "category": "legs",
+    "e1rm": false
+  },
+  "cable-romanian-deadlift": {
+    "mode": "reps",
+    "load": "external",
+    "category": "legs",
+    "e1rm": false
+  },
+  "barbell-hip-thrust": {
+    "mode": "reps",
+    "load": "external",
+    "category": "legs",
+    "e1rm": false
+  },
+  "smith-machine-hip-thrust": {
+    "mode": "reps",
+    "load": "external",
+    "category": "legs",
+    "e1rm": false
+  },
+  "machine-hip-thrust": {
+    "mode": "reps",
+    "load": "external",
+    "category": "legs",
+    "e1rm": false
+  },
+  "dumbbell-hip-thrust": {
+    "mode": "reps",
+    "load": "per_dumbbell",
+    "category": "legs",
+    "e1rm": false
+  },
+  "glute-bridge": {
+    "mode": "reps",
+    "load": "added",
+    "category": "legs",
+    "e1rm": false
+  },
+  "barbell-glute-bridge": {
+    "mode": "reps",
+    "load": "external",
+    "category": "legs",
+    "e1rm": false
+  },
+  "single-leg-glute-bridge": {
+    "mode": "reps",
+    "load": "added",
+    "category": "legs",
+    "e1rm": false
+  },
+  "cable-pull-through": {
+    "mode": "reps",
+    "load": "external",
+    "category": "legs",
+    "e1rm": false
+  },
+  "kettlebell-swing": {
+    "mode": "reps",
+    "load": "external",
+    "category": "legs",
+    "e1rm": false
+  },
+  "lying-leg-curl": {
+    "mode": "reps",
+    "load": "external",
+    "category": "legs",
+    "e1rm": false
+  },
+  "seated-leg-curl": {
+    "mode": "reps",
+    "load": "external",
+    "category": "legs",
+    "e1rm": false
+  },
+  "standing-leg-curl": {
+    "mode": "reps",
+    "load": "external",
+    "category": "legs",
+    "e1rm": false
+  },
+  "single-leg-lying-curl": {
+    "mode": "reps",
+    "load": "external",
+    "category": "legs",
+    "e1rm": false
+  },
+  "single-leg-seated-curl": {
+    "mode": "reps",
+    "load": "external",
+    "category": "legs",
+    "e1rm": false
+  },
+  "nordic-hamstring-curl": {
+    "mode": "reps",
+    "load": "added",
+    "category": "legs",
+    "e1rm": false
+  },
+  "glute-ham-raise": {
+    "mode": "reps",
+    "load": "external",
+    "category": "legs",
+    "e1rm": false
+  },
+  "swiss-ball-leg-curl": {
+    "mode": "reps",
+    "load": "external",
+    "category": "legs",
+    "e1rm": false
+  },
+  "slider-leg-curl": {
+    "mode": "reps",
+    "load": "added",
+    "category": "legs",
+    "e1rm": false
+  },
+  "cable-leg-kickback": {
+    "mode": "reps",
+    "load": "external",
+    "category": "legs",
+    "e1rm": false
+  },
+  "machine-glute-kickback": {
+    "mode": "reps",
+    "load": "external",
+    "category": "legs",
+    "e1rm": false
+  },
+  "quadruped-hip-extension": {
+    "mode": "reps",
+    "load": "added",
+    "category": "legs",
+    "e1rm": false
+  },
+  "cable-hip-abduction": {
+    "mode": "reps",
+    "load": "external",
+    "category": "legs",
+    "e1rm": false
+  },
+  "machine-hip-abduction": {
+    "mode": "reps",
+    "load": "external",
+    "category": "legs",
+    "e1rm": false
+  },
+  "side-lying-hip-abduction": {
+    "mode": "reps",
+    "load": "added",
+    "category": "legs",
+    "e1rm": false
+  },
+  "banded-lateral-walk": {
+    "mode": "reps",
+    "load": "external",
+    "category": "legs",
+    "e1rm": false
+  },
+  "monster-walk": {
+    "mode": "reps",
+    "load": "external",
+    "category": "legs",
+    "e1rm": false
+  },
+  "frog-pump": {
+    "mode": "reps",
+    "load": "added",
+    "category": "legs",
+    "e1rm": false
+  },
+  "reverse-hyperextension": {
+    "mode": "reps",
+    "load": "external",
+    "category": "legs",
+    "e1rm": false
+  },
+  "standing-machine-calf-raise": {
+    "mode": "reps",
+    "load": "external",
+    "category": "legs",
+    "e1rm": false
+  },
+  "seated-calf-raise": {
+    "mode": "reps",
+    "load": "external",
+    "category": "legs",
+    "e1rm": false
+  },
+  "leg-press-calf-raise": {
+    "mode": "reps",
+    "load": "external",
+    "category": "legs",
+    "e1rm": false
+  },
+  "smith-machine-calf-raise": {
+    "mode": "reps",
+    "load": "external",
+    "category": "legs",
+    "e1rm": false
+  },
+  "single-leg-calf-raise": {
+    "mode": "reps",
+    "load": "added",
+    "category": "legs",
+    "e1rm": false
+  },
+  "dumbbell-calf-raise": {
+    "mode": "reps",
+    "load": "per_dumbbell",
+    "category": "legs",
+    "e1rm": false
+  },
+  "donkey-calf-raise": {
+    "mode": "reps",
+    "load": "external",
+    "category": "legs",
+    "e1rm": false
+  },
+  "tibialis-raise": {
+    "mode": "reps",
+    "load": "added",
+    "category": "legs",
+    "e1rm": false
+  },
+  "machine-tibialis-raise": {
+    "mode": "reps",
+    "load": "external",
+    "category": "legs",
+    "e1rm": false
+  },
+  "jump-rope": {
+    "mode": "time",
+    "load": "added",
+    "category": "legs",
+    "e1rm": false
+  },
+  "plank": {
+    "mode": "time",
+    "load": "added",
+    "category": "core",
+    "e1rm": false
+  },
+  "side-plank": {
+    "mode": "time",
+    "load": "added",
+    "category": "core",
+    "e1rm": false
+  },
+  "rkc-plank": {
+    "mode": "time",
+    "load": "added",
+    "category": "core",
+    "e1rm": false
+  },
+  "dead-bug": {
+    "mode": "reps",
+    "load": "added",
+    "category": "core",
+    "e1rm": false
+  },
+  "bird-dog": {
+    "mode": "reps",
+    "load": "added",
+    "category": "core",
+    "e1rm": false
+  },
+  "hollow-body-hold": {
+    "mode": "time",
+    "load": "added",
+    "category": "core",
+    "e1rm": false
+  },
+  "crunch": {
+    "mode": "reps",
+    "load": "added",
+    "category": "core",
+    "e1rm": false
+  },
+  "decline-crunch": {
+    "mode": "reps",
+    "load": "added",
+    "category": "core",
+    "e1rm": false
+  },
+  "cable-crunch": {
+    "mode": "reps",
+    "load": "external",
+    "category": "core",
+    "e1rm": false
+  },
+  "machine-crunch": {
+    "mode": "reps",
+    "load": "external",
+    "category": "core",
+    "e1rm": false
+  },
+  "sit-up": {
+    "mode": "reps",
+    "load": "added",
+    "category": "core",
+    "e1rm": false
+  },
+  "decline-sit-up": {
+    "mode": "reps",
+    "load": "added",
+    "category": "core",
+    "e1rm": false
+  },
+  "hanging-knee-raise": {
+    "mode": "reps",
+    "load": "added",
+    "category": "core",
+    "e1rm": false
+  },
+  "hanging-leg-raise": {
+    "mode": "reps",
+    "load": "added",
+    "category": "core",
+    "e1rm": false
+  },
+  "captain-s-chair-knee-raise": {
+    "mode": "reps",
+    "load": "external",
+    "category": "core",
+    "e1rm": false
+  },
+  "reverse-crunch": {
+    "mode": "reps",
+    "load": "added",
+    "category": "core",
+    "e1rm": false
+  },
+  "v-up": {
+    "mode": "reps",
+    "load": "added",
+    "category": "core",
+    "e1rm": false
+  },
+  "toe-touch": {
+    "mode": "reps",
+    "load": "added",
+    "category": "core",
+    "e1rm": false
+  },
+  "ab-wheel-rollout": {
+    "mode": "reps",
+    "load": "external",
+    "category": "core",
+    "e1rm": false
+  },
+  "barbell-rollout": {
+    "mode": "reps",
+    "load": "external",
+    "category": "core",
+    "e1rm": false
+  },
+  "pallof-press": {
+    "mode": "reps",
+    "load": "external",
+    "category": "core",
+    "e1rm": false
+  },
+  "banded-pallof-press": {
+    "mode": "reps",
+    "load": "external",
+    "category": "core",
+    "e1rm": false
+  },
+  "cable-wood-chop": {
+    "mode": "reps",
+    "load": "external",
+    "category": "core",
+    "e1rm": false
+  },
+  "landmine-rotation": {
+    "mode": "reps",
+    "load": "external",
+    "category": "core",
+    "e1rm": false
+  },
+  "russian-twist": {
+    "mode": "reps",
+    "load": "added",
+    "category": "core",
+    "e1rm": false
+  },
+  "weighted-russian-twist": {
+    "mode": "reps",
+    "load": "external",
+    "category": "core",
+    "e1rm": false
+  },
+  "bicycle-crunch": {
+    "mode": "reps",
+    "load": "added",
+    "category": "core",
+    "e1rm": false
+  },
+  "mountain-climber": {
+    "mode": "reps",
+    "load": "added",
+    "category": "core",
+    "e1rm": false
+  },
+  "bear-crawl": {
+    "mode": "distance",
+    "load": "added",
+    "category": "core",
+    "e1rm": false
+  },
+  "dragon-flag": {
+    "mode": "reps",
+    "load": "added",
+    "category": "core",
+    "e1rm": false
+  },
+  "l-sit": {
+    "mode": "time",
+    "load": "added",
+    "category": "core",
+    "e1rm": false
+  },
+  "weighted-plank": {
+    "mode": "time",
+    "load": "added",
+    "category": "core",
+    "e1rm": false
+  },
+  "suitcase-march": {
+    "mode": "time",
+    "load": "per_dumbbell",
+    "category": "core",
+    "e1rm": false
+  },
+  "power-clean": {
+    "mode": "reps",
+    "load": "external",
+    "category": "full",
+    "e1rm": false
+  },
+  "hang-power-clean": {
+    "mode": "reps",
+    "load": "external",
+    "category": "full",
+    "e1rm": false
+  },
+  "clean-and-jerk": {
+    "mode": "reps",
+    "load": "external",
+    "category": "full",
+    "e1rm": false
+  },
+  "power-snatch": {
+    "mode": "reps",
+    "load": "external",
+    "category": "full",
+    "e1rm": false
+  },
+  "hang-power-snatch": {
+    "mode": "reps",
+    "load": "external",
+    "category": "full",
+    "e1rm": false
+  },
+  "barbell-thruster": {
+    "mode": "reps",
+    "load": "external",
+    "category": "full",
+    "e1rm": false
+  },
+  "dumbbell-thruster": {
+    "mode": "reps",
+    "load": "per_dumbbell",
+    "category": "full",
+    "e1rm": false
+  },
+  "kettlebell-clean": {
+    "mode": "reps",
+    "load": "external",
+    "category": "legs",
+    "e1rm": false
+  },
+  "kettlebell-clean-and-press": {
+    "mode": "reps",
+    "load": "external",
+    "category": "full",
+    "e1rm": false
+  },
+  "kettlebell-snatch": {
+    "mode": "reps",
+    "load": "external",
+    "category": "legs",
+    "e1rm": false
+  },
+  "turkish-get-up": {
+    "mode": "reps",
+    "load": "external",
+    "category": "full",
+    "e1rm": false
+  },
+  "burpee": {
+    "mode": "reps",
+    "load": "added",
+    "category": "full",
+    "e1rm": false
+  },
+  "box-jump": {
+    "mode": "reps",
+    "load": "external",
+    "category": "legs",
+    "e1rm": false
+  },
+  "broad-jump": {
+    "mode": "reps",
+    "load": "added",
+    "category": "legs",
+    "e1rm": false
+  },
+  "sled-push": {
+    "mode": "distance",
+    "load": "external",
+    "category": "legs",
+    "e1rm": false
+  },
+  "sled-pull": {
+    "mode": "distance",
+    "load": "external",
+    "category": "pull",
+    "e1rm": false
+  },
+  "battle-ropes": {
+    "mode": "time",
+    "load": "external",
+    "category": "push",
+    "e1rm": false
+  },
+  "rowing-machine": {
+    "mode": "distance",
+    "load": "external",
+    "category": "full",
+    "e1rm": false
+  },
+  "ski-erg": {
+    "mode": "distance",
+    "load": "external",
+    "category": "full",
+    "e1rm": false
+  },
+  "assault-bike": {
+    "mode": "time",
+    "load": "external",
+    "category": "full",
+    "e1rm": false
+  },
+  "kettlebell-goblet-lunge": {
+    "mode": "reps",
+    "load": "external",
+    "category": "legs",
+    "e1rm": false
+  },
+  "curtsy-lunge": {
+    "mode": "reps",
+    "load": "per_dumbbell",
+    "category": "legs",
+    "e1rm": false
+  }
+}

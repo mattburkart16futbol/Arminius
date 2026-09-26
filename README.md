@@ -1,6 +1,6 @@
 # Arminius
 
-A mobile-first fitness and nutrition platform foundation built with React, TypeScript, Vite, and Supabase. This v0.1 is a reviewable starting point: it includes a polished preview shell and secure database structure, not completed workout or nutrition logging.
+A mobile-first fitness and nutrition platform foundation built with React, TypeScript, Vite, and Supabase. The foundation now includes persistent workout logging, a 300-exercise catalog, deterministic progress analytics, and an interactive muscle heatmap. Nutrition, goals, and social comparisons remain placeholders.
 
 ## Run locally
 
@@ -29,7 +29,7 @@ npm run test:e2e
 
 ## Connect Supabase
 
-1. Create a Supabase project. Apply both files in `supabase/migrations/` in filename order through the SQL editor, or use the Supabase CLI (`supabase init`, `supabase link --project-ref YOUR_REF`, `supabase db push`). Never reapply a migration that already succeeded.
+1. Create a Supabase project. Apply all seven files in `supabase/migrations/` in filename order through the SQL editor, or use the Supabase CLI (`supabase init`, `supabase link --project-ref YOUR_REF`, `supabase db push`). Never reapply a migration that already succeeded.
 2. Set `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY` in `.env.local`. A legacy public anon key also works. Only these public browser values belong in Vite variables. **Never expose service-role keys, secret keys, database passwords, or AI provider keys in a `VITE_` variable.**
 3. In Auth settings, enable email/password sign-in and email confirmation. Set the site URL to the app origin, and allow the exact `/auth` redirect URL for localhost and your deployment (e.g. `http://localhost:5173/auth`). Use the same hostname when opening the app. Configure production SMTP before launch.
 4. Restart Vite. Configured mode protects all application routes and exposes sign-up, sign-in, session restoration, sign-out, reset-email, and recovery password-update scaffolding at `/auth`.
@@ -41,21 +41,23 @@ The new-user trigger creates a profile and private leaderboard settings. Existin
 supabase gen types typescript --project-id YOUR_REF > src/lib/database.types.ts
 ```
 
-Pass the generated `Database` type to `createClient<Database>` when persistence is introduced. No feature data queries are implemented yet.
+The current client uses explicit row and RPC response types in `src/lib/workout-api.ts`; generated database types remain a follow-up. Workout reads and saves are implemented.
 
 ## Architecture
 
 - `src/App.tsx`: route protection, accessible shell, bottom navigation, not-found page.
 - `src/auth/`: Auth lifecycle and account forms with error/loading feedback.
-- `src/pages/Pages.tsx`: Home, Workout, Nutrition, Progress, Profile placeholders.
+- `src/pages/Pages.tsx`: Home, Nutrition, Profile.
+- `src/pages/WorkoutPage.tsx`: compact workout editor, save/retry, rest timer, history.
+- `src/pages/ProgressPage.tsx`: completed-workout analytics and interactive heatmap.
 - `src/components/`: sample targets, private leaderboard placeholder, SVG muscle map.
-- `src/data/exercises.json`: canonical starter exercise mappings. IDs match SQL and SVG regions.
+- `src/data/exercises.json`: canonical 300-exercise mappings. IDs match SQL and SVG regions.
 - `supabase/migrations/`: schema, ownership policies, starter exercise catalog.
 - `tests/`: PostgreSQL policy/constraint tests, deterministic mapping tests, mobile/desktop browser checks.
 
-The SVG architecture separates typed muscle IDs, front/back path geometry, involvement aggregation, and rendering. Fixed weights (`1` primary; lower values supporting) are illustrative editorial mappings, **not measured activation, fatigue, or recovery**. Selection uses stable IDs and maximum involvement, independent of order/duplicates. Each muscle has a text equivalent; color is supplementary. Both views share stable muscle IDs and unique accessible SVG titles. The initial five exercises are a starter catalog, not a complete training library.
+The SVG architecture separates typed muscle IDs, front/back path geometry, involvement aggregation, and rendering. Fixed weights (`1` primary; lower values supporting) are illustrative editorial mappings, **not measured activation, fatigue, or recovery**. Selection uses stable IDs and maximum involvement, independent of order/duplicates. Each muscle has a text equivalent; color is supplementary. Both views share stable muscle IDs and unique accessible SVG titles. The catalog contains 300 editorially selected movements from the supplied package, not a statistically ranked list of the most popular lifts. Tracking modes and load conventions live in `src/data/exercise-tracking.json`.
 
-`node scripts/generate-catalog.mjs` reproduces the initial catalog migration from JSON. Once that migration is deployed, introduce catalog changes in a **new migration**, never rewrite migration history. A test checks JSON/SQL mapping parity.
+`node scripts/generate-catalog.mjs` prints a catalog SQL snapshot to stdout for inspection; it never overwrites migration files. Once that migration is deployed, introduce catalog changes in a **new migration**, never rewrite migration history. A test checks JSON/SQL mapping parity.
 
 ## Data and security boundaries
 
@@ -81,6 +83,26 @@ Tests execute the actual migrations in PGlite (PostgreSQL) with minimal `auth.us
 
 Build with `npm run build` and serve `dist/` over HTTPS. Configure your host to rewrite non-asset routes to `index.html` so direct links to `/workout` and `/auth` work. Add the production Auth callback URL and public environment values to the host before building. No deployment is included in this PR.
 
-Next milestones: verify hosted Auth and RLS with two accounts, generate database types, implement persistent workout logging, meal search/logging, goal editing and metrics, then consent-based rankings and server-side AI. PWA/offline support, custom foods, full exercise taxonomy, telemetry, and production operations are future work.
+Next milestones: apply and verify the workout update in hosted Supabase with two accounts, generate database types, implement meal search/logging, goal editing and metrics, then consent-based rankings. AI is optional future work. PWA/offline support, custom foods, full exercise taxonomy, telemetry, and production operations are future work.
 
 Reference documentation: [Vite setup](https://vite.dev/guide/), [Supabase RLS](https://supabase.com/docs/guides/database/postgres/row-level-security), [Auth profile management](https://supabase.com/docs/guides/auth/managing-user-data).
+
+## Workout update for an existing installation
+
+If migrations 001 and 002 are already applied, apply only 003–007, in filename order. Do not rerun the foundation. Migration 005 stops with an explanation if an account has multiple active workouts; resolve those intentionally before continuing. The update adds RIR, expands the catalog while preserving existing exercise IDs, defines tracking conventions, and installs `save_workout`.
+
+`save_workout` saves the complete editor snapshot in one PostgreSQL transaction with invoker security/RLS. A failed save rolls back; revision checks reject stale tabs; a request ID makes an unchanged retry idempotent. Finish saves current edits and requires at least one completed set. Empty draft rows may be saved. Completed sessions are read-only in this version. Direct REST clients remain governed by ownership policies, but should use the RPC for revision-aware edits.
+
+Unsaved edits are retained in sessionStorage, scoped to the signed-in account and this tab. Matching server revisions can restore them after navigation/reload; a newer server revision wins. Closing the tab clears this recovery copy. This is not offline synchronization. Conflicts require reloading saved data, which intentionally discards stale local edits after confirmation.
+
+## Logging and metric conventions
+
+- Dumbbell inputs mean **each dumbbell**, with a visible label. Alternating movements use reps per side. Volume uses the logged individual load × reps; it is not silently doubled.
+- Barbell/external load includes the bar. Bodyweight movements record added load only. Assisted movements record assistance, excluded from load-volume and heaviest-load rankings.
+- Time/distance movements use seconds/metres. All stored weight uses kg; display may use lb. RPE and RIR are optional.
+- Completed, non-warm-up sets in finished sessions drive analytics. Timed/distance sets count toward workload, but not rep volume. Repeated lifts produce one best e1RM point per session.
+- e1RM uses Epley for a conservative whitelist of barbell lifts with 1–12 reps. These are estimates, not verified rankings. Muscle maps use fixed editorial involvement weights, not recovery or physiological measurements.
+- Progress shows the latest 250 sessions within 30/90/365 days and explicitly warns if capped. Child rows are paginated. Recent workout details and prefill cover the latest 20 sessions.
+- No bodyweight-normalized strength scores, platform/friend percentiles, nutrition logging, or paid AI calls are implemented yet. No paid service, deployment, subscription, or background job is added by this update.
+
+Tests include real SQL execution in PGlite and browser tests with a fake Supabase endpoint. Browser tests explicitly override local environment values, so they do not write to your hosted project. After applying SQL, manually start a workout, save a dumbbell set, reload, finish, check Progress, and verify another account cannot see it.

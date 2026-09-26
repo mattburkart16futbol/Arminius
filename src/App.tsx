@@ -18,7 +18,9 @@ import {
 import { useAuth } from "./auth/AuthProvider";
 import { AuthPage } from "./auth/AuthPage";
 import { supabase, configurationError } from "./lib/supabase";
-import { Home, Workout, Nutrition, Progress, Profile } from "./pages/Pages";
+import { Home, Nutrition, Profile } from "./pages/Pages";
+import { Workout } from "./pages/WorkoutPage";
+import { ProgressPage } from "./pages/ProgressPage";
 const navigation = [
   { to: "/", label: "Home", icon: House },
   { to: "/workout", label: "Workout", icon: Dumbbell },
@@ -96,7 +98,7 @@ export function App() {
           <Route index element={<Home />} />
           <Route path="workout" element={<Workout />} />
           <Route path="nutrition" element={<Nutrition />} />
-          <Route path="progress" element={<Progress />} />
+          <Route path="progress" element={<ProgressPage />} />
           <Route path="profile" element={<Profile />} />
           <Route
             path="*"

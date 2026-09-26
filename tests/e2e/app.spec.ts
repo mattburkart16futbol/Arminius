@@ -12,7 +12,7 @@ test("preview routes, map interaction, and mobile layout", async ({ page }) => {
   for (const [route, title] of [
     ["Workout", "Your training ground."],
     ["Nutrition", "Good habits, one meal at a time."],
-    ["Progress", "Small steps. Real progress."],
+    ["Progress", "Your training, measured."],
     ["Profile", "Your space."],
   ]) {
     await page
@@ -31,14 +31,12 @@ test("preview routes, map interaction, and mobile layout", async ({ page }) => {
     ).toBe(true);
   }
   await page.goto("/workout");
-  await page.getByRole("button", { name: /Push-up/ }).click();
+  await page.getByLabel("Search exercises").fill("push-up");
+  await page.getByLabel("Exercise", { exact: true }).selectOption("push-up");
+  await page.getByText("Preview muscle involvement").click();
   await expect(page.locator('[data-muscle="chest"]')).toHaveAttribute(
     "fill",
     "#bce278",
-  );
-  await expect(page.getByRole("button", { name: /Push-up/ })).toHaveAttribute(
-    "aria-pressed",
-    "true",
   );
   await page.goto("/auth");
   await expect(
