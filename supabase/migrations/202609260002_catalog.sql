@@ -1,0 +1,25 @@
+-- Generated from src/data/exercises.json. Regenerate with node scripts/generate-catalog.mjs.
+begin;
+insert into public.exercises(id,name,equipment) values('squat','Bodyweight squat','bodyweight');
+insert into public.exercise_muscles(exercise_id,muscle_id,involvement) values('squat','quads',1);
+insert into public.exercise_muscles(exercise_id,muscle_id,involvement) values('squat','glutes',1);
+insert into public.exercise_muscles(exercise_id,muscle_id,involvement) values('squat','hamstrings',0.5);
+insert into public.exercise_muscles(exercise_id,muscle_id,involvement) values('squat','core',0.25);
+insert into public.exercises(id,name,equipment) values('push-up','Push-up','bodyweight');
+insert into public.exercise_muscles(exercise_id,muscle_id,involvement) values('push-up','chest',1);
+insert into public.exercise_muscles(exercise_id,muscle_id,involvement) values('push-up','triceps',0.5);
+insert into public.exercise_muscles(exercise_id,muscle_id,involvement) values('push-up','shoulders',0.5);
+insert into public.exercise_muscles(exercise_id,muscle_id,involvement) values('push-up','core',0.25);
+insert into public.exercises(id,name,equipment) values('row','Dumbbell row','dumbbell');
+insert into public.exercise_muscles(exercise_id,muscle_id,involvement) values('row','upper_back',1);
+insert into public.exercise_muscles(exercise_id,muscle_id,involvement) values('row','lats',1);
+insert into public.exercise_muscles(exercise_id,muscle_id,involvement) values('row','biceps',0.5);
+insert into public.exercise_muscles(exercise_id,muscle_id,involvement) values('row','forearms',0.25);
+insert into public.exercises(id,name,equipment) values('hinge','Romanian deadlift','barbell');
+insert into public.exercise_muscles(exercise_id,muscle_id,involvement) values('hinge','hamstrings',1);
+insert into public.exercise_muscles(exercise_id,muscle_id,involvement) values('hinge','glutes',1);
+insert into public.exercise_muscles(exercise_id,muscle_id,involvement) values('hinge','lower_back',0.5);
+insert into public.exercise_muscles(exercise_id,muscle_id,involvement) values('hinge','forearms',0.25);
+insert into public.exercises(id,name,equipment) values('calf-raise','Standing calf raise','bodyweight');
+insert into public.exercise_muscles(exercise_id,muscle_id,involvement) values('calf-raise','calves',1);
+commit;
