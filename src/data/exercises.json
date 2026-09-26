@@ -3,19 +3,34 @@
     "id": "squat",
     "name": "Bodyweight squat",
     "equipment": "bodyweight",
-    "muscles": { "quads": 1, "glutes": 1, "hamstrings": 0.5, "core": 0.25 }
+    "muscles": {
+      "quads": 1,
+      "glutes": 1,
+      "hamstrings": 0.5,
+      "core": 0.25
+    }
   },
   {
     "id": "push-up",
     "name": "Push-up",
     "equipment": "bodyweight",
-    "muscles": { "chest": 1, "triceps": 0.5, "shoulders": 0.5, "core": 0.25 }
+    "muscles": {
+      "chest": 1,
+      "triceps": 0.5,
+      "shoulders": 0.5,
+      "core": 0.25
+    }
   },
   {
     "id": "row",
     "name": "Dumbbell row",
     "equipment": "dumbbell",
-    "muscles": { "upper_back": 1, "lats": 1, "biceps": 0.5, "forearms": 0.25 }
+    "muscles": {
+      "upper_back": 1,
+      "lats": 1,
+      "biceps": 0.5,
+      "forearms": 0.25
+    }
   },
   {
     "id": "hinge",
@@ -32,6 +47,2892 @@
     "id": "calf-raise",
     "name": "Standing calf raise",
     "equipment": "bodyweight",
-    "muscles": { "calves": 1 }
+    "muscles": {
+      "calves": 1
+    }
+  },
+  {
+    "id": "barbell-bench-press",
+    "name": "Barbell bench press",
+    "equipment": "barbell",
+    "muscles": {
+      "chest": 1,
+      "triceps": 0.5,
+      "shoulders": 0.5
+    }
+  },
+  {
+    "id": "incline-barbell-bench-press",
+    "name": "Incline barbell bench press",
+    "equipment": "barbell",
+    "muscles": {
+      "chest": 1,
+      "shoulders": 0.75,
+      "triceps": 0.5
+    }
+  },
+  {
+    "id": "decline-barbell-bench-press",
+    "name": "Decline barbell bench press",
+    "equipment": "barbell",
+    "muscles": {
+      "chest": 1,
+      "triceps": 0.5,
+      "shoulders": 0.25
+    }
+  },
+  {
+    "id": "close-grip-bench-press",
+    "name": "Close-grip bench press",
+    "equipment": "barbell",
+    "muscles": {
+      "triceps": 1,
+      "chest": 0.75,
+      "shoulders": 0.25
+    }
+  },
+  {
+    "id": "paused-bench-press",
+    "name": "Paused bench press",
+    "equipment": "barbell",
+    "muscles": {
+      "chest": 1,
+      "triceps": 0.5,
+      "shoulders": 0.5
+    }
+  },
+  {
+    "id": "tempo-bench-press",
+    "name": "Tempo bench press",
+    "equipment": "barbell",
+    "muscles": {
+      "chest": 1,
+      "triceps": 0.5,
+      "shoulders": 0.5
+    }
+  },
+  {
+    "id": "barbell-floor-press",
+    "name": "Barbell floor press",
+    "equipment": "barbell",
+    "muscles": {
+      "triceps": 1,
+      "chest": 0.75,
+      "shoulders": 0.25
+    }
+  },
+  {
+    "id": "dumbbell-bench-press",
+    "name": "Dumbbell bench press",
+    "equipment": "dumbbell",
+    "muscles": {
+      "chest": 1,
+      "triceps": 0.5,
+      "shoulders": 0.5
+    }
+  },
+  {
+    "id": "incline-dumbbell-press",
+    "name": "Incline dumbbell press",
+    "equipment": "dumbbell",
+    "muscles": {
+      "chest": 1,
+      "shoulders": 0.75,
+      "triceps": 0.5
+    }
+  },
+  {
+    "id": "decline-dumbbell-press",
+    "name": "Decline dumbbell press",
+    "equipment": "dumbbell",
+    "muscles": {
+      "chest": 1,
+      "triceps": 0.5,
+      "shoulders": 0.25
+    }
+  },
+  {
+    "id": "neutral-grip-dumbbell-press",
+    "name": "Neutral-grip dumbbell press",
+    "equipment": "dumbbell",
+    "muscles": {
+      "chest": 1,
+      "triceps": 0.5,
+      "shoulders": 0.4
+    }
+  },
+  {
+    "id": "dumbbell-floor-press",
+    "name": "Dumbbell floor press",
+    "equipment": "dumbbell",
+    "muscles": {
+      "triceps": 1,
+      "chest": 0.75,
+      "shoulders": 0.25
+    }
+  },
+  {
+    "id": "dumbbell-squeeze-press",
+    "name": "Dumbbell squeeze press",
+    "equipment": "dumbbell",
+    "muscles": {
+      "chest": 1,
+      "triceps": 0.5,
+      "shoulders": 0.25
+    }
+  },
+  {
+    "id": "single-arm-dumbbell-bench-press",
+    "name": "Single-arm dumbbell bench press",
+    "equipment": "dumbbell",
+    "muscles": {
+      "chest": 1,
+      "triceps": 0.5,
+      "shoulders": 0.5,
+      "core": 0.5
+    }
+  },
+  {
+    "id": "machine-chest-press",
+    "name": "Machine chest press",
+    "equipment": "machine",
+    "muscles": {
+      "chest": 1,
+      "triceps": 0.5,
+      "shoulders": 0.5
+    }
+  },
+  {
+    "id": "incline-machine-chest-press",
+    "name": "Incline machine chest press",
+    "equipment": "machine",
+    "muscles": {
+      "chest": 1,
+      "shoulders": 0.75,
+      "triceps": 0.5
+    }
+  },
+  {
+    "id": "decline-machine-chest-press",
+    "name": "Decline machine chest press",
+    "equipment": "machine",
+    "muscles": {
+      "chest": 1,
+      "triceps": 0.5
+    }
+  },
+  {
+    "id": "plate-loaded-chest-press",
+    "name": "Plate-loaded chest press",
+    "equipment": "machine",
+    "muscles": {
+      "chest": 1,
+      "triceps": 0.5,
+      "shoulders": 0.5
+    }
+  },
+  {
+    "id": "single-arm-machine-chest-press",
+    "name": "Single-arm machine chest press",
+    "equipment": "machine",
+    "muscles": {
+      "chest": 1,
+      "triceps": 0.5,
+      "shoulders": 0.5,
+      "core": 0.25
+    }
+  },
+  {
+    "id": "pec-deck-fly",
+    "name": "Pec deck fly",
+    "equipment": "machine",
+    "muscles": {
+      "chest": 1,
+      "shoulders": 0.25
+    }
+  },
+  {
+    "id": "cable-chest-press",
+    "name": "Cable chest press",
+    "equipment": "cable",
+    "muscles": {
+      "chest": 1,
+      "triceps": 0.5,
+      "shoulders": 0.5
+    }
+  },
+  {
+    "id": "single-arm-cable-chest-press",
+    "name": "Single-arm cable chest press",
+    "equipment": "cable",
+    "muscles": {
+      "chest": 1,
+      "triceps": 0.5,
+      "shoulders": 0.5,
+      "core": 0.5
+    }
+  },
+  {
+    "id": "standing-cable-fly",
+    "name": "Standing cable fly",
+    "equipment": "cable",
+    "muscles": {
+      "chest": 1,
+      "shoulders": 0.25
+    }
+  },
+  {
+    "id": "low-to-high-cable-fly",
+    "name": "Low-to-high cable fly",
+    "equipment": "cable",
+    "muscles": {
+      "chest": 1,
+      "shoulders": 0.5
+    }
+  },
+  {
+    "id": "high-to-low-cable-fly",
+    "name": "High-to-low cable fly",
+    "equipment": "cable",
+    "muscles": {
+      "chest": 1,
+      "shoulders": 0.25
+    }
+  },
+  {
+    "id": "cable-crossover",
+    "name": "Cable crossover",
+    "equipment": "cable",
+    "muscles": {
+      "chest": 1,
+      "shoulders": 0.25
+    }
+  },
+  {
+    "id": "dumbbell-fly",
+    "name": "Dumbbell fly",
+    "equipment": "dumbbell",
+    "muscles": {
+      "chest": 1,
+      "shoulders": 0.25
+    }
+  },
+  {
+    "id": "incline-dumbbell-fly",
+    "name": "Incline dumbbell fly",
+    "equipment": "dumbbell",
+    "muscles": {
+      "chest": 1,
+      "shoulders": 0.5
+    }
+  },
+  {
+    "id": "chest-dip",
+    "name": "Chest dip",
+    "equipment": "bodyweight",
+    "muscles": {
+      "chest": 1,
+      "triceps": 0.75,
+      "shoulders": 0.25
+    }
+  },
+  {
+    "id": "incline-push-up",
+    "name": "Incline push-up",
+    "equipment": "bodyweight",
+    "muscles": {
+      "chest": 1,
+      "triceps": 0.5,
+      "shoulders": 0.25,
+      "core": 0.25
+    }
+  },
+  {
+    "id": "decline-push-up",
+    "name": "Decline push-up",
+    "equipment": "bodyweight",
+    "muscles": {
+      "chest": 1,
+      "shoulders": 0.75,
+      "triceps": 0.5,
+      "core": 0.25
+    }
+  },
+  {
+    "id": "diamond-push-up",
+    "name": "Diamond push-up",
+    "equipment": "bodyweight",
+    "muscles": {
+      "triceps": 1,
+      "chest": 0.75,
+      "shoulders": 0.25,
+      "core": 0.25
+    }
+  },
+  {
+    "id": "wide-grip-push-up",
+    "name": "Wide-grip push-up",
+    "equipment": "bodyweight",
+    "muscles": {
+      "chest": 1,
+      "triceps": 0.25,
+      "shoulders": 0.5,
+      "core": 0.25
+    }
+  },
+  {
+    "id": "weighted-push-up",
+    "name": "Weighted push-up",
+    "equipment": "bodyweight",
+    "muscles": {
+      "chest": 1,
+      "triceps": 0.5,
+      "shoulders": 0.5,
+      "core": 0.25
+    }
+  },
+  {
+    "id": "deficit-push-up",
+    "name": "Deficit push-up",
+    "equipment": "bodyweight",
+    "muscles": {
+      "chest": 1,
+      "triceps": 0.5,
+      "shoulders": 0.5,
+      "core": 0.25
+    }
+  },
+  {
+    "id": "ring-push-up",
+    "name": "Ring push-up",
+    "equipment": "rings",
+    "muscles": {
+      "chest": 1,
+      "triceps": 0.5,
+      "shoulders": 0.5,
+      "core": 0.5
+    }
+  },
+  {
+    "id": "smith-machine-bench-press",
+    "name": "Smith machine bench press",
+    "equipment": "smith machine",
+    "muscles": {
+      "chest": 1,
+      "triceps": 0.5,
+      "shoulders": 0.5
+    }
+  },
+  {
+    "id": "smith-machine-incline-press",
+    "name": "Smith machine incline press",
+    "equipment": "smith machine",
+    "muscles": {
+      "chest": 1,
+      "shoulders": 0.75,
+      "triceps": 0.5
+    }
+  },
+  {
+    "id": "conventional-deadlift",
+    "name": "Conventional deadlift",
+    "equipment": "barbell",
+    "muscles": {
+      "glutes": 1,
+      "hamstrings": 1,
+      "lower_back": 1,
+      "upper_back": 0.5,
+      "forearms": 0.5
+    }
+  },
+  {
+    "id": "sumo-deadlift",
+    "name": "Sumo deadlift",
+    "equipment": "barbell",
+    "muscles": {
+      "glutes": 1,
+      "quads": 0.75,
+      "hamstrings": 0.75,
+      "lower_back": 0.5,
+      "forearms": 0.5
+    }
+  },
+  {
+    "id": "rack-pull",
+    "name": "Rack pull",
+    "equipment": "barbell",
+    "muscles": {
+      "lower_back": 1,
+      "upper_back": 0.75,
+      "glutes": 0.5,
+      "forearms": 0.5
+    }
+  },
+  {
+    "id": "barbell-bent-over-row",
+    "name": "Barbell bent-over row",
+    "equipment": "barbell",
+    "muscles": {
+      "upper_back": 1,
+      "lats": 1,
+      "biceps": 0.5,
+      "lower_back": 0.5,
+      "forearms": 0.25
+    }
+  },
+  {
+    "id": "pendlay-row",
+    "name": "Pendlay row",
+    "equipment": "barbell",
+    "muscles": {
+      "upper_back": 1,
+      "lats": 1,
+      "biceps": 0.5,
+      "lower_back": 0.5,
+      "forearms": 0.25
+    }
+  },
+  {
+    "id": "underhand-barbell-row",
+    "name": "Underhand barbell row",
+    "equipment": "barbell",
+    "muscles": {
+      "lats": 1,
+      "upper_back": 0.75,
+      "biceps": 0.75,
+      "forearms": 0.25
+    }
+  },
+  {
+    "id": "t-bar-row",
+    "name": "T-bar row",
+    "equipment": "machine",
+    "muscles": {
+      "upper_back": 1,
+      "lats": 1,
+      "biceps": 0.5,
+      "forearms": 0.25
+    }
+  },
+  {
+    "id": "chest-supported-t-bar-row",
+    "name": "Chest-supported T-bar row",
+    "equipment": "machine",
+    "muscles": {
+      "upper_back": 1,
+      "lats": 1,
+      "biceps": 0.5,
+      "forearms": 0.25
+    }
+  },
+  {
+    "id": "chest-supported-dumbbell-row",
+    "name": "Chest-supported dumbbell row",
+    "equipment": "dumbbell",
+    "muscles": {
+      "upper_back": 1,
+      "lats": 1,
+      "biceps": 0.5,
+      "forearms": 0.25
+    }
+  },
+  {
+    "id": "seal-row",
+    "name": "Seal row",
+    "equipment": "barbell",
+    "muscles": {
+      "upper_back": 1,
+      "lats": 1,
+      "biceps": 0.5,
+      "forearms": 0.25
+    }
+  },
+  {
+    "id": "meadows-row",
+    "name": "Meadows row",
+    "equipment": "barbell",
+    "muscles": {
+      "lats": 1,
+      "upper_back": 0.75,
+      "biceps": 0.5,
+      "forearms": 0.5
+    }
+  },
+  {
+    "id": "landmine-row",
+    "name": "Landmine row",
+    "equipment": "barbell",
+    "muscles": {
+      "upper_back": 1,
+      "lats": 1,
+      "biceps": 0.5,
+      "forearms": 0.25
+    }
+  },
+  {
+    "id": "seated-cable-row",
+    "name": "Seated cable row",
+    "equipment": "cable",
+    "muscles": {
+      "upper_back": 1,
+      "lats": 1,
+      "biceps": 0.5,
+      "forearms": 0.25
+    }
+  },
+  {
+    "id": "wide-grip-seated-cable-row",
+    "name": "Wide-grip seated cable row",
+    "equipment": "cable",
+    "muscles": {
+      "upper_back": 1,
+      "lats": 0.75,
+      "biceps": 0.5,
+      "forearms": 0.25
+    }
+  },
+  {
+    "id": "close-grip-seated-cable-row",
+    "name": "Close-grip seated cable row",
+    "equipment": "cable",
+    "muscles": {
+      "lats": 1,
+      "upper_back": 0.75,
+      "biceps": 0.5,
+      "forearms": 0.25
+    }
+  },
+  {
+    "id": "single-arm-cable-row",
+    "name": "Single-arm cable row",
+    "equipment": "cable",
+    "muscles": {
+      "lats": 1,
+      "upper_back": 0.75,
+      "biceps": 0.5,
+      "core": 0.25
+    }
+  },
+  {
+    "id": "high-cable-row",
+    "name": "High cable row",
+    "equipment": "cable",
+    "muscles": {
+      "upper_back": 1,
+      "lats": 0.75,
+      "biceps": 0.5,
+      "shoulders": 0.25
+    }
+  },
+  {
+    "id": "machine-row",
+    "name": "Machine row",
+    "equipment": "machine",
+    "muscles": {
+      "upper_back": 1,
+      "lats": 1,
+      "biceps": 0.5
+    }
+  },
+  {
+    "id": "chest-supported-machine-row",
+    "name": "Chest-supported machine row",
+    "equipment": "machine",
+    "muscles": {
+      "upper_back": 1,
+      "lats": 1,
+      "biceps": 0.5
+    }
+  },
+  {
+    "id": "single-arm-machine-row",
+    "name": "Single-arm machine row",
+    "equipment": "machine",
+    "muscles": {
+      "lats": 1,
+      "upper_back": 0.75,
+      "biceps": 0.5
+    }
+  },
+  {
+    "id": "lat-pulldown",
+    "name": "Lat pulldown",
+    "equipment": "cable",
+    "muscles": {
+      "lats": 1,
+      "upper_back": 0.5,
+      "biceps": 0.5,
+      "forearms": 0.25
+    }
+  },
+  {
+    "id": "wide-grip-lat-pulldown",
+    "name": "Wide-grip lat pulldown",
+    "equipment": "cable",
+    "muscles": {
+      "lats": 1,
+      "upper_back": 0.75,
+      "biceps": 0.5,
+      "forearms": 0.25
+    }
+  },
+  {
+    "id": "close-grip-lat-pulldown",
+    "name": "Close-grip lat pulldown",
+    "equipment": "cable",
+    "muscles": {
+      "lats": 1,
+      "biceps": 0.75,
+      "upper_back": 0.5,
+      "forearms": 0.25
+    }
+  },
+  {
+    "id": "neutral-grip-lat-pulldown",
+    "name": "Neutral-grip lat pulldown",
+    "equipment": "cable",
+    "muscles": {
+      "lats": 1,
+      "biceps": 0.5,
+      "upper_back": 0.5,
+      "forearms": 0.25
+    }
+  },
+  {
+    "id": "underhand-lat-pulldown",
+    "name": "Underhand lat pulldown",
+    "equipment": "cable",
+    "muscles": {
+      "lats": 1,
+      "biceps": 0.75,
+      "upper_back": 0.5
+    }
+  },
+  {
+    "id": "single-arm-lat-pulldown",
+    "name": "Single-arm lat pulldown",
+    "equipment": "cable",
+    "muscles": {
+      "lats": 1,
+      "biceps": 0.5,
+      "core": 0.25
+    }
+  },
+  {
+    "id": "straight-arm-pulldown",
+    "name": "Straight-arm pulldown",
+    "equipment": "cable",
+    "muscles": {
+      "lats": 1,
+      "triceps": 0.25,
+      "core": 0.25
+    }
+  },
+  {
+    "id": "cable-pullover",
+    "name": "Cable pullover",
+    "equipment": "cable",
+    "muscles": {
+      "lats": 1,
+      "triceps": 0.25,
+      "core": 0.25
+    }
+  },
+  {
+    "id": "machine-pullover",
+    "name": "Machine pullover",
+    "equipment": "machine",
+    "muscles": {
+      "lats": 1,
+      "chest": 0.25,
+      "triceps": 0.25
+    }
+  },
+  {
+    "id": "pull-up",
+    "name": "Pull-up",
+    "equipment": "bodyweight",
+    "muscles": {
+      "lats": 1,
+      "upper_back": 0.75,
+      "biceps": 0.5,
+      "forearms": 0.25,
+      "core": 0.25
+    }
+  },
+  {
+    "id": "chin-up",
+    "name": "Chin-up",
+    "equipment": "bodyweight",
+    "muscles": {
+      "lats": 1,
+      "biceps": 0.75,
+      "upper_back": 0.5,
+      "forearms": 0.25,
+      "core": 0.25
+    }
+  },
+  {
+    "id": "neutral-grip-pull-up",
+    "name": "Neutral-grip pull-up",
+    "equipment": "bodyweight",
+    "muscles": {
+      "lats": 1,
+      "biceps": 0.5,
+      "upper_back": 0.75,
+      "forearms": 0.25
+    }
+  },
+  {
+    "id": "wide-grip-pull-up",
+    "name": "Wide-grip pull-up",
+    "equipment": "bodyweight",
+    "muscles": {
+      "lats": 1,
+      "upper_back": 0.75,
+      "biceps": 0.5,
+      "forearms": 0.25
+    }
+  },
+  {
+    "id": "weighted-pull-up",
+    "name": "Weighted pull-up",
+    "equipment": "bodyweight",
+    "muscles": {
+      "lats": 1,
+      "upper_back": 0.75,
+      "biceps": 0.5,
+      "forearms": 0.25,
+      "core": 0.25
+    }
+  },
+  {
+    "id": "assisted-pull-up",
+    "name": "Assisted pull-up",
+    "equipment": "machine",
+    "muscles": {
+      "lats": 1,
+      "upper_back": 0.75,
+      "biceps": 0.5
+    }
+  },
+  {
+    "id": "inverted-row",
+    "name": "Inverted row",
+    "equipment": "bodyweight",
+    "muscles": {
+      "upper_back": 1,
+      "lats": 0.75,
+      "biceps": 0.5,
+      "core": 0.25
+    }
+  },
+  {
+    "id": "trx-row",
+    "name": "TRX row",
+    "equipment": "suspension trainer",
+    "muscles": {
+      "upper_back": 1,
+      "lats": 0.75,
+      "biceps": 0.5,
+      "core": 0.25
+    }
+  },
+  {
+    "id": "face-pull",
+    "name": "Face pull",
+    "equipment": "cable",
+    "muscles": {
+      "upper_back": 1,
+      "shoulders": 0.75,
+      "biceps": 0.25
+    }
+  },
+  {
+    "id": "cable-reverse-fly",
+    "name": "Cable reverse fly",
+    "equipment": "cable",
+    "muscles": {
+      "upper_back": 1,
+      "shoulders": 0.75
+    }
+  },
+  {
+    "id": "reverse-pec-deck",
+    "name": "Reverse pec deck",
+    "equipment": "machine",
+    "muscles": {
+      "upper_back": 1,
+      "shoulders": 0.75
+    }
+  },
+  {
+    "id": "dumbbell-pullover",
+    "name": "Dumbbell pullover",
+    "equipment": "dumbbell",
+    "muscles": {
+      "lats": 1,
+      "chest": 0.5,
+      "triceps": 0.25
+    }
+  },
+  {
+    "id": "back-extension",
+    "name": "Back extension",
+    "equipment": "bodyweight",
+    "muscles": {
+      "lower_back": 1,
+      "glutes": 0.75,
+      "hamstrings": 0.75
+    }
+  },
+  {
+    "id": "weighted-back-extension",
+    "name": "Weighted back extension",
+    "equipment": "plate",
+    "muscles": {
+      "lower_back": 1,
+      "glutes": 0.75,
+      "hamstrings": 0.75
+    }
+  },
+  {
+    "id": "good-morning",
+    "name": "Good morning",
+    "equipment": "barbell",
+    "muscles": {
+      "hamstrings": 1,
+      "glutes": 0.75,
+      "lower_back": 0.75
+    }
+  },
+  {
+    "id": "snatch-grip-deadlift",
+    "name": "Snatch-grip deadlift",
+    "equipment": "barbell",
+    "muscles": {
+      "hamstrings": 1,
+      "glutes": 1,
+      "lower_back": 1,
+      "upper_back": 0.75,
+      "forearms": 0.5
+    }
+  },
+  {
+    "id": "deficit-deadlift",
+    "name": "Deficit deadlift",
+    "equipment": "barbell",
+    "muscles": {
+      "glutes": 1,
+      "hamstrings": 1,
+      "quads": 0.5,
+      "lower_back": 0.75,
+      "forearms": 0.5
+    }
+  },
+  {
+    "id": "barbell-overhead-press",
+    "name": "Barbell overhead press",
+    "equipment": "barbell",
+    "muscles": {
+      "shoulders": 1,
+      "triceps": 0.75,
+      "core": 0.5
+    }
+  },
+  {
+    "id": "seated-barbell-overhead-press",
+    "name": "Seated barbell overhead press",
+    "equipment": "barbell",
+    "muscles": {
+      "shoulders": 1,
+      "triceps": 0.75
+    }
+  },
+  {
+    "id": "push-press",
+    "name": "Push press",
+    "equipment": "barbell",
+    "muscles": {
+      "shoulders": 1,
+      "triceps": 0.75,
+      "quads": 0.5,
+      "glutes": 0.5,
+      "core": 0.5
+    }
+  },
+  {
+    "id": "dumbbell-shoulder-press",
+    "name": "Dumbbell shoulder press",
+    "equipment": "dumbbell",
+    "muscles": {
+      "shoulders": 1,
+      "triceps": 0.75
+    }
+  },
+  {
+    "id": "seated-dumbbell-shoulder-press",
+    "name": "Seated dumbbell shoulder press",
+    "equipment": "dumbbell",
+    "muscles": {
+      "shoulders": 1,
+      "triceps": 0.75
+    }
+  },
+  {
+    "id": "arnold-press",
+    "name": "Arnold press",
+    "equipment": "dumbbell",
+    "muscles": {
+      "shoulders": 1,
+      "triceps": 0.5
+    }
+  },
+  {
+    "id": "single-arm-dumbbell-shoulder-press",
+    "name": "Single-arm dumbbell shoulder press",
+    "equipment": "dumbbell",
+    "muscles": {
+      "shoulders": 1,
+      "triceps": 0.75,
+      "core": 0.5
+    }
+  },
+  {
+    "id": "machine-shoulder-press",
+    "name": "Machine shoulder press",
+    "equipment": "machine",
+    "muscles": {
+      "shoulders": 1,
+      "triceps": 0.75
+    }
+  },
+  {
+    "id": "smith-machine-shoulder-press",
+    "name": "Smith machine shoulder press",
+    "equipment": "smith machine",
+    "muscles": {
+      "shoulders": 1,
+      "triceps": 0.75
+    }
+  },
+  {
+    "id": "landmine-press",
+    "name": "Landmine press",
+    "equipment": "barbell",
+    "muscles": {
+      "shoulders": 1,
+      "chest": 0.5,
+      "triceps": 0.5,
+      "core": 0.25
+    }
+  },
+  {
+    "id": "single-arm-landmine-press",
+    "name": "Single-arm landmine press",
+    "equipment": "barbell",
+    "muscles": {
+      "shoulders": 1,
+      "chest": 0.5,
+      "triceps": 0.5,
+      "core": 0.5
+    }
+  },
+  {
+    "id": "dumbbell-lateral-raise",
+    "name": "Dumbbell lateral raise",
+    "equipment": "dumbbell",
+    "muscles": {
+      "shoulders": 1
+    }
+  },
+  {
+    "id": "cable-lateral-raise",
+    "name": "Cable lateral raise",
+    "equipment": "cable",
+    "muscles": {
+      "shoulders": 1
+    }
+  },
+  {
+    "id": "machine-lateral-raise",
+    "name": "Machine lateral raise",
+    "equipment": "machine",
+    "muscles": {
+      "shoulders": 1
+    }
+  },
+  {
+    "id": "leaning-cable-lateral-raise",
+    "name": "Leaning cable lateral raise",
+    "equipment": "cable",
+    "muscles": {
+      "shoulders": 1
+    }
+  },
+  {
+    "id": "incline-dumbbell-lateral-raise",
+    "name": "Incline dumbbell lateral raise",
+    "equipment": "dumbbell",
+    "muscles": {
+      "shoulders": 1
+    }
+  },
+  {
+    "id": "dumbbell-front-raise",
+    "name": "Dumbbell front raise",
+    "equipment": "dumbbell",
+    "muscles": {
+      "shoulders": 1
+    }
+  },
+  {
+    "id": "cable-front-raise",
+    "name": "Cable front raise",
+    "equipment": "cable",
+    "muscles": {
+      "shoulders": 1
+    }
+  },
+  {
+    "id": "plate-front-raise",
+    "name": "Plate front raise",
+    "equipment": "plate",
+    "muscles": {
+      "shoulders": 1
+    }
+  },
+  {
+    "id": "rear-delt-dumbbell-fly",
+    "name": "Rear-delt dumbbell fly",
+    "equipment": "dumbbell",
+    "muscles": {
+      "shoulders": 1,
+      "upper_back": 0.75
+    }
+  },
+  {
+    "id": "incline-rear-delt-dumbbell-fly",
+    "name": "Incline rear-delt dumbbell fly",
+    "equipment": "dumbbell",
+    "muscles": {
+      "shoulders": 1,
+      "upper_back": 0.75
+    }
+  },
+  {
+    "id": "cable-rear-delt-fly",
+    "name": "Cable rear-delt fly",
+    "equipment": "cable",
+    "muscles": {
+      "shoulders": 1,
+      "upper_back": 0.75
+    }
+  },
+  {
+    "id": "upright-row",
+    "name": "Upright row",
+    "equipment": "barbell",
+    "muscles": {
+      "shoulders": 1,
+      "upper_back": 0.5,
+      "biceps": 0.25
+    }
+  },
+  {
+    "id": "cable-upright-row",
+    "name": "Cable upright row",
+    "equipment": "cable",
+    "muscles": {
+      "shoulders": 1,
+      "upper_back": 0.5,
+      "biceps": 0.25
+    }
+  },
+  {
+    "id": "dumbbell-upright-row",
+    "name": "Dumbbell upright row",
+    "equipment": "dumbbell",
+    "muscles": {
+      "shoulders": 1,
+      "upper_back": 0.5,
+      "biceps": 0.25
+    }
+  },
+  {
+    "id": "dumbbell-shrug",
+    "name": "Dumbbell shrug",
+    "equipment": "dumbbell",
+    "muscles": {
+      "upper_back": 1,
+      "forearms": 0.25
+    }
+  },
+  {
+    "id": "barbell-shrug",
+    "name": "Barbell shrug",
+    "equipment": "barbell",
+    "muscles": {
+      "upper_back": 1,
+      "forearms": 0.25
+    }
+  },
+  {
+    "id": "machine-shrug",
+    "name": "Machine shrug",
+    "equipment": "machine",
+    "muscles": {
+      "upper_back": 1,
+      "forearms": 0.25
+    }
+  },
+  {
+    "id": "cable-shrug",
+    "name": "Cable shrug",
+    "equipment": "cable",
+    "muscles": {
+      "upper_back": 1,
+      "forearms": 0.25
+    }
+  },
+  {
+    "id": "barbell-curl",
+    "name": "Barbell curl",
+    "equipment": "barbell",
+    "muscles": {
+      "biceps": 1,
+      "forearms": 0.25
+    }
+  },
+  {
+    "id": "ez-bar-curl",
+    "name": "EZ-bar curl",
+    "equipment": "ez bar",
+    "muscles": {
+      "biceps": 1,
+      "forearms": 0.25
+    }
+  },
+  {
+    "id": "dumbbell-curl",
+    "name": "Dumbbell curl",
+    "equipment": "dumbbell",
+    "muscles": {
+      "biceps": 1,
+      "forearms": 0.25
+    }
+  },
+  {
+    "id": "alternating-dumbbell-curl",
+    "name": "Alternating dumbbell curl",
+    "equipment": "dumbbell",
+    "muscles": {
+      "biceps": 1,
+      "forearms": 0.25
+    }
+  },
+  {
+    "id": "incline-dumbbell-curl",
+    "name": "Incline dumbbell curl",
+    "equipment": "dumbbell",
+    "muscles": {
+      "biceps": 1,
+      "forearms": 0.25
+    }
+  },
+  {
+    "id": "preacher-curl",
+    "name": "Preacher curl",
+    "equipment": "ez bar",
+    "muscles": {
+      "biceps": 1,
+      "forearms": 0.25
+    }
+  },
+  {
+    "id": "machine-preacher-curl",
+    "name": "Machine preacher curl",
+    "equipment": "machine",
+    "muscles": {
+      "biceps": 1,
+      "forearms": 0.25
+    }
+  },
+  {
+    "id": "cable-curl",
+    "name": "Cable curl",
+    "equipment": "cable",
+    "muscles": {
+      "biceps": 1,
+      "forearms": 0.25
+    }
+  },
+  {
+    "id": "single-arm-cable-curl",
+    "name": "Single-arm cable curl",
+    "equipment": "cable",
+    "muscles": {
+      "biceps": 1,
+      "forearms": 0.25
+    }
+  },
+  {
+    "id": "bayesian-cable-curl",
+    "name": "Bayesian cable curl",
+    "equipment": "cable",
+    "muscles": {
+      "biceps": 1,
+      "forearms": 0.25
+    }
+  },
+  {
+    "id": "spider-curl",
+    "name": "Spider curl",
+    "equipment": "dumbbell",
+    "muscles": {
+      "biceps": 1,
+      "forearms": 0.25
+    }
+  },
+  {
+    "id": "concentration-curl",
+    "name": "Concentration curl",
+    "equipment": "dumbbell",
+    "muscles": {
+      "biceps": 1,
+      "forearms": 0.25
+    }
+  },
+  {
+    "id": "hammer-curl",
+    "name": "Hammer curl",
+    "equipment": "dumbbell",
+    "muscles": {
+      "biceps": 1,
+      "forearms": 0.75
+    }
+  },
+  {
+    "id": "cross-body-hammer-curl",
+    "name": "Cross-body hammer curl",
+    "equipment": "dumbbell",
+    "muscles": {
+      "biceps": 0.75,
+      "forearms": 1
+    }
+  },
+  {
+    "id": "rope-hammer-curl",
+    "name": "Rope hammer curl",
+    "equipment": "cable",
+    "muscles": {
+      "biceps": 0.75,
+      "forearms": 1
+    }
+  },
+  {
+    "id": "reverse-curl",
+    "name": "Reverse curl",
+    "equipment": "ez bar",
+    "muscles": {
+      "forearms": 1,
+      "biceps": 0.75
+    }
+  },
+  {
+    "id": "zottman-curl",
+    "name": "Zottman curl",
+    "equipment": "dumbbell",
+    "muscles": {
+      "biceps": 1,
+      "forearms": 1
+    }
+  },
+  {
+    "id": "high-cable-curl",
+    "name": "High cable curl",
+    "equipment": "cable",
+    "muscles": {
+      "biceps": 1
+    }
+  },
+  {
+    "id": "machine-biceps-curl",
+    "name": "Machine biceps curl",
+    "equipment": "machine",
+    "muscles": {
+      "biceps": 1,
+      "forearms": 0.25
+    }
+  },
+  {
+    "id": "wrist-curl",
+    "name": "Wrist curl",
+    "equipment": "barbell",
+    "muscles": {
+      "forearms": 1
+    }
+  },
+  {
+    "id": "dumbbell-wrist-curl",
+    "name": "Dumbbell wrist curl",
+    "equipment": "dumbbell",
+    "muscles": {
+      "forearms": 1
+    }
+  },
+  {
+    "id": "reverse-wrist-curl",
+    "name": "Reverse wrist curl",
+    "equipment": "barbell",
+    "muscles": {
+      "forearms": 1
+    }
+  },
+  {
+    "id": "dumbbell-reverse-wrist-curl",
+    "name": "Dumbbell reverse wrist curl",
+    "equipment": "dumbbell",
+    "muscles": {
+      "forearms": 1
+    }
+  },
+  {
+    "id": "wrist-roller",
+    "name": "Wrist roller",
+    "equipment": "other",
+    "muscles": {
+      "forearms": 1
+    }
+  },
+  {
+    "id": "farmer-carry",
+    "name": "Farmer carry",
+    "equipment": "dumbbell",
+    "muscles": {
+      "forearms": 1,
+      "upper_back": 0.75,
+      "core": 0.75,
+      "calves": 0.25
+    }
+  },
+  {
+    "id": "suitcase-carry",
+    "name": "Suitcase carry",
+    "equipment": "dumbbell",
+    "muscles": {
+      "forearms": 1,
+      "core": 1,
+      "upper_back": 0.5
+    }
+  },
+  {
+    "id": "plate-pinch",
+    "name": "Plate pinch",
+    "equipment": "plate",
+    "muscles": {
+      "forearms": 1
+    }
+  },
+  {
+    "id": "dead-hang",
+    "name": "Dead hang",
+    "equipment": "bodyweight",
+    "muscles": {
+      "forearms": 1,
+      "lats": 0.5,
+      "shoulders": 0.25
+    }
+  },
+  {
+    "id": "towel-pull-up",
+    "name": "Towel pull-up",
+    "equipment": "bodyweight",
+    "muscles": {
+      "forearms": 1,
+      "lats": 1,
+      "biceps": 0.75,
+      "upper_back": 0.5
+    }
+  },
+  {
+    "id": "cable-triceps-pushdown",
+    "name": "Cable triceps pushdown",
+    "equipment": "cable",
+    "muscles": {
+      "triceps": 1
+    }
+  },
+  {
+    "id": "rope-triceps-pushdown",
+    "name": "Rope triceps pushdown",
+    "equipment": "cable",
+    "muscles": {
+      "triceps": 1
+    }
+  },
+  {
+    "id": "straight-bar-triceps-pushdown",
+    "name": "Straight-bar triceps pushdown",
+    "equipment": "cable",
+    "muscles": {
+      "triceps": 1
+    }
+  },
+  {
+    "id": "reverse-grip-triceps-pushdown",
+    "name": "Reverse-grip triceps pushdown",
+    "equipment": "cable",
+    "muscles": {
+      "triceps": 1
+    }
+  },
+  {
+    "id": "single-arm-triceps-pushdown",
+    "name": "Single-arm triceps pushdown",
+    "equipment": "cable",
+    "muscles": {
+      "triceps": 1
+    }
+  },
+  {
+    "id": "overhead-rope-triceps-extension",
+    "name": "Overhead rope triceps extension",
+    "equipment": "cable",
+    "muscles": {
+      "triceps": 1
+    }
+  },
+  {
+    "id": "single-arm-overhead-cable-extension",
+    "name": "Single-arm overhead cable extension",
+    "equipment": "cable",
+    "muscles": {
+      "triceps": 1
+    }
+  },
+  {
+    "id": "dumbbell-overhead-triceps-extension",
+    "name": "Dumbbell overhead triceps extension",
+    "equipment": "dumbbell",
+    "muscles": {
+      "triceps": 1
+    }
+  },
+  {
+    "id": "single-arm-dumbbell-overhead-extension",
+    "name": "Single-arm dumbbell overhead extension",
+    "equipment": "dumbbell",
+    "muscles": {
+      "triceps": 1
+    }
+  },
+  {
+    "id": "ez-bar-skull-crusher",
+    "name": "EZ-bar skull crusher",
+    "equipment": "ez bar",
+    "muscles": {
+      "triceps": 1
+    }
+  },
+  {
+    "id": "barbell-skull-crusher",
+    "name": "Barbell skull crusher",
+    "equipment": "barbell",
+    "muscles": {
+      "triceps": 1
+    }
+  },
+  {
+    "id": "dumbbell-skull-crusher",
+    "name": "Dumbbell skull crusher",
+    "equipment": "dumbbell",
+    "muscles": {
+      "triceps": 1
+    }
+  },
+  {
+    "id": "incline-skull-crusher",
+    "name": "Incline skull crusher",
+    "equipment": "ez bar",
+    "muscles": {
+      "triceps": 1
+    }
+  },
+  {
+    "id": "jm-press",
+    "name": "JM press",
+    "equipment": "barbell",
+    "muscles": {
+      "triceps": 1,
+      "chest": 0.5
+    }
+  },
+  {
+    "id": "bench-dip",
+    "name": "Bench dip",
+    "equipment": "bodyweight",
+    "muscles": {
+      "triceps": 1,
+      "chest": 0.5,
+      "shoulders": 0.25
+    }
+  },
+  {
+    "id": "parallel-bar-dip",
+    "name": "Parallel-bar dip",
+    "equipment": "bodyweight",
+    "muscles": {
+      "triceps": 1,
+      "chest": 0.75,
+      "shoulders": 0.25
+    }
+  },
+  {
+    "id": "weighted-dip",
+    "name": "Weighted dip",
+    "equipment": "bodyweight",
+    "muscles": {
+      "triceps": 1,
+      "chest": 0.75,
+      "shoulders": 0.25
+    }
+  },
+  {
+    "id": "assisted-dip",
+    "name": "Assisted dip",
+    "equipment": "machine",
+    "muscles": {
+      "triceps": 1,
+      "chest": 0.75,
+      "shoulders": 0.25
+    }
+  },
+  {
+    "id": "machine-triceps-extension",
+    "name": "Machine triceps extension",
+    "equipment": "machine",
+    "muscles": {
+      "triceps": 1
+    }
+  },
+  {
+    "id": "triceps-kickback",
+    "name": "Triceps kickback",
+    "equipment": "dumbbell",
+    "muscles": {
+      "triceps": 1
+    }
+  },
+  {
+    "id": "cable-triceps-kickback",
+    "name": "Cable triceps kickback",
+    "equipment": "cable",
+    "muscles": {
+      "triceps": 1
+    }
+  },
+  {
+    "id": "barbell-back-squat",
+    "name": "Barbell back squat",
+    "equipment": "barbell",
+    "muscles": {
+      "quads": 1,
+      "glutes": 1,
+      "hamstrings": 0.5,
+      "core": 0.5,
+      "lower_back": 0.25
+    }
+  },
+  {
+    "id": "high-bar-back-squat",
+    "name": "High-bar back squat",
+    "equipment": "barbell",
+    "muscles": {
+      "quads": 1,
+      "glutes": 0.75,
+      "hamstrings": 0.5,
+      "core": 0.5
+    }
+  },
+  {
+    "id": "low-bar-back-squat",
+    "name": "Low-bar back squat",
+    "equipment": "barbell",
+    "muscles": {
+      "glutes": 1,
+      "quads": 0.75,
+      "hamstrings": 0.75,
+      "lower_back": 0.5,
+      "core": 0.5
+    }
+  },
+  {
+    "id": "front-squat",
+    "name": "Front squat",
+    "equipment": "barbell",
+    "muscles": {
+      "quads": 1,
+      "glutes": 0.75,
+      "core": 0.75,
+      "upper_back": 0.5
+    }
+  },
+  {
+    "id": "paused-squat",
+    "name": "Paused squat",
+    "equipment": "barbell",
+    "muscles": {
+      "quads": 1,
+      "glutes": 1,
+      "hamstrings": 0.5,
+      "core": 0.5
+    }
+  },
+  {
+    "id": "box-squat",
+    "name": "Box squat",
+    "equipment": "barbell",
+    "muscles": {
+      "glutes": 1,
+      "quads": 0.75,
+      "hamstrings": 0.75,
+      "core": 0.5
+    }
+  },
+  {
+    "id": "goblet-squat",
+    "name": "Goblet squat",
+    "equipment": "dumbbell",
+    "muscles": {
+      "quads": 1,
+      "glutes": 0.75,
+      "core": 0.5
+    }
+  },
+  {
+    "id": "dumbbell-squat",
+    "name": "Dumbbell squat",
+    "equipment": "dumbbell",
+    "muscles": {
+      "quads": 1,
+      "glutes": 0.75,
+      "core": 0.5
+    }
+  },
+  {
+    "id": "hack-squat",
+    "name": "Hack squat",
+    "equipment": "machine",
+    "muscles": {
+      "quads": 1,
+      "glutes": 0.75,
+      "hamstrings": 0.25
+    }
+  },
+  {
+    "id": "pendulum-squat",
+    "name": "Pendulum squat",
+    "equipment": "machine",
+    "muscles": {
+      "quads": 1,
+      "glutes": 0.75
+    }
+  },
+  {
+    "id": "smith-machine-squat",
+    "name": "Smith machine squat",
+    "equipment": "smith machine",
+    "muscles": {
+      "quads": 1,
+      "glutes": 0.75,
+      "hamstrings": 0.25
+    }
+  },
+  {
+    "id": "belt-squat",
+    "name": "Belt squat",
+    "equipment": "machine",
+    "muscles": {
+      "quads": 1,
+      "glutes": 0.75,
+      "hamstrings": 0.25
+    }
+  },
+  {
+    "id": "leg-press",
+    "name": "Leg press",
+    "equipment": "machine",
+    "muscles": {
+      "quads": 1,
+      "glutes": 0.75,
+      "hamstrings": 0.25
+    }
+  },
+  {
+    "id": "single-leg-press",
+    "name": "Single-leg press",
+    "equipment": "machine",
+    "muscles": {
+      "quads": 1,
+      "glutes": 0.75,
+      "hamstrings": 0.25
+    }
+  },
+  {
+    "id": "narrow-stance-leg-press",
+    "name": "Narrow-stance leg press",
+    "equipment": "machine",
+    "muscles": {
+      "quads": 1,
+      "glutes": 0.5
+    }
+  },
+  {
+    "id": "wide-stance-leg-press",
+    "name": "Wide-stance leg press",
+    "equipment": "machine",
+    "muscles": {
+      "glutes": 1,
+      "quads": 0.75,
+      "hamstrings": 0.5
+    }
+  },
+  {
+    "id": "leg-extension",
+    "name": "Leg extension",
+    "equipment": "machine",
+    "muscles": {
+      "quads": 1
+    }
+  },
+  {
+    "id": "single-leg-extension",
+    "name": "Single-leg extension",
+    "equipment": "machine",
+    "muscles": {
+      "quads": 1
+    }
+  },
+  {
+    "id": "walking-lunge",
+    "name": "Walking lunge",
+    "equipment": "dumbbell",
+    "muscles": {
+      "quads": 1,
+      "glutes": 1,
+      "hamstrings": 0.5,
+      "core": 0.25
+    }
+  },
+  {
+    "id": "reverse-lunge",
+    "name": "Reverse lunge",
+    "equipment": "dumbbell",
+    "muscles": {
+      "glutes": 1,
+      "quads": 0.75,
+      "hamstrings": 0.5,
+      "core": 0.25
+    }
+  },
+  {
+    "id": "forward-lunge",
+    "name": "Forward lunge",
+    "equipment": "dumbbell",
+    "muscles": {
+      "quads": 1,
+      "glutes": 0.75,
+      "hamstrings": 0.5,
+      "core": 0.25
+    }
+  },
+  {
+    "id": "barbell-lunge",
+    "name": "Barbell lunge",
+    "equipment": "barbell",
+    "muscles": {
+      "quads": 1,
+      "glutes": 1,
+      "hamstrings": 0.5,
+      "core": 0.5
+    }
+  },
+  {
+    "id": "bulgarian-split-squat",
+    "name": "Bulgarian split squat",
+    "equipment": "dumbbell",
+    "muscles": {
+      "quads": 1,
+      "glutes": 1,
+      "hamstrings": 0.5,
+      "core": 0.25
+    }
+  },
+  {
+    "id": "smith-machine-split-squat",
+    "name": "Smith machine split squat",
+    "equipment": "smith machine",
+    "muscles": {
+      "quads": 1,
+      "glutes": 1,
+      "hamstrings": 0.5
+    }
+  },
+  {
+    "id": "rear-foot-elevated-split-squat",
+    "name": "Rear-foot-elevated split squat",
+    "equipment": "dumbbell",
+    "muscles": {
+      "quads": 1,
+      "glutes": 1,
+      "hamstrings": 0.5,
+      "core": 0.25
+    }
+  },
+  {
+    "id": "step-up",
+    "name": "Step-up",
+    "equipment": "dumbbell",
+    "muscles": {
+      "quads": 1,
+      "glutes": 1,
+      "hamstrings": 0.5,
+      "core": 0.25
+    }
+  },
+  {
+    "id": "lateral-step-up",
+    "name": "Lateral step-up",
+    "equipment": "dumbbell",
+    "muscles": {
+      "quads": 1,
+      "glutes": 1,
+      "core": 0.25
+    }
+  },
+  {
+    "id": "sissy-squat",
+    "name": "Sissy squat",
+    "equipment": "bodyweight",
+    "muscles": {
+      "quads": 1,
+      "core": 0.25
+    }
+  },
+  {
+    "id": "spanish-squat",
+    "name": "Spanish squat",
+    "equipment": "resistance band",
+    "muscles": {
+      "quads": 1
+    }
+  },
+  {
+    "id": "cyclist-squat",
+    "name": "Cyclist squat",
+    "equipment": "dumbbell",
+    "muscles": {
+      "quads": 1,
+      "glutes": 0.5,
+      "core": 0.25
+    }
+  },
+  {
+    "id": "landmine-squat",
+    "name": "Landmine squat",
+    "equipment": "barbell",
+    "muscles": {
+      "quads": 1,
+      "glutes": 0.75,
+      "core": 0.5
+    }
+  },
+  {
+    "id": "zercher-squat",
+    "name": "Zercher squat",
+    "equipment": "barbell",
+    "muscles": {
+      "quads": 1,
+      "glutes": 0.75,
+      "core": 1,
+      "upper_back": 0.5
+    }
+  },
+  {
+    "id": "overhead-squat",
+    "name": "Overhead squat",
+    "equipment": "barbell",
+    "muscles": {
+      "quads": 1,
+      "glutes": 0.75,
+      "core": 1,
+      "shoulders": 0.75,
+      "upper_back": 0.75
+    }
+  },
+  {
+    "id": "pistol-squat",
+    "name": "Pistol squat",
+    "equipment": "bodyweight",
+    "muscles": {
+      "quads": 1,
+      "glutes": 1,
+      "hamstrings": 0.5,
+      "core": 0.5
+    }
+  },
+  {
+    "id": "stiff-leg-deadlift",
+    "name": "Stiff-leg deadlift",
+    "equipment": "barbell",
+    "muscles": {
+      "hamstrings": 1,
+      "glutes": 1,
+      "lower_back": 0.75,
+      "forearms": 0.25
+    }
+  },
+  {
+    "id": "dumbbell-romanian-deadlift",
+    "name": "Dumbbell Romanian deadlift",
+    "equipment": "dumbbell",
+    "muscles": {
+      "hamstrings": 1,
+      "glutes": 1,
+      "lower_back": 0.5,
+      "forearms": 0.25
+    }
+  },
+  {
+    "id": "single-leg-romanian-deadlift",
+    "name": "Single-leg Romanian deadlift",
+    "equipment": "dumbbell",
+    "muscles": {
+      "hamstrings": 1,
+      "glutes": 1,
+      "core": 0.5
+    }
+  },
+  {
+    "id": "smith-machine-romanian-deadlift",
+    "name": "Smith machine Romanian deadlift",
+    "equipment": "smith machine",
+    "muscles": {
+      "hamstrings": 1,
+      "glutes": 1,
+      "lower_back": 0.5
+    }
+  },
+  {
+    "id": "cable-romanian-deadlift",
+    "name": "Cable Romanian deadlift",
+    "equipment": "cable",
+    "muscles": {
+      "hamstrings": 1,
+      "glutes": 1,
+      "lower_back": 0.5
+    }
+  },
+  {
+    "id": "barbell-hip-thrust",
+    "name": "Barbell hip thrust",
+    "equipment": "barbell",
+    "muscles": {
+      "glutes": 1,
+      "hamstrings": 0.5,
+      "quads": 0.25
+    }
+  },
+  {
+    "id": "smith-machine-hip-thrust",
+    "name": "Smith machine hip thrust",
+    "equipment": "smith machine",
+    "muscles": {
+      "glutes": 1,
+      "hamstrings": 0.5,
+      "quads": 0.25
+    }
+  },
+  {
+    "id": "machine-hip-thrust",
+    "name": "Machine hip thrust",
+    "equipment": "machine",
+    "muscles": {
+      "glutes": 1,
+      "hamstrings": 0.5
+    }
+  },
+  {
+    "id": "dumbbell-hip-thrust",
+    "name": "Dumbbell hip thrust",
+    "equipment": "dumbbell",
+    "muscles": {
+      "glutes": 1,
+      "hamstrings": 0.5
+    }
+  },
+  {
+    "id": "glute-bridge",
+    "name": "Glute bridge",
+    "equipment": "bodyweight",
+    "muscles": {
+      "glutes": 1,
+      "hamstrings": 0.5
+    }
+  },
+  {
+    "id": "barbell-glute-bridge",
+    "name": "Barbell glute bridge",
+    "equipment": "barbell",
+    "muscles": {
+      "glutes": 1,
+      "hamstrings": 0.5
+    }
+  },
+  {
+    "id": "single-leg-glute-bridge",
+    "name": "Single-leg glute bridge",
+    "equipment": "bodyweight",
+    "muscles": {
+      "glutes": 1,
+      "hamstrings": 0.5,
+      "core": 0.25
+    }
+  },
+  {
+    "id": "cable-pull-through",
+    "name": "Cable pull-through",
+    "equipment": "cable",
+    "muscles": {
+      "glutes": 1,
+      "hamstrings": 1,
+      "lower_back": 0.25
+    }
+  },
+  {
+    "id": "kettlebell-swing",
+    "name": "Kettlebell swing",
+    "equipment": "kettlebell",
+    "muscles": {
+      "glutes": 1,
+      "hamstrings": 1,
+      "lower_back": 0.5,
+      "core": 0.5,
+      "shoulders": 0.25
+    }
+  },
+  {
+    "id": "lying-leg-curl",
+    "name": "Lying leg curl",
+    "equipment": "machine",
+    "muscles": {
+      "hamstrings": 1,
+      "calves": 0.25
+    }
+  },
+  {
+    "id": "seated-leg-curl",
+    "name": "Seated leg curl",
+    "equipment": "machine",
+    "muscles": {
+      "hamstrings": 1,
+      "calves": 0.25
+    }
+  },
+  {
+    "id": "standing-leg-curl",
+    "name": "Standing leg curl",
+    "equipment": "machine",
+    "muscles": {
+      "hamstrings": 1,
+      "calves": 0.25
+    }
+  },
+  {
+    "id": "single-leg-lying-curl",
+    "name": "Single-leg lying curl",
+    "equipment": "machine",
+    "muscles": {
+      "hamstrings": 1,
+      "calves": 0.25
+    }
+  },
+  {
+    "id": "single-leg-seated-curl",
+    "name": "Single-leg seated curl",
+    "equipment": "machine",
+    "muscles": {
+      "hamstrings": 1,
+      "calves": 0.25
+    }
+  },
+  {
+    "id": "nordic-hamstring-curl",
+    "name": "Nordic hamstring curl",
+    "equipment": "bodyweight",
+    "muscles": {
+      "hamstrings": 1,
+      "glutes": 0.25,
+      "calves": 0.25
+    }
+  },
+  {
+    "id": "glute-ham-raise",
+    "name": "Glute-ham raise",
+    "equipment": "machine",
+    "muscles": {
+      "hamstrings": 1,
+      "glutes": 0.75,
+      "lower_back": 0.25,
+      "calves": 0.25
+    }
+  },
+  {
+    "id": "swiss-ball-leg-curl",
+    "name": "Swiss-ball leg curl",
+    "equipment": "stability ball",
+    "muscles": {
+      "hamstrings": 1,
+      "glutes": 0.5,
+      "core": 0.25
+    }
+  },
+  {
+    "id": "slider-leg-curl",
+    "name": "Slider leg curl",
+    "equipment": "bodyweight",
+    "muscles": {
+      "hamstrings": 1,
+      "glutes": 0.5,
+      "core": 0.25
+    }
+  },
+  {
+    "id": "cable-leg-kickback",
+    "name": "Cable leg kickback",
+    "equipment": "cable",
+    "muscles": {
+      "glutes": 1,
+      "hamstrings": 0.25
+    }
+  },
+  {
+    "id": "machine-glute-kickback",
+    "name": "Machine glute kickback",
+    "equipment": "machine",
+    "muscles": {
+      "glutes": 1,
+      "hamstrings": 0.25
+    }
+  },
+  {
+    "id": "quadruped-hip-extension",
+    "name": "Quadruped hip extension",
+    "equipment": "bodyweight",
+    "muscles": {
+      "glutes": 1,
+      "hamstrings": 0.25
+    }
+  },
+  {
+    "id": "cable-hip-abduction",
+    "name": "Cable hip abduction",
+    "equipment": "cable",
+    "muscles": {
+      "glutes": 1
+    }
+  },
+  {
+    "id": "machine-hip-abduction",
+    "name": "Machine hip abduction",
+    "equipment": "machine",
+    "muscles": {
+      "glutes": 1
+    }
+  },
+  {
+    "id": "side-lying-hip-abduction",
+    "name": "Side-lying hip abduction",
+    "equipment": "bodyweight",
+    "muscles": {
+      "glutes": 1
+    }
+  },
+  {
+    "id": "banded-lateral-walk",
+    "name": "Banded lateral walk",
+    "equipment": "resistance band",
+    "muscles": {
+      "glutes": 1,
+      "quads": 0.25
+    }
+  },
+  {
+    "id": "monster-walk",
+    "name": "Monster walk",
+    "equipment": "resistance band",
+    "muscles": {
+      "glutes": 1,
+      "quads": 0.25
+    }
+  },
+  {
+    "id": "frog-pump",
+    "name": "Frog pump",
+    "equipment": "bodyweight",
+    "muscles": {
+      "glutes": 1,
+      "hamstrings": 0.25
+    }
+  },
+  {
+    "id": "reverse-hyperextension",
+    "name": "Reverse hyperextension",
+    "equipment": "machine",
+    "muscles": {
+      "glutes": 1,
+      "hamstrings": 1,
+      "lower_back": 0.75
+    }
+  },
+  {
+    "id": "standing-machine-calf-raise",
+    "name": "Standing machine calf raise",
+    "equipment": "machine",
+    "muscles": {
+      "calves": 1
+    }
+  },
+  {
+    "id": "seated-calf-raise",
+    "name": "Seated calf raise",
+    "equipment": "machine",
+    "muscles": {
+      "calves": 1
+    }
+  },
+  {
+    "id": "leg-press-calf-raise",
+    "name": "Leg press calf raise",
+    "equipment": "machine",
+    "muscles": {
+      "calves": 1
+    }
+  },
+  {
+    "id": "smith-machine-calf-raise",
+    "name": "Smith machine calf raise",
+    "equipment": "smith machine",
+    "muscles": {
+      "calves": 1
+    }
+  },
+  {
+    "id": "single-leg-calf-raise",
+    "name": "Single-leg calf raise",
+    "equipment": "bodyweight",
+    "muscles": {
+      "calves": 1
+    }
+  },
+  {
+    "id": "dumbbell-calf-raise",
+    "name": "Dumbbell calf raise",
+    "equipment": "dumbbell",
+    "muscles": {
+      "calves": 1
+    }
+  },
+  {
+    "id": "donkey-calf-raise",
+    "name": "Donkey calf raise",
+    "equipment": "machine",
+    "muscles": {
+      "calves": 1
+    }
+  },
+  {
+    "id": "tibialis-raise",
+    "name": "Tibialis raise",
+    "equipment": "bodyweight",
+    "muscles": {
+      "calves": 1
+    }
+  },
+  {
+    "id": "machine-tibialis-raise",
+    "name": "Machine tibialis raise",
+    "equipment": "machine",
+    "muscles": {
+      "calves": 1
+    }
+  },
+  {
+    "id": "jump-rope",
+    "name": "Jump rope",
+    "equipment": "bodyweight",
+    "muscles": {
+      "calves": 1,
+      "quads": 0.25,
+      "shoulders": 0.25
+    }
+  },
+  {
+    "id": "plank",
+    "name": "Plank",
+    "equipment": "bodyweight",
+    "muscles": {
+      "core": 1,
+      "shoulders": 0.25
+    }
+  },
+  {
+    "id": "side-plank",
+    "name": "Side plank",
+    "equipment": "bodyweight",
+    "muscles": {
+      "core": 1,
+      "shoulders": 0.25,
+      "glutes": 0.25
+    }
+  },
+  {
+    "id": "rkc-plank",
+    "name": "RKC plank",
+    "equipment": "bodyweight",
+    "muscles": {
+      "core": 1,
+      "glutes": 0.25
+    }
+  },
+  {
+    "id": "dead-bug",
+    "name": "Dead bug",
+    "equipment": "bodyweight",
+    "muscles": {
+      "core": 1
+    }
+  },
+  {
+    "id": "bird-dog",
+    "name": "Bird dog",
+    "equipment": "bodyweight",
+    "muscles": {
+      "core": 1,
+      "glutes": 0.25,
+      "shoulders": 0.25
+    }
+  },
+  {
+    "id": "hollow-body-hold",
+    "name": "Hollow body hold",
+    "equipment": "bodyweight",
+    "muscles": {
+      "core": 1
+    }
+  },
+  {
+    "id": "crunch",
+    "name": "Crunch",
+    "equipment": "bodyweight",
+    "muscles": {
+      "core": 1
+    }
+  },
+  {
+    "id": "decline-crunch",
+    "name": "Decline crunch",
+    "equipment": "bodyweight",
+    "muscles": {
+      "core": 1
+    }
+  },
+  {
+    "id": "cable-crunch",
+    "name": "Cable crunch",
+    "equipment": "cable",
+    "muscles": {
+      "core": 1
+    }
+  },
+  {
+    "id": "machine-crunch",
+    "name": "Machine crunch",
+    "equipment": "machine",
+    "muscles": {
+      "core": 1
+    }
+  },
+  {
+    "id": "sit-up",
+    "name": "Sit-up",
+    "equipment": "bodyweight",
+    "muscles": {
+      "core": 1
+    }
+  },
+  {
+    "id": "decline-sit-up",
+    "name": "Decline sit-up",
+    "equipment": "bodyweight",
+    "muscles": {
+      "core": 1
+    }
+  },
+  {
+    "id": "hanging-knee-raise",
+    "name": "Hanging knee raise",
+    "equipment": "bodyweight",
+    "muscles": {
+      "core": 1,
+      "forearms": 0.25,
+      "lats": 0.25
+    }
+  },
+  {
+    "id": "hanging-leg-raise",
+    "name": "Hanging leg raise",
+    "equipment": "bodyweight",
+    "muscles": {
+      "core": 1,
+      "forearms": 0.25,
+      "lats": 0.25
+    }
+  },
+  {
+    "id": "captain-s-chair-knee-raise",
+    "name": "Captain's chair knee raise",
+    "equipment": "machine",
+    "muscles": {
+      "core": 1
+    }
+  },
+  {
+    "id": "reverse-crunch",
+    "name": "Reverse crunch",
+    "equipment": "bodyweight",
+    "muscles": {
+      "core": 1
+    }
+  },
+  {
+    "id": "v-up",
+    "name": "V-up",
+    "equipment": "bodyweight",
+    "muscles": {
+      "core": 1
+    }
+  },
+  {
+    "id": "toe-touch",
+    "name": "Toe touch",
+    "equipment": "bodyweight",
+    "muscles": {
+      "core": 1
+    }
+  },
+  {
+    "id": "ab-wheel-rollout",
+    "name": "Ab wheel rollout",
+    "equipment": "ab wheel",
+    "muscles": {
+      "core": 1,
+      "lats": 0.5,
+      "shoulders": 0.5
+    }
+  },
+  {
+    "id": "barbell-rollout",
+    "name": "Barbell rollout",
+    "equipment": "barbell",
+    "muscles": {
+      "core": 1,
+      "lats": 0.5,
+      "shoulders": 0.5
+    }
+  },
+  {
+    "id": "pallof-press",
+    "name": "Pallof press",
+    "equipment": "cable",
+    "muscles": {
+      "core": 1,
+      "shoulders": 0.25
+    }
+  },
+  {
+    "id": "banded-pallof-press",
+    "name": "Banded Pallof press",
+    "equipment": "resistance band",
+    "muscles": {
+      "core": 1,
+      "shoulders": 0.25
+    }
+  },
+  {
+    "id": "cable-wood-chop",
+    "name": "Cable wood chop",
+    "equipment": "cable",
+    "muscles": {
+      "core": 1,
+      "shoulders": 0.25
+    }
+  },
+  {
+    "id": "landmine-rotation",
+    "name": "Landmine rotation",
+    "equipment": "barbell",
+    "muscles": {
+      "core": 1,
+      "shoulders": 0.5
+    }
+  },
+  {
+    "id": "russian-twist",
+    "name": "Russian twist",
+    "equipment": "bodyweight",
+    "muscles": {
+      "core": 1
+    }
+  },
+  {
+    "id": "weighted-russian-twist",
+    "name": "Weighted Russian twist",
+    "equipment": "plate",
+    "muscles": {
+      "core": 1
+    }
+  },
+  {
+    "id": "bicycle-crunch",
+    "name": "Bicycle crunch",
+    "equipment": "bodyweight",
+    "muscles": {
+      "core": 1
+    }
+  },
+  {
+    "id": "mountain-climber",
+    "name": "Mountain climber",
+    "equipment": "bodyweight",
+    "muscles": {
+      "core": 1,
+      "shoulders": 0.25,
+      "quads": 0.25
+    }
+  },
+  {
+    "id": "bear-crawl",
+    "name": "Bear crawl",
+    "equipment": "bodyweight",
+    "muscles": {
+      "core": 1,
+      "shoulders": 0.5,
+      "quads": 0.25
+    }
+  },
+  {
+    "id": "dragon-flag",
+    "name": "Dragon flag",
+    "equipment": "bodyweight",
+    "muscles": {
+      "core": 1,
+      "lats": 0.5
+    }
+  },
+  {
+    "id": "l-sit",
+    "name": "L-sit",
+    "equipment": "bodyweight",
+    "muscles": {
+      "core": 1,
+      "triceps": 0.5,
+      "shoulders": 0.25,
+      "quads": 0.25
+    }
+  },
+  {
+    "id": "weighted-plank",
+    "name": "Weighted plank",
+    "equipment": "plate",
+    "muscles": {
+      "core": 1,
+      "shoulders": 0.25
+    }
+  },
+  {
+    "id": "suitcase-march",
+    "name": "Suitcase march",
+    "equipment": "dumbbell",
+    "muscles": {
+      "core": 1,
+      "forearms": 0.5,
+      "glutes": 0.25
+    }
+  },
+  {
+    "id": "power-clean",
+    "name": "Power clean",
+    "equipment": "barbell",
+    "muscles": {
+      "glutes": 1,
+      "hamstrings": 1,
+      "quads": 0.75,
+      "upper_back": 0.75,
+      "shoulders": 0.5,
+      "core": 0.5
+    }
+  },
+  {
+    "id": "hang-power-clean",
+    "name": "Hang power clean",
+    "equipment": "barbell",
+    "muscles": {
+      "glutes": 1,
+      "hamstrings": 0.75,
+      "quads": 0.5,
+      "upper_back": 0.75,
+      "shoulders": 0.5,
+      "core": 0.5
+    }
+  },
+  {
+    "id": "clean-and-jerk",
+    "name": "Clean and jerk",
+    "equipment": "barbell",
+    "muscles": {
+      "glutes": 1,
+      "hamstrings": 0.75,
+      "quads": 1,
+      "shoulders": 1,
+      "triceps": 0.75,
+      "upper_back": 0.75,
+      "core": 0.75
+    }
+  },
+  {
+    "id": "power-snatch",
+    "name": "Power snatch",
+    "equipment": "barbell",
+    "muscles": {
+      "glutes": 1,
+      "hamstrings": 1,
+      "quads": 0.75,
+      "shoulders": 1,
+      "upper_back": 1,
+      "core": 0.75
+    }
+  },
+  {
+    "id": "hang-power-snatch",
+    "name": "Hang power snatch",
+    "equipment": "barbell",
+    "muscles": {
+      "glutes": 1,
+      "hamstrings": 0.75,
+      "shoulders": 1,
+      "upper_back": 1,
+      "core": 0.75
+    }
+  },
+  {
+    "id": "barbell-thruster",
+    "name": "Barbell thruster",
+    "equipment": "barbell",
+    "muscles": {
+      "quads": 1,
+      "glutes": 1,
+      "shoulders": 1,
+      "triceps": 0.5,
+      "core": 0.5
+    }
+  },
+  {
+    "id": "dumbbell-thruster",
+    "name": "Dumbbell thruster",
+    "equipment": "dumbbell",
+    "muscles": {
+      "quads": 1,
+      "glutes": 1,
+      "shoulders": 1,
+      "triceps": 0.5,
+      "core": 0.5
+    }
+  },
+  {
+    "id": "kettlebell-clean",
+    "name": "Kettlebell clean",
+    "equipment": "kettlebell",
+    "muscles": {
+      "glutes": 1,
+      "hamstrings": 0.75,
+      "shoulders": 0.5,
+      "upper_back": 0.5,
+      "core": 0.5
+    }
+  },
+  {
+    "id": "kettlebell-clean-and-press",
+    "name": "Kettlebell clean and press",
+    "equipment": "kettlebell",
+    "muscles": {
+      "glutes": 1,
+      "hamstrings": 0.75,
+      "shoulders": 1,
+      "triceps": 0.5,
+      "core": 0.5
+    }
+  },
+  {
+    "id": "kettlebell-snatch",
+    "name": "Kettlebell snatch",
+    "equipment": "kettlebell",
+    "muscles": {
+      "glutes": 1,
+      "hamstrings": 0.75,
+      "shoulders": 1,
+      "upper_back": 0.5,
+      "core": 0.5
+    }
+  },
+  {
+    "id": "turkish-get-up",
+    "name": "Turkish get-up",
+    "equipment": "kettlebell",
+    "muscles": {
+      "core": 1,
+      "shoulders": 1,
+      "glutes": 0.5,
+      "quads": 0.5,
+      "triceps": 0.25
+    }
+  },
+  {
+    "id": "burpee",
+    "name": "Burpee",
+    "equipment": "bodyweight",
+    "muscles": {
+      "quads": 0.75,
+      "glutes": 0.5,
+      "chest": 0.5,
+      "triceps": 0.5,
+      "shoulders": 0.5,
+      "core": 0.5
+    }
+  },
+  {
+    "id": "box-jump",
+    "name": "Box jump",
+    "equipment": "box",
+    "muscles": {
+      "quads": 1,
+      "glutes": 1,
+      "hamstrings": 0.5,
+      "calves": 0.5
+    }
+  },
+  {
+    "id": "broad-jump",
+    "name": "Broad jump",
+    "equipment": "bodyweight",
+    "muscles": {
+      "glutes": 1,
+      "quads": 1,
+      "hamstrings": 0.75,
+      "calves": 0.5
+    }
+  },
+  {
+    "id": "sled-push",
+    "name": "Sled push",
+    "equipment": "sled",
+    "muscles": {
+      "quads": 1,
+      "glutes": 1,
+      "calves": 0.5,
+      "core": 0.5,
+      "shoulders": 0.25
+    }
+  },
+  {
+    "id": "sled-pull",
+    "name": "Sled pull",
+    "equipment": "sled",
+    "muscles": {
+      "quads": 0.75,
+      "glutes": 0.75,
+      "hamstrings": 0.5,
+      "upper_back": 0.5,
+      "forearms": 0.5
+    }
+  },
+  {
+    "id": "battle-ropes",
+    "name": "Battle ropes",
+    "equipment": "battle ropes",
+    "muscles": {
+      "shoulders": 1,
+      "forearms": 0.5,
+      "core": 0.5
+    }
+  },
+  {
+    "id": "rowing-machine",
+    "name": "Rowing machine",
+    "equipment": "cardio machine",
+    "muscles": {
+      "upper_back": 0.75,
+      "lats": 0.75,
+      "quads": 0.75,
+      "glutes": 0.5,
+      "biceps": 0.5,
+      "core": 0.5
+    }
+  },
+  {
+    "id": "ski-erg",
+    "name": "Ski erg",
+    "equipment": "cardio machine",
+    "muscles": {
+      "lats": 1,
+      "triceps": 0.5,
+      "core": 0.75,
+      "shoulders": 0.5
+    }
+  },
+  {
+    "id": "assault-bike",
+    "name": "Assault bike",
+    "equipment": "cardio machine",
+    "muscles": {
+      "quads": 0.75,
+      "glutes": 0.5,
+      "calves": 0.25,
+      "shoulders": 0.5,
+      "triceps": 0.25
+    }
+  },
+  {
+    "id": "kettlebell-goblet-lunge",
+    "name": "Kettlebell goblet lunge",
+    "equipment": "kettlebell",
+    "muscles": {
+      "quads": 1,
+      "glutes": 1,
+      "hamstrings": 0.5,
+      "core": 0.5
+    }
+  },
+  {
+    "id": "curtsy-lunge",
+    "name": "Curtsy lunge",
+    "equipment": "dumbbell",
+    "muscles": {
+      "glutes": 1,
+      "quads": 0.75,
+      "hamstrings": 0.25,
+      "core": 0.25
+    }
   }
 ]

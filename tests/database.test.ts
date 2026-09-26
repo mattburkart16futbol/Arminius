@@ -2,6 +2,7 @@ import { PGlite } from "@electric-sql/pglite";
 import { readFileSync, readdirSync } from "node:fs";
 import { beforeAll, afterAll, describe, expect, it } from "vitest";
 import { exercises } from "../src/components/muscle-map/model";
+import { tracking, newSet } from "../src/lib/workout";
 
 const db = new PGlite();
 const alice = "10000000-0000-4000-8000-000000000001";
@@ -227,5 +228,118 @@ describe("migrations and ownership boundaries", () => {
       [],
     );
     expect((await db.query("select * from sets")).rows).toEqual([]);
+  });
+  it("matches all exercise tracking metadata to SQL", async () => {
+    await asUser(alice);
+    const rows = await db.query<{
+      id: string;
+      tracking_mode: string;
+      load_mode: string;
+      training_category: string;
+      e1rm_eligible: boolean;
+    }>(
+      "select id,tracking_mode,load_mode,training_category,e1rm_eligible from exercises",
+    );
+    expect(rows.rows).toHaveLength(300);
+    for (const row of rows.rows)
+      expect(tracking[row.id]).toEqual({
+        mode: row.tracking_mode,
+        load: row.load_mode,
+        category: row.training_category,
+        e1rm: row.e1rm_eligible,
+      });
+  });
+  it("saves snapshots atomically, rejects stale edits, and retries without duplication", async () => {
+    await asUser(alice);
+    const id = crypto.randomUUID(),
+      request = crypto.randomUUID(),
+      lift = crypto.randomUUID();
+    const entry = {
+      ...newSet(),
+      reps: 8,
+      weight_kg: 25,
+      completed_at: new Date().toISOString(),
+    };
+    const lifts = [
+      { id: lift, exercise_id: "dumbbell-bench-press", sets: [entry] },
+    ];
+    const save = (
+      revision: number,
+      rows: unknown,
+      finish = false,
+      key = crypto.randomUUID(),
+    ) =>
+      db.query<{ result: { revision: number; ended_at: string | null } }>(
+        "select save_workout($1,$2,$3,$4::jsonb,$5,$6) result",
+        [id, revision, "Test", JSON.stringify(rows), finish, key],
+      );
+    expect((await save(0, lifts, false, request)).rows[0].result.revision).toBe(
+      1,
+    );
+    expect((await save(0, lifts, false, request)).rows[0].result.revision).toBe(
+      1,
+    );
+    await expect(save(0, lifts)).rejects.toThrow(/changed/);
+    await expect(
+      save(1, [{ ...lifts[0], sets: [{ ...entry, rir: 11 }] }]),
+    ).rejects.toThrow();
+    expect(
+      (
+        await db.query("select reps,weight_kg from sets where id=$1", [
+          entry.id,
+        ])
+      ).rows,
+    ).toEqual([{ reps: 8, weight_kg: "25" }]);
+    expect(
+      (await db.query("select revision from workouts where id=$1", [id])).rows,
+    ).toEqual([{ revision: 1 }]);
+    await expect(
+      db.exec("insert into workouts(name) values('Duplicate')"),
+    ).rejects.toThrow();
+    await asUser(bob);
+    await expect(save(0, lifts)).rejects.toThrow();
+    expect(
+      (await db.query("select id from sets where id=$1", [entry.id])).rows,
+    ).toEqual([]);
+    await asUser(alice);
+    const result = await save(
+      1,
+      [{ ...lifts[0], sets: [{ ...entry, reps: 12 }] }],
+      true,
+    );
+    expect(result.rows[0].result.ended_at).not.toBeNull();
+    expect(
+      (await db.query("select reps from sets where id=$1", [entry.id])).rows,
+    ).toEqual([{ reps: 12 }]);
+    await expect(save(2, lifts)).rejects.toThrow(/changed/);
+  });
+  it("supports empty drafts and validates timed completion at the database boundary", async () => {
+    await asUser(bob);
+    const id = crypto.randomUUID();
+    const entry = newSet();
+    const lift = {
+      id: crypto.randomUUID(),
+      exercise_id: "plank",
+      sets: [entry],
+    };
+    const save = (rev: number, finish = false) =>
+      db.query("select save_workout($1,$2,$3,$4::jsonb,$5,$6)", [
+        id,
+        rev,
+        "Timed",
+        JSON.stringify([lift]),
+        finish,
+        crypto.randomUUID(),
+      ]);
+    await save(0);
+    await expect(save(1, true)).rejects.toThrow(/Complete at least/);
+    entry.completed_at = new Date().toISOString();
+    entry.reps = 10;
+    await expect(save(1, true)).rejects.toThrow(/tracking measurement/);
+    entry.reps = null;
+    entry.duration_seconds = 45;
+    await save(1, true);
+    await db.exec("reset role;set role anon");
+    await expect(save(0)).rejects.toThrow(/permission denied/);
   });
 });

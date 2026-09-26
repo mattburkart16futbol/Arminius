@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowUpRight, Flame, Dumbbell, MoveUpRight } from "lucide-react";
+import { ArrowUpRight, Flame, MoveUpRight } from "lucide-react";
 import { TargetCard } from "../components/TargetCard";
 import { Leaderboard } from "../components/Leaderboard";
 import { MuscleMap } from "../components/muscle-map/MuscleMap";
-import { exercises, muscleLoads } from "../components/muscle-map/model";
+import { muscleLoads } from "../components/muscle-map/model";
 import { useAuth } from "../auth/AuthProvider";
 import { supabase } from "../lib/supabase";
 
@@ -70,79 +70,6 @@ export function Home() {
     </>
   );
 }
-export function Workout() {
-  const [selected, setSelected] = useState(exercises[0].id);
-  const loads = muscleLoads([selected]);
-  return (
-    <>
-      <div className="page-heading">
-        <p className="eyebrow">MOVE WITH PURPOSE</p>
-        <h1>Your training ground.</h1>
-        <p>
-          Explore the starter exercise library. Workout logging is coming next.
-        </p>
-      </div>
-      <div className="two-column">
-        <section className="card">
-          <h2>Exercise library</h2>
-          <p className="fine">Select a movement to see its muscle mapping.</p>
-          <div className="exercise-list">
-            {exercises.map((e) => (
-              <button
-                className={e.id === selected ? "exercise selected" : "exercise"}
-                aria-pressed={e.id === selected}
-                key={e.id}
-                onClick={() => setSelected(e.id)}
-              >
-                <Dumbbell size={21} />
-                <span>
-                  <strong>{e.name}</strong>
-                  <small>{e.equipment}</small>
-                </span>
-                <ArrowUpRight size={18} />
-              </button>
-            ))}
-          </div>
-        </section>
-        <section className="card">
-          <div className="spread">
-            <h2>Muscle map</h2>
-            <span className="badge">Preview</span>
-          </div>
-          <div className="maps">
-            {(["front", "back"] as const).map((view) => (
-              <figure key={view}>
-                <MuscleMap view={view} loads={loads} />
-                <figcaption>{view}</figcaption>
-              </figure>
-            ))}
-          </div>
-          <div className="legend">
-            <span>
-              <i className="primary-muscle" />
-              Primary
-            </span>
-            <span>
-              <i className="support-muscle" />
-              Supporting
-            </span>
-          </div>
-          <p className="fine">
-            Simplified involvement, not a measurement of activation, fatigue, or
-            recovery.
-          </p>
-          <p className="fine">
-            Involved:{" "}
-            {Object.keys(loads)
-              .map((m) => m.replaceAll("_", " "))
-              .join(", ")}
-            .
-          </p>
-        </section>
-      </div>
-    </>
-  );
-}
 export function Nutrition() {
   return (
     <>
@@ -163,32 +90,6 @@ export function Nutrition() {
           <small>Preview only · no nutrition records have been saved.</small>
         </div>
       </section>
-    </>
-  );
-}
-export function Progress() {
-  return (
-    <>
-      <div className="page-heading">
-        <p className="eyebrow">PLAY THE LONG GAME</p>
-        <h1>Small steps. Real progress.</h1>
-        <p>
-          Your strength, body metrics, and personal bests will build a picture
-          over time.
-        </p>
-      </div>
-      <div className="two-column">
-        <section className="card">
-          <h2>Your story starts here.</h2>
-          <div className="empty">
-            <p>No measurements or records yet.</p>
-            <small>
-              Charts and achievements will appear once tracking is connected.
-            </small>
-          </div>
-        </section>
-        <Leaderboard />
-      </div>
     </>
   );
 }
