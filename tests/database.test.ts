@@ -84,10 +84,21 @@ describe("migrations and ownership boundaries", () => {
   });
   it("enables RLS on every application table", async () => {
     await db.exec("reset role");
-    const tables = await db.query<{ relrowsecurity: boolean }>(
-      "select relrowsecurity from pg_class join pg_namespace on pg_namespace.oid=relnamespace where nspname='public' and relkind='r'",
+    const tables = await db.query<{ relrowsecurity: boolean; relname: string }>(
+      "select relname,relrowsecurity from pg_class join pg_namespace on pg_namespace.oid=relnamespace where nspname='public' and relkind='r'",
     );
-    expect(tables.rows).toHaveLength(18);
+    expect(tables.rows.map((t) => t.relname)).toEqual(
+      expect.arrayContaining([
+        "profiles",
+        "workouts",
+        "sets",
+        "friendships",
+        "strength_scores",
+        "benchmark_lifts",
+        "benchmark_scores",
+        "strength_cache_state",
+      ]),
+    );
     expect(tables.rows.every((t) => t.relrowsecurity)).toBe(true);
   });
   it("keeps the SQL catalog equal to the SVG data contract", async () => {

@@ -11,7 +11,7 @@ test("preview routes, map interaction, and mobile layout", async ({ page }) => {
   ).toBeVisible();
   for (const [route, title] of [
     ["Workout", "Your training ground."],
-    ["Nutrition", "Good habits, one meal at a time."],
+    ["Nutrition", "Your nutrition, measured."],
     ["Progress", "Your training, measured."],
     ["Profile", "Your space."],
   ]) {

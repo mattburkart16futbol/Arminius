@@ -14,7 +14,7 @@ export type SetRow = SetEntry & {
 };
 // Bound IN clauses and paginate child records, avoiding silent API row-limit truncation.
 export async function children<T>(
-  table: "sets" | "workout_exercises",
+  table: "sets" | "workout_exercises" | "meal_items",
   column: string,
   ids: string[],
   select: string,

@@ -18,9 +18,11 @@ import {
 import { useAuth } from "./auth/AuthProvider";
 import { AuthPage } from "./auth/AuthPage";
 import { supabase, configurationError } from "./lib/supabase";
-import { Home, Nutrition, Profile } from "./pages/Pages";
+import { Home, Profile } from "./pages/Pages";
 import { Workout } from "./pages/WorkoutPage";
 import { ProgressPage } from "./pages/ProgressPage";
+import { NutritionPage } from "./pages/NutritionPage";
+import { LeaderboardsPage } from "./pages/LeaderboardsPage";
 const navigation = [
   { to: "/", label: "Home", icon: House },
   { to: "/workout", label: "Workout", icon: Dumbbell },
@@ -51,7 +53,7 @@ function Shell() {
   const location = useLocation();
   const main = useRef<HTMLElement>(null);
   useEffect(() => {
-    document.title = `${navigation.find((n) => n.to === location.pathname)?.label ?? "Page not found"} · Arminius`;
+    document.title = `${navigation.find((n) => n.to === location.pathname)?.label ?? (location.pathname === "/leaderboards" ? "Leaderboards" : "Page not found")} · Arminius`;
     main.current?.focus({ preventScroll: true });
     window.scrollTo(0, 0);
   }, [location.pathname]);
@@ -97,8 +99,9 @@ export function App() {
         <Route element={<Shell />}>
           <Route index element={<Home />} />
           <Route path="workout" element={<Workout />} />
-          <Route path="nutrition" element={<Nutrition />} />
+          <Route path="nutrition" element={<NutritionPage />} />
           <Route path="progress" element={<ProgressPage />} />
+          <Route path="leaderboards" element={<LeaderboardsPage />} />
           <Route path="profile" element={<Profile />} />
           <Route
             path="*"
