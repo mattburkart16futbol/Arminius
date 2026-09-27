@@ -27,6 +27,7 @@ Integrated on `codex/social-metrics`, preserving the existing workout engine and
 
 All migrations execute locally in PostgreSQL/PGlite. Tests cover ownership, grants, private helper access, score forgery, opt-out, named consent, friendship authorization, ties, growth, weighted pull-up and bodyweight refresh, finite nutrition data, atomic snapshots, and unknown nutrients. Browser scenarios exercise nutrition saving/targets, bodyweight, consent, benchmark controls, and the existing workout flow with an isolated fake backend. Screens were reviewed at phone width.
 
-The hosted Supabase update is **not applied**. Automatic approval review rejected computer-use access to Firefox, so the signed-in dashboard could not be used. Apply migrations 008–011 in order, then perform real-account checks.
+Migrations 008–011 were applied to the hosted Arminius Supabase project on September 26, 2026. The live schema has all 23 public tables with RLS enabled and ten seeded benchmark lifts. Migration 012 removes API execution rights from the dashboard's internal automatic-RLS event trigger. Real-account checks of the hosted app remain to be completed.
 
 Food search uses your curated catalog, which this update does not seed. Manual food entries work; they intentionally do not enter public food trends. Meal editing/deletion and multi-item composition remain future work. Scores derive from self-reported logs and are not independently verified. Minimum group sizes reduce small-group exposure but do not constitute a formal anonymity guarantee. No paid APIs, scheduled workers, subscriptions, or deployments were enabled.
+
