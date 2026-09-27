@@ -74,6 +74,8 @@ it("scales known values, preserves unknowns, and refuses invalid portions", () =
   expect(sourceLink("javascript:alert(1)")).toBeNull();
   expect(sourceLink("https://fdc.nal.usda.gov.evil.example/x")).toBeNull();
   expect(sourceLink("https://www.mcdonalds.com/us/en-us/product/big-mac.html")).not.toBeNull();
+  expect(sourceLink("https://www.chick-fil-a.com/nutrition-allergens")).not.toBeNull();
+  expect(sourceLink("https://www.heineken.com/us/en/our-beers/heineken-original/")).not.toBeNull();
   expect(mealPayload([
       {
         key: "drink",
@@ -101,9 +103,56 @@ it("seeds traceable USDA data and searches multiple words with stable pagination
   const restaurants = await db.query<{ name: string; calories: string; serving_unit: string; source_url: string }>(
     "select name,calories,serving_unit,source_url from foods where source_data_type='Restaurant menu' order by name",
   );
-  expect(restaurants.rows).toHaveLength(4);
+  expect(restaurants.rows).toHaveLength(19);
   expect(restaurants.rows.every((item) => item.serving_unit === "serving" && item.source_url.startsWith("https://"))).toBe(true);
   expect(Number(restaurants.rows.find((item) => item.name.startsWith("Turkey Tom"))?.calories)).toBe(480);
+  const cfa = await db.query<{
+    calories: string;
+    protein_g: string;
+    carbs_g: string;
+    source_url: string;
+    portions: { label: string }[];
+    nutrient_values: Record<string, number>;
+  }>(
+    "select calories,protein_g,carbs_g,source_url,portions,nutrient_values from foods where source_id='cfa-us-chicken-sandwich'",
+  );
+  expect(cfa.rows).toHaveLength(1);
+  expect(cfa.rows[0]).toMatchObject({
+    calories: "420",
+    protein_g: "29",
+    carbs_g: "41",
+    source_url: "https://www.chick-fil-a.com/nutrition-allergens",
+  });
+  expect(cfa.rows[0].portions[0].label).toBe("1 sandwich (183 g)");
+  expect(cfa.rows[0].nutrient_values).toMatchObject({ "1253": 70, "1257": 0 });
+  const beer = await db.query<{
+    calories: string;
+    serving_amount: string;
+    serving_unit: string;
+    source_url: string;
+    ethanol: string;
+  }>(
+    "select calories,serving_amount,serving_unit,source_url,nutrient_values->>'1018' ethanol from foods where source_id='2127272' and brand='HEINEKEN'",
+  );
+  expect(beer.rows).toHaveLength(1);
+  expect(beer.rows[0]).toMatchObject({
+    calories: "40",
+    serving_amount: "100",
+    serving_unit: "ml",
+    source_url: "https://www.heineken.com/us/en/our-beers/heineken-original/",
+    ethanol: "3.95",
+  });
+  const alcohol = await db.query<{
+    name: string;
+    ethanol: string;
+    portions: { label: string }[];
+  }>(
+    "select name,nutrient_values->>'1018' ethanol,portions from foods where source_data_type='FNDDS' and name in ('Brandy','Gin','Rum','Tequila','Vodka','Whiskey','Beer','Beer, light','Beer, higher alcohol','Beer, nonalcoholic')",
+  );
+  expect(alcohol.rows).toHaveLength(10);
+  const vodka = alcohol.rows.find((item) => item.name === "Vodka");
+  expect(Number(vodka?.ethanol)).toBe(33.4);
+  expect(vodka?.portions.map((portion) => portion.label)).toContain("1 shot");
   const rows = await db.query<{ name: string }>(
     "select name from search_foods('chicken raw')",
   );

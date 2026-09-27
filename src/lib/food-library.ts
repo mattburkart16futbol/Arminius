@@ -170,6 +170,8 @@ export function sourceLink(url?: string | null) {
     const u = new URL(url);
     const allowedHosts = new Set([
       "fdc.nal.usda.gov",
+      "www.chick-fil-a.com",
+      "www.heineken.com",
       "www.mcdonalds.com",
       "www.subway.com",
       "www.tacobell.com",
