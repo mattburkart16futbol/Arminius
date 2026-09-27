@@ -1,9 +1,6 @@
 name: Prepare USDA food source
 on:
-  pull_request:
-    paths:
-      - scripts/import-usda.py
-      - .github/workflows/food-source.yml
+  workflow_dispatch:
 permissions:
   contents: read
 jobs:
@@ -14,4 +11,3 @@ jobs:
       - uses: actions/checkout@v4
       - name: Normalize pinned public-domain USDA data
         run: python3 scripts/import-usda.py
-

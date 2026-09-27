@@ -154,7 +154,7 @@ export function NutritionPage() {
         </div>
       </div>
 
-      <NutritionEntry onSaved={() => void load()} />
+      <NutritionEntry key={userId ?? "preview"} onSaved={() => void load()} />
       <p className="fine">
         Calendar days in this device’s local timezone. Unlogged days are
         excluded. Optional nutrient averages use only complete logged days.

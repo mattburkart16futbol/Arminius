@@ -73,7 +73,7 @@ The SVG architecture separates typed muscle IDs, front/back path geometry, invol
 | Sharing          | leaderboard_settings                             | Own settings only; opt-in defaults false                        |
 | AI               | ai_requests, recommendations                     | Read own; trusted writes                                        |
 
-All 23 tables have RLS and explicit grants. Anonymous database access is denied. Composite foreign keys enforce ownership across goals/targets, workouts/exercises/sets, meals/items, and AI requests/recommendations, including updates. Quantities have checks and explicit canonical units (kg, g, cm, m, seconds, kcal); dates use PostgreSQL timestamptz. Meal items snapshot consumed-portion nutrients rather than relying on mutable food entries.
+All 24 tables have RLS and explicit grants. Anonymous database access is denied. Composite foreign keys enforce ownership across goals/targets, workouts/exercises/sets, meals/items, and AI requests/recommendations, including updates. Quantities have checks and explicit canonical units (kg, g, cm, m, seconds, kcal); dates use PostgreSQL timestamptz. Meal items snapshot consumed-portion nutrients rather than relying on mutable food entries.
 
 Cross-user access is restricted to aggregate comparison/trending RPCs and explicitly opted-in named benchmark scores. Raw profiles, measurements, workouts, and meal items stay private. Browser clients cannot write derived score tables, friendships, or catalogs directly. Named consent discloses the bodyweight inference tradeoff. AI functionality is not connected.
 
@@ -111,7 +111,7 @@ Tests include real SQL execution in PGlite and browser tests with a fake Supabas
 
 Apply 008 nutrition metrics, 009 strength percentiles/friends, 010 benchmarks/cache, 011 nutrition entry, and 012 internal RLS-trigger grant hardening **after** the existing 001–007 migrations. The supplied Chat package reused 006/007; its files have been renumbered to preserve deployed history. The old workout logger and save RPC remain intact. Migrations 008–012 are applied to the hosted Arminius project; do not replay them there.
 
-Nutrition supports manual consumed-portion entries, search of your curated food catalog, daily targets, 7/30/90 local-calendar-day summaries, 4/4/9 macro shares, and item-weighted nutrient coverage. Missing optional nutrients remain unknown, and days without entries are not zero-intake days. Optional averages use only days with complete values for that nutrient. Current standalone daily targets are applied across the selected period; goal-linked targets are not included. The food catalog is not prepopulated by this update and no paid food API is connected. Custom entries work immediately. Meal editing/deletion and multi-item meal composition remain follow-ups.
+Nutrition supports manual consumed-portion entries, search of your curated food catalog, daily targets, 7/30/90 local-calendar-day summaries, 4/4/9 macro shares, and item-weighted nutrient coverage. Missing optional nutrients remain unknown, and days without entries are not zero-intake days. Optional averages use only days with complete values for that nutrient. Current standalone daily targets are applied across the selected period; goal-linked targets are not included. The food-library extension below adds a sourced catalog, multiple foods per meal, editing, deletion, favorites, and reuse. No paid food API is connected.
 
 Profile has bodyweight entry (kg/lb and measurement time), alias, aggregate participation, a separate named-score consent checkbox, and friend request/accept/decline/remove controls. Relative strength uses the most recent weight on/before the workout, at most 90 days old. No future weight is inferred. Progress ratios use the displayed date range; percentiles compare all-time bests. Percentiles require **five other eligible athletes**; smaller cohorts show their count but no percentile. Ties receive half credit. This is a minimum privacy threshold, not a formal differential-privacy guarantee.
 
@@ -125,3 +125,10 @@ Trending uses Monday 00:00 UTC through now, at least **three opted-in athletes p
 
 Security tests execute all migrations in PostgreSQL/PGlite with multiple simulated account roles. Browser tests use an isolated fake Supabase origin. Hosted application checks still require real authenticated accounts. No migrations are automatically applied by Vite or GitHub Actions.
 
+## Food library and meal editing
+
+The `202609270001_food_library.sql` and `202609270002_usda_foundation_catalog.sql` migrations extend nutrition with 311 USDA Foundation foods, source/serving details, private favorites, and atomic multi-food meal saving. Existing meals remain intact. Both migrations have been applied to the hosted Arminius project. For a new database, apply all migrations in filename order; do not replay an applied migration.
+
+Nutrition → Add food now supports search, source servings or grams, multiple foods, edit/delete, and reuse of recent meals. Drafts persist within the current browser tab, scoped to the account. Historical nutrient snapshots survive catalog changes. Search runs against Supabase, with no paid food API or AI requests.
+
+See [food-library source selection, maintenance, and limits](docs/food-library.md). Dedicated recipes, barcode lookup, and reviewed natural-language entry remain separate next steps.
