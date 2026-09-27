@@ -215,6 +215,11 @@
     "unit": "mg"
   },
   {
+    "id": 1096,
+    "name": "Chromium, Cr",
+    "unit": "µg"
+  },
+  {
     "id": 1098,
     "name": "Copper, Cu",
     "unit": "mg"
@@ -333,6 +338,11 @@
     "id": 1123,
     "name": "Lutein + zeaxanthin",
     "unit": "µg"
+  },
+  {
+    "id": 1124,
+    "name": "Vitamin E (label entry primarily)",
+    "unit": "IU"
   },
   {
     "id": 1125,
@@ -1175,4 +1185,3 @@
     "unit": "mg"
   }
 ]
-

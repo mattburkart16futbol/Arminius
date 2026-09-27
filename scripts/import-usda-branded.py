@@ -4,20 +4,44 @@ import io
 import json
 import math
 import pathlib
+import re
 import urllib.request
 import uuid
 import zipfile
 
 URL = "https://fdc.nal.usda.gov/fdc-datasets/FoodData_Central_branded_food_json_2026-04-30.zip"
 RELEASE = "2026-04-30"
-# A small starter selection. Add brands deliberately; never mirror the full 3.1 GB archive.
+# A broad but intentionally capped starter selection. Never mirror the full 3.1 GB archive.
 BRAND_TERMS = (
     "quaker", "chobani", "oikos", "fairlife", "quest", "jif", "mission",
     "silk", "kodiak", "kind", "kirkland", "nature valley", "fage", "siggi",
     "premier protein", "dave's killer", "bob's red mill", "dannon",
+    "yoplait", "oatly", "almond breeze", "lactaid", "daisy", "good culture",
+    "tyson", "perdue", "applegate", "hormel", "oscar mayer", "hillshire farm",
+    "johnsonville", "jennie-o", "butterball", "sargento", "tillamook",
+    "philadelphia", "kraft", "heinz", "cheerios", "kellogg's", "special k",
+    "kashi", "amy's", "lean cuisine", "stouffer's", "healthy choice", "campbell's",
+    "progresso", "rao's", "barilla", "banza", "skippy", "smucker's",
+    "blue diamond", "planters", "clif", "rxbar", "orgain", "muscle milk",
+    "optimum nutrition", "dymatize", "gatorade", "hidden valley", "sweet baby ray's",
+    "frank's redhot", "mccormick", "old el paso", "belvita", "cheez-it",
+    "frito-lay", "doritos", "hershey's",
 )
 PER_BRAND_LIMIT = 8
-MAX_PRODUCTS = 160
+MAX_PRODUCTS = 640
+# Keep the original published UPCs in the reproducible sample even if the
+# stricter word-boundary matcher below would no longer select them.
+LEGACY_GTINS = {
+    "0072486010514", "072486010514", "00051000277237", "00051000279682",
+    "00051000174765", "0028000133177", "028000333171", "029193097000",
+    "00028000216283", "00028000133177", "00028000934873", "025484000131",
+    "061954000218", "061954004735", "079893158532", "00027000126608",
+    "072486002502",
+}
+BRAND_PATTERNS = {
+    term: re.compile(rf"(?<![a-z0-9]){re.escape(term)}(?![a-z0-9])", re.IGNORECASE)
+    for term in BRAND_TERMS
+}
 CHUNK = 1 << 20
 DECODER = json.JSONDecoder()
 
@@ -127,6 +151,7 @@ def main():
     sha256 = hashlib.sha256()
     candidates = {term: {} for term in BRAND_TERMS}
     rows_seen = 0
+    legacy_foods = {}
     with archive_path.open("rb") as raw:
         for chunk in iter(lambda: raw.read(CHUNK), b""):
             sha256.update(chunk)
@@ -135,12 +160,17 @@ def main():
         with archive.open(filename) as stream:
             for row in records_from_archive(stream):
                 rows_seen += 1
-                haystack = " ".join(str(row.get(key) or "") for key in ("description", "brandName", "brandOwner")).casefold()
-                terms = [term for term in BRAND_TERMS if term in haystack]
-                if not terms:
+                haystack = " ".join(str(row.get(key) or "") for key in ("description", "brandName", "brandOwner"))
+                terms = [term for term, pattern in BRAND_PATTERNS.items() if pattern.search(haystack)]
+                gtin = str(row.get("gtinUpc") or "")
+                if not terms and gtin not in LEGACY_GTINS:
                     continue
                 food = normalize(row)
                 if not food:
+                    continue
+                if food["gtin_upc"] in LEGACY_GTINS:
+                    legacy_foods[food["gtin_upc"]] = food
+                if not terms:
                     continue
                 score = len(food["nutrient_values"]) * 100 + len(food["portions"])
                 for term in terms:
@@ -152,8 +182,8 @@ def main():
                         keep = sorted(bucket.items(), key=lambda entry: (-entry[1][0], entry[1][1]["name"], entry[1][1]["source_id"]))[:PER_BRAND_LIMIT * 2]
                         candidates[term] = bucket = dict(keep)
 
-    selected = []
-    seen = set()
+    selected = list(legacy_foods.values())
+    seen = set(legacy_foods)
     for term in BRAND_TERMS:
         choices = sorted(candidates[term].values(), key=lambda pair: (-pair[0], pair[1]["name"], pair[1]["source_id"]))
         added = 0
@@ -194,4 +224,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

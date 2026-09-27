@@ -15,7 +15,7 @@ if (
   foundation.foods.length !== 311 ||
   fndds.foods.length !== 5431 ||
   branded.foods.length < 100 ||
-  branded.foods.length > 160
+  branded.foods.length > 640
 ) {
   throw new Error(
     "Unexpected USDA import size; inspect both source files first.",
@@ -138,4 +138,3 @@ where item.nutrient_values = '{}'::jsonb
 console.log(
   `Generated ${foods.length} foods and ${nutrientDefinitions.size} nutrient definitions (${payload.length.toLocaleString()} data characters).`,
 );
-
