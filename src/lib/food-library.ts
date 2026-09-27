@@ -10,7 +10,9 @@ export const nutrients = [
   "potassium_mg",
 ] as const;
 export type Nutrient = (typeof nutrients)[number];
-export type NutrientValues = Record<Nutrient, number | null>;
+export type NutrientValues = Record<Nutrient, number | null> & {
+  nutrient_values?: Record<string, number>;
+};
 export type Provenance = {
   source: string;
   source_id?: string | null;
@@ -22,8 +24,10 @@ export type Food = NutrientValues & {
   id: string;
   name: string;
   brand: string | null;
+  gtin_upc: string | null;
   serving_grams: number;
   portions: { label: string; grams: number }[];
+  nutrient_values: Record<string, number>;
   source: string;
   source_id: string | null;
   source_url: string | null;
@@ -43,6 +47,7 @@ export type MealItem = NutrientValues & {
   name: string;
   quantity_grams: number;
   source_snapshot: Provenance | null;
+  nutrient_values?: Record<string, number>;
 };
 export type DraftFood = {
   key: string;
@@ -72,14 +77,23 @@ export function scaleNutrients(
     toGrams > 100000
   )
     throw new Error("Enter a portion between 0 and 100,000 grams.");
-  return Object.fromEntries(
-    nutrients.map((n) => [
+  return Object.fromEntries([
+    ...nutrients.map((n) => [
       n,
       values[n] === null
         ? null
         : Number(((values[n]! * toGrams) / fromGrams).toFixed(6)),
     ]),
-  ) as NutrientValues;
+    [
+      "nutrient_values",
+      Object.fromEntries(
+        Object.entries(values.nutrient_values ?? {}).map(([id, amount]) => [
+          id,
+          Number(((amount * toGrams) / fromGrams).toFixed(6)),
+        ]),
+      ),
+    ],
+  ]) as NutrientValues;
 }
 export function draftFromItem(item: MealItem): DraftFood {
   return {
@@ -110,6 +124,16 @@ export function mealPayload(rows: DraftFood[]) {
       throw new Error(
         "Enter valid calories and macros; optional nutrients can remain blank.",
       );
+    if (
+      Object.entries(values.nutrient_values ?? {}).some(
+        ([id, amount]) =>
+          !/^\d{1,6}$/.test(id) ||
+          !Number.isFinite(amount) ||
+          amount < 0 ||
+          amount > 1000000,
+      )
+    )
+      throw new Error("A sourced nutrient value is invalid.");
     return {
       name: row.name,
       quantity_grams: grams,
@@ -130,3 +154,4 @@ export function sourceLink(url?: string | null) {
     return null;
   }
 }
+

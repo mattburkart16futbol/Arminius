@@ -7,3 +7,9 @@ playwright-report/
 test-results/
 .DS_Store
 supabase/.temp/
+data/.*.zip
+data/usda-*-normalized.json
+data/usda-branded-selected.json
+usda-catalog.json
+supabase/migrations/202609270004_usda_catalog_seed.sql
+

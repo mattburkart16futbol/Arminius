@@ -3,6 +3,7 @@ import { useAuth } from "../auth/AuthProvider";
 import { supabase } from "../lib/supabase";
 import { children } from "../lib/workout-api";
 import { readPages } from "../lib/paging";
+import { additionalFoodNutrients } from "../lib/micronutrients";
 import {
   draftFromItem,
   localDateTime,
@@ -276,7 +277,7 @@ export function NutritionEntry({ onSaved }: { onSaved: () => void }) {
             n,
             values[n]?.trim() ? Number(values[n]) : i < 4 ? NaN : null,
           ]),
-        ) as NutrientValues);
+        ) as unknown as NutrientValues);
       const row: DraftFood = {
         key: crypto.randomUUID(),
         name: name.trim(),
@@ -446,6 +447,9 @@ export function NutritionEntry({ onSaved }: { onSaved: () => void }) {
       /* Invalid quantities are validated on add. */
     }
   }
+  const expandedNutrients = preview?.nutrient_values
+    ? additionalFoodNutrients(preview.nutrient_values)
+    : [];
   const displayedFoods = tab === "favorites" ? favorites : foods;
   const recentFoods = history
     .flatMap((m) => historyItems.filter((i) => i.meal_id === m.id))
@@ -472,9 +476,9 @@ export function NutritionEntry({ onSaved }: { onSaved: () => void }) {
     <section className="card nutrition-logger">
       <h2>Meals & food library</h2>
       <p className="fine">
-        Search USDA Foundation foods or enter a packaged food's label. Check
-        raw/cooked preparation. Values are estimates; missing nutrients stay
-        unknown.
+        Search USDA ingredients, prepared foods, and selected packaged foods by
+        name or barcode. Enter a label for anything missing. Check raw/cooked
+        preparation; missing nutrients stay unknown.
       </p>
       <p role="status" className="nutrition-feedback">
         {message}
@@ -525,7 +529,7 @@ export function NutritionEntry({ onSaved }: { onSaved: () => void }) {
                 <input
                   maxLength={100}
                   value={search}
-                  placeholder="e.g. chicken, oats, apple"
+                  placeholder="e.g. chicken, oats, apple, or barcode"
                   onChange={(e) => {
                     setSearch(e.target.value);
                     searchSequence.current++;
@@ -556,6 +560,7 @@ export function NutritionEntry({ onSaved }: { onSaved: () => void }) {
                 <article key={food.id} className="food-result">
                   <button className="food-choice" onClick={() => choose(food)}>
                     <strong>{food.name}</strong>
+                    {food.brand && <small>{food.brand}</small>}
                     <span>
                       {Math.round(food.calories ?? 0)} kcal ·{" "}
                       {food.protein_g?.toFixed(1)} g protein /{" "}
@@ -651,7 +656,8 @@ export function NutritionEntry({ onSaved }: { onSaved: () => void }) {
                   <option value="">Choose a serving or enter grams</option>
                   {selected.portions.map((p, i) => (
                     <option key={i} value={p.grams}>
-                    {p.label.replaceAll("RACC", "USDA reference portion")} ({p.grams} g)
+                      {p.label.replaceAll("RACC", "USDA reference portion")} (
+                      {p.grams} g)
                     </option>
                   ))}
                 </select>
@@ -669,18 +675,40 @@ export function NutritionEntry({ onSaved }: { onSaved: () => void }) {
               />
             </label>
             {selected ? (
-              <div className="nutrient-grid">
-                {nutrients.map((n) => (
-                  <div key={n}>
-                    <span>{label(n)}</span>
-                    <strong>
-                      {preview?.[n] == null
-                        ? "Unknown"
-                        : preview[n]!.toFixed(1)}
-                    </strong>
-                  </div>
-                ))}
-              </div>
+              <>
+                <div className="nutrient-grid">
+                  {nutrients.map((n) => (
+                    <div key={n}>
+                      <span>{label(n)}</span>
+                      <strong>
+                        {preview?.[n] == null
+                          ? "Unknown"
+                          : preview[n]!.toFixed(1)}
+                      </strong>
+                    </div>
+                  ))}
+                </div>
+                {expandedNutrients.length > 0 && (
+                  <details className="source-nutrients">
+                    <summary>
+                      {expandedNutrients.length} additional USDA nutrients
+                    </summary>
+                    <div className="nutrient-grid">
+                      {expandedNutrients.map((fact) => (
+                        <div key={fact.id}>
+                          <span>{fact.name}</span>
+                          <strong>
+                            {fact.amount.toLocaleString(undefined, {
+                              maximumFractionDigits: 2,
+                            })}{" "}
+                            {fact.unit}
+                          </strong>
+                        </div>
+                      ))}
+                    </div>
+                  </details>
+                )}
+              </>
             ) : (
               <>
                 <p className="fine">
@@ -859,3 +887,4 @@ export function NutritionEntry({ onSaved }: { onSaved: () => void }) {
     </section>
   );
 }
+

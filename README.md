@@ -127,8 +127,9 @@ Security tests execute all migrations in PostgreSQL/PGlite with multiple simulat
 
 ## Food library and meal editing
 
-The `202609270001_food_library.sql` and `202609270002_usda_foundation_catalog.sql` migrations extend nutrition with 311 USDA Foundation foods, source/serving details, private favorites, and atomic multi-food meal saving. Existing meals remain intact. Both migrations have been applied to the hosted Arminius project. For a new database, apply all migrations in filename order; do not replay an applied migration.
+The nutrition catalog now contains 5,886 sourced foods: 311 USDA Foundation foods, 5,431 prepared foods from FNDDS, and a curated 144-product USDA Branded sample. Foods carry nutrient values keyed by USDA nutrient ID, including vitamins, minerals, cholesterol, and fatty acids when present. Values are stored per 100 g; meal records preserve the scaled values and source details.
 
 Nutrition → Add food now supports search, source servings or grams, multiple foods, edit/delete, and reuse of recent meals. Drafts persist within the current browser tab, scoped to the account. Historical nutrient snapshots survive catalog changes. Search runs against Supabase, with no paid food API or AI requests.
 
-See [food-library source selection, maintenance, and limits](docs/food-library.md). Dedicated recipes, barcode lookup, and reviewed natural-language entry remain separate next steps.
+The tracked `202609270003_usda_fndds_nutrients.sql` migration adds flexible nutrient snapshots and GTIN search; it has been applied to the hosted Arminius project. The hosted catalog contains 5,886 USDA foods. Its reproducible seed migration is generated locally from pinned public USDA files to keep large data snapshots out of GitHub. For a new database, apply tracked migrations in order, run the three import commands in the food-library guide, generate and apply the seed migration, and do not replay already-applied migrations. See [food-library source selection, maintenance, and limits](docs/food-library.md). Dedicated recipes, camera barcode scanning, and reviewed natural-language entry remain separate next steps.
+
