@@ -15,6 +15,8 @@ RELEASE = '2026-04-30'
 
 
 def normalize(food):
+    if not isinstance(food, dict) or not food.get('fdcId') or not food.get('description'):
+        return None
     values = {}
     for row in food.get('foodNutrients', []):
         nutrient = row.get('nutrient', {})
