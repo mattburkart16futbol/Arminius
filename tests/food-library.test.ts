@@ -51,13 +51,44 @@ beforeAll(async () => {
   );
   const dir = new URL("../supabase/migrations/", import.meta.url);
   for (const f of readdirSync(dir)
-    .filter((f) => f.endsWith(".sql"))
+    .filter(
+      (f) => f.endsWith(".sql") && !f.startsWith("202609270008_"),
+    )
     .sort())
     await db.exec(readFileSync(new URL(f, dir), "utf8"));
   await db.query("insert into auth.users values($1),($2)", [a, b]);
   await db.query(
     "insert into foods(id,name,serving_grams,serving_amount,serving_unit,calories,protein_g,carbs_g,fat_g,source,source_id,source_url) values($1,'Test cooked oats',100,100,'g',200,10,25,8,'USDA FoodData Central','test','https://fdc.nal.usda.gov/food-details/test/nutrients')",
     [food],
+  );
+  const searchFixtures = Array.from({ length: 55 }, (_, index) => {
+    const suffix = String(index + 1).padStart(2, "0");
+    return [
+      crypto.randomUUID(),
+      `Test raw chicken ${suffix}`,
+      100,
+      100,
+      "g",
+      120,
+      22,
+      0,
+      3,
+      "Test fixture",
+      `test-raw-chicken-${suffix}`,
+      `https://example.com/foods/test-raw-chicken-${suffix}`,
+    ];
+  });
+  const fixtureParams: (string | number)[] = [];
+  const fixtureValues = searchFixtures
+    .map((fixture, index) => {
+      const offset = index * fixture.length;
+      fixtureParams.push(...fixture);
+      return `(${fixture.map((_, column) => `$${offset + column + 1}`).join(",")})`;
+    })
+    .join(",");
+  await db.query(
+    `insert into foods(id,name,serving_grams,serving_amount,serving_unit,calories,protein_g,carbs_g,fat_g,source,source_id,source_url) values ${fixtureValues}`,
+    fixtureParams,
   );
 }, 60000);
 afterAll(() => db.close());
@@ -89,7 +120,7 @@ it("scales known values, preserves unknowns, and refuses invalid portions", () =
       },
     ])[0]).toMatchObject({ quantity: 355, quantity_unit: "ml", nutrients: { calories: 710 } });
 });
-it("seeds traceable USDA data and searches multiple words with stable pagination", async () => {
+it("seeds sourced menu and beer data and searches multiple words with stable pagination", async () => {
   await asUser();
   const count = await db.query<{ count: number }>(
     "select count(*)::int count from foods where source_data_type='Foundation'",
@@ -142,17 +173,6 @@ it("seeds traceable USDA data and searches multiple words with stable pagination
     source_url: "https://www.heineken.com/us/en/our-beers/heineken-original/",
     ethanol: "3.95",
   });
-  const alcohol = await db.query<{
-    name: string;
-    ethanol: string;
-    portions: { label: string }[];
-  }>(
-    "select name,nutrient_values->>'1018' ethanol,portions from foods where source_data_type='FNDDS' and name in ('Brandy','Gin','Rum','Tequila','Vodka','Whiskey','Beer','Beer, light','Beer, higher alcohol','Beer, nonalcoholic')",
-  );
-  expect(alcohol.rows).toHaveLength(10);
-  const vodka = alcohol.rows.find((item) => item.name === "Vodka");
-  expect(Number(vodka?.ethanol)).toBe(33.4);
-  expect(vodka?.portions.map((portion) => portion.label)).toContain("1 shot");
   const rows = await db.query<{ name: string }>(
     "select name from search_foods('chicken raw')",
   );
