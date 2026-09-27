@@ -56,7 +56,7 @@ beforeAll(async () => {
     await db.exec(readFileSync(new URL(f, dir), "utf8"));
   await db.query("insert into auth.users values($1),($2)", [a, b]);
   await db.query(
-    "insert into foods(id,name,serving_grams,calories,protein_g,carbs_g,fat_g,source,source_id,source_url) values($1,'Test cooked oats',100,200,10,25,8,'USDA FoodData Central','test','https://fdc.nal.usda.gov/food-details/test/nutrients')",
+    "insert into foods(id,name,serving_grams,serving_amount,serving_unit,calories,protein_g,carbs_g,fat_g,source,source_id,source_url) values($1,'Test cooked oats',100,100,'g',200,10,25,8,'USDA FoodData Central','test','https://fdc.nal.usda.gov/food-details/test/nutrients')",
     [food],
   );
 }, 60000);
@@ -73,6 +73,19 @@ it("scales known values, preserves unknowns, and refuses invalid portions", () =
   expect(() => mealPayload([])).toThrow();
   expect(sourceLink("javascript:alert(1)")).toBeNull();
   expect(sourceLink("https://fdc.nal.usda.gov.evil.example/x")).toBeNull();
+  expect(sourceLink("https://www.mcdonalds.com/us/en-us/product/big-mac.html")).not.toBeNull();
+  expect(mealPayload([
+      {
+        key: "drink",
+        name: "Cola",
+        amount: "355",
+        unit: "ml",
+        baseAmount: 100,
+        baseUnit: "ml",
+        values,
+        source: null,
+      },
+    ])[0]).toMatchObject({ quantity: 355, quantity_unit: "ml", nutrients: { calories: 710 } });
 });
 it("seeds traceable USDA data and searches multiple words with stable pagination", async () => {
   await asUser();
@@ -80,6 +93,17 @@ it("seeds traceable USDA data and searches multiple words with stable pagination
     "select count(*)::int count from foods where source_data_type='Foundation'",
   );
   expect(count.rows[0].count).toBe(311);
+  const branded = await db.query<{ count: number; milliliter_count: number }>(
+    "select count(*)::int count,count(*) filter(where serving_unit='ml')::int milliliter_count from foods where source_data_type='Branded'",
+  );
+  expect(branded.rows[0].count).toBeGreaterThanOrEqual(820);
+  expect(branded.rows[0].milliliter_count).toBe(154);
+  const restaurants = await db.query<{ name: string; calories: string; serving_unit: string; source_url: string }>(
+    "select name,calories,serving_unit,source_url from foods where source_data_type='Restaurant menu' order by name",
+  );
+  expect(restaurants.rows).toHaveLength(4);
+  expect(restaurants.rows.every((item) => item.serving_unit === "serving" && item.source_url.startsWith("https://"))).toBe(true);
+  expect(Number(restaurants.rows.find((item) => item.name.startsWith("Turkey Tom"))?.calories)).toBe(480);
   const rows = await db.query<{ name: string }>(
     "select name from search_foods('chicken raw')",
   );
@@ -142,6 +166,45 @@ it("atomically saves multiple foods and derives catalog nutrition on the server"
   expect(
     (await db.query("select id from meal_items where meal_id=$1", [id])).rows,
   ).toEqual([]);
+});
+it("scales milliliters and whole restaurant servings while retaining the unit", async () => {
+  const drink = crypto.randomUUID(), sandwich = crypto.randomUUID();
+  await db.exec("reset role");
+  await db.query(
+    "insert into foods(id,name,serving_grams,serving_amount,serving_unit,calories,protein_g,carbs_g,fat_g,source,source_id,source_url) values($1,'Test cola',null,100,'ml',42,0,10.6,0,'Test source','cola','https://example.com/cola'),($2,'Test sandwich',null,1,'serving',480,23,48,19,'Test source','sandwich','https://example.com/sandwich')",
+    [drink, sandwich],
+  );
+  await asUser();
+  const drinkMeal = crypto.randomUUID();
+  await save(drinkMeal, [{ food_id: drink, quantity: 355, quantity_unit: "ml" }]);
+  const drinkItem = (
+    await db.query<{ quantity: string; quantity_unit: string; quantity_grams: null; calories: string }>(
+      "select quantity,quantity_unit,quantity_grams,calories from meal_items where meal_id=$1",
+      [drinkMeal],
+    )
+  ).rows[0];
+  expect(drinkItem).toMatchObject({ quantity: "355", quantity_unit: "ml", quantity_grams: null });
+  expect(Number(drinkItem.calories)).toBeCloseTo(149.1);
+  const drinkSnapshot = (
+    await db.query<{ id: string }>("select id from meal_items where meal_id=$1", [drinkMeal])
+  ).rows[0].id;
+  await save(drinkMeal, [{ snapshot_id: drinkSnapshot, quantity: 710, quantity_unit: "ml" }], 1);
+  expect(
+    Number((await db.query<{ calories: string }>("select calories from meal_items where meal_id=$1", [drinkMeal])).rows[0].calories),
+  ).toBe(298.2);
+  await expect(
+    save(crypto.randomUUID(), [{ food_id: drink, quantity: 100, quantity_unit: "g" }]),
+  ).rejects.toThrow(/does not match/);
+  const sandwichMeal = crypto.randomUUID();
+  await save(sandwichMeal, [{ food_id: sandwich, quantity: 2, quantity_unit: "serving" }]);
+  const sandwichItem = (
+    await db.query<{ quantity: string; quantity_unit: string; calories: string }>(
+      "select quantity,quantity_unit,calories from meal_items where meal_id=$1",
+      [sandwichMeal],
+    )
+  ).rows[0];
+  expect(sandwichItem).toMatchObject({ quantity: "2", quantity_unit: "serving" });
+  expect(Number(sandwichItem.calories)).toBe(960);
 });
 it("preserves historical snapshots through catalog changes, edits, and meal reuse", async () => {
   await asUser();

@@ -95,4 +95,3 @@ revoke all on function public.save_meal(uuid,integer,uuid,text,timestamptz,jsonb
 grant execute on function public.save_meal(uuid,integer,uuid,text,timestamptz,jsonb) to authenticated;
 
 commit;
-

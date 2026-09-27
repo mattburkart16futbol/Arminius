@@ -320,7 +320,7 @@ it("trends count completed work and catalog foods; never private custom labels",
   await db.exec("reset role");
   const food = crypto.randomUUID();
   await db.query(
-    "insert into foods(id,name,serving_grams,calories,protein_g,carbs_g,fat_g) values($1,'Catalog oats',100,100,1,1,1)",
+    "insert into foods(id,name,serving_grams,serving_amount,serving_unit,calories,protein_g,carbs_g,fat_g) values($1,'Catalog oats',100,100,'g',100,1,1,1)",
     [food],
   );
   for (let i = 1; i <= 3; i++) {

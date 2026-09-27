@@ -9,6 +9,8 @@ test("search, portions, favorites, retained drafts, multi-food save, edit and de
     name: "Oats, cooked",
     brand: null,
     serving_grams: 100,
+    serving_amount: 100,
+    serving_unit: "g",
     calories: 200,
     protein_g: 10,
     carbs_g: 25,
@@ -23,7 +25,7 @@ test("search, portions, favorites, retained drafts, multi-food save, edit and de
     source_url: "https://fdc.nal.usda.gov/food-details/123/nutrients",
     source_release: "2026-04-30",
     source_data_type: "Foundation",
-    portions: [{ label: "1 cup", grams: 40 }],
+    portions: [{ label: "1 cup", amount: 40, unit: "g" }],
   };
   const nutrientKeys = [
     "calories",
@@ -80,17 +82,19 @@ test("search, portions, favorites, retained drafts, multi-food save, edit and de
         const source: Record<string, unknown> =
           snapshot ??
           (i.food_id ? food : (i.nutrients as Record<string, unknown>));
-        const factor =
-          Number(i.quantity_grams) /
-          Number(
-            snapshot?.quantity_grams ?? (i.food_id ? 100 : i.quantity_grams),
-          );
+        const quantity = Number(i.quantity);
+        const quantityUnit = String(i.quantity_unit);
+        const factor = i.food_id || snapshot
+          ? quantity / Number(snapshot?.quantity ?? food.serving_amount)
+          : 1;
         return {
           id: crypto.randomUUID(),
           meal_id: body.p_id,
           food_id: i.food_id ?? snapshot?.food_id ?? null,
           name: source.name ?? i.name,
-          quantity_grams: i.quantity_grams,
+          quantity,
+          quantity_unit: quantityUnit,
+          quantity_grams: quantityUnit === "g" ? quantity : null,
           source_snapshot: i.food_id
             ? { source: food.source, url: food.source_url }
             : (snapshot?.source_snapshot ?? null),
@@ -135,8 +139,8 @@ test("search, portions, favorites, retained drafts, multi-food save, edit and de
   ).toHaveAttribute("aria-pressed", "true");
   await page.getByRole("button", { name: /Oats, cooked\s+200 kcal/ }).click();
   await page.getByLabel("Source serving size").selectOption("40");
-  await expect(page.getByLabel("Portion (grams)")).toHaveValue("40");
-  await page.getByLabel("Portion (grams)").fill("80");
+  await expect(page.getByLabel("Portion (g)")).toHaveValue("40");
+  await page.getByLabel("Portion (g)").fill("80");
   await page.getByRole("button", { name: "Add to meal", exact: true }).click();
   await page.getByLabel("Food name", { exact: true }).fill("Yogurt label");
   for (const [label, value] of [
@@ -159,7 +163,7 @@ test("search, portions, favorites, retained drafts, multi-food save, edit and de
   expect(items).toHaveLength(2);
   expect(items.reduce((s, i) => s + Number(i.calories), 0)).toBe(260);
   await page.getByRole("button", { name: "Edit", exact: true }).click();
-  await page.getByLabel("Grams for item 1").fill("160");
+  await page.getByLabel("Portion for item 1 (g)").fill("160");
   await page.getByRole("button", { name: "Save changes", exact: true }).click();
   await expect(page.getByText("Meal saved.", { exact: true })).toBeVisible();
   await expect.poll(() => Number(meals[0]?.revision)).toBe(2);

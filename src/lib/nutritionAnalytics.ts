@@ -245,4 +245,3 @@ export function optionalMetricCoverage(
     days.reduce((sum, day) => sum + day.itemCount, 0)
   );
 }
-

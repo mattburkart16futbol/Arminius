@@ -26,9 +26,22 @@ BRAND_TERMS = (
     "optimum nutrition", "dymatize", "gatorade", "hidden valley", "sweet baby ray's",
     "frank's redhot", "mccormick", "old el paso", "belvita", "cheez-it",
     "frito-lay", "doritos", "hershey's",
+    # Packaged breads and bakery items.
+    "wonder", "nature's own", "sara lee", "pepperidge farm", "arnold",
+    "thomas'", "food for life", "canyon bakehouse", "king's hawaiian",
+    "brownberry", "franz bakery", "martin's potato rolls", "aunt millie's",
+    # Soft drinks, sparkling water, energy drinks, beer, wine, and spirits.
+    "coca-cola", "pepsi", "dr pepper", "sprite", "mountain dew", "canada dry",
+    "la croix", "spindrift", "monster energy", "red bull", "bang energy",
+    "liquid death", "budweiser", "michelob ultra", "coors", "miller lite",
+    "heineken", "corona extra", "modelo especial", "samuel adams", "guinness",
+    "white claw", "mike's hard", "jack daniel's", "smirnoff", "tito's",
+    "bacardi", "captain morgan", "barefoot", "yellow tail",
+    # Packaged grocery products from restaurant brands, where USDA provides them.
+    "mcdonald's", "taco bell", "wendy's", "jimmy john's", "subway",
 )
 PER_BRAND_LIMIT = 8
-MAX_PRODUCTS = 640
+MAX_PRODUCTS = 1200
 # Keep the original published UPCs in the reproducible sample even if the
 # stricter word-boundary matcher below would no longer select them.
 LEGACY_GTINS = {
@@ -94,7 +107,13 @@ def normalize(row):
         return None
     serving = row.get("servingSize")
     unit = str(row.get("servingSizeUnit", "")).casefold()
-    if not isinstance(serving, (int, float)) or not math.isfinite(serving) or serving <= 0 or unit not in {"g", "grm", "gram", "grams"}:
+    if not isinstance(serving, (int, float)) or not math.isfinite(serving) or serving <= 0:
+        return None
+    if unit in {"g", "grm", "gram", "grams"}:
+        basis_unit = "g"
+    elif unit in {"ml", "milliliter", "milliliters", "millilitre", "millilitres"}:
+        basis_unit = "ml"
+    else:
         return None
     values = {}
     definitions = {}
@@ -114,7 +133,7 @@ def normalize(row):
     fdc_id = str(row["fdcId"])
     url = f"https://fdc.nal.usda.gov/food-details/{fdc_id}/nutrients"
     household = str(row.get("householdServingFullText") or "").strip()
-    portions = [{"label": household[:160], "grams": serving}] if household else []
+    portions = [{"label": household[:160], "amount": serving, "unit": basis_unit}] if household else []
     return {
         "id": str(uuid.uuid5(uuid.NAMESPACE_URL, url)),
         "name": str(row["description"])[:200],
@@ -125,7 +144,9 @@ def normalize(row):
         "source_url": url,
         "source_release": RELEASE,
         "source_data_type": "Branded",
-        "serving_grams": 100,
+        "serving_grams": 100 if basis_unit == "g" else None,
+        "serving_amount": 100,
+        "serving_unit": basis_unit,
         "portions": portions,
         "nutrient_values": values,
         "nutrient_definitions": list(definitions.values()),

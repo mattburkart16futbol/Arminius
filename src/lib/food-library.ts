@@ -13,6 +13,8 @@ export type Nutrient = (typeof nutrients)[number];
 export type NutrientValues = Record<Nutrient, number | null> & {
   nutrient_values?: Record<string, number>;
 };
+export type FoodUnit = "g" | "ml" | "serving";
+export type FoodPortion = { label: string; amount: number; unit: FoodUnit };
 export type Provenance = {
   source: string;
   source_id?: string | null;
@@ -25,8 +27,9 @@ export type Food = NutrientValues & {
   name: string;
   brand: string | null;
   gtin_upc: string | null;
-  serving_grams: number;
-  portions: { label: string; grams: number }[];
+  serving_amount: number;
+  serving_unit: FoodUnit;
+  portions: FoodPortion[];
   nutrient_values: Record<string, number>;
   source: string;
   source_id: string | null;
@@ -45,7 +48,9 @@ export type MealItem = NutrientValues & {
   meal_id: string;
   food_id: string | null;
   name: string;
-  quantity_grams: number;
+  quantity: number;
+  quantity_unit: FoodUnit;
+  quantity_grams?: number | null;
   source_snapshot: Provenance | null;
   nutrient_values?: Record<string, number>;
 };
@@ -54,11 +59,20 @@ export type DraftFood = {
   name: string;
   foodId?: string;
   snapshotId?: string;
-  grams: string;
-  baseGrams: number;
+  amount: string;
+  unit: FoodUnit;
+  baseAmount: number;
+  baseUnit: FoodUnit;
   values: NutrientValues;
   source: Provenance | null;
 };
+export function unitLabel(unit: FoodUnit, amount?: number) {
+  if (unit !== "serving") return unit;
+  return amount === 1 ? "serving" : "servings";
+}
+export function basisLabel(amount: number, unit: FoodUnit) {
+  return `per ${amount} ${unitLabel(unit, amount)}`;
+}
 export function localDateTime(value = new Date()) {
   return new Date(value.getTime() - value.getTimezoneOffset() * 60000)
     .toISOString()
@@ -66,42 +80,46 @@ export function localDateTime(value = new Date()) {
 }
 export function scaleNutrients(
   values: NutrientValues,
-  fromGrams: number,
-  toGrams: number,
+  fromAmount: number,
+  toAmount: number,
 ): NutrientValues {
   if (
-    !Number.isFinite(fromGrams) ||
-    fromGrams <= 0 ||
-    !Number.isFinite(toGrams) ||
-    toGrams <= 0 ||
-    toGrams > 100000
+    !Number.isFinite(fromAmount) ||
+    fromAmount <= 0 ||
+    !Number.isFinite(toAmount) ||
+    toAmount <= 0 ||
+    toAmount > 100000
   )
-    throw new Error("Enter a portion between 0 and 100,000 grams.");
+    throw new Error("Enter a quantity between 0 and 100,000.");
   return Object.fromEntries([
     ...nutrients.map((n) => [
       n,
       values[n] === null
         ? null
-        : Number(((values[n]! * toGrams) / fromGrams).toFixed(6)),
+        : Number(((values[n]! * toAmount) / fromAmount).toFixed(6)),
     ]),
     [
       "nutrient_values",
       Object.fromEntries(
         Object.entries(values.nutrient_values ?? {}).map(([id, amount]) => [
           id,
-          Number(((amount * toGrams) / fromGrams).toFixed(6)),
+          Number(((amount * toAmount) / fromAmount).toFixed(6)),
         ]),
       ),
     ],
   ]) as NutrientValues;
 }
 export function draftFromItem(item: MealItem): DraftFood {
+  const unit = item.quantity_unit ?? "g";
+  const amount = item.quantity ?? item.quantity_grams ?? 0;
   return {
     key: crypto.randomUUID(),
     name: item.name,
     snapshotId: item.id,
-    grams: String(item.quantity_grams),
-    baseGrams: item.quantity_grams,
+    amount: String(amount),
+    unit,
+    baseAmount: amount,
+    baseUnit: unit,
     values: item,
     source: item.source_snapshot,
   };
@@ -110,8 +128,10 @@ export function mealPayload(rows: DraftFood[]) {
   if (!rows.length || rows.length > 50)
     throw new Error("Add between 1 and 50 foods to your meal.");
   return rows.map((row) => {
-    const grams = Number(row.grams),
-      values = scaleNutrients(row.values, row.baseGrams, grams);
+    if (row.unit !== row.baseUnit)
+      throw new Error("Keep each food in its source measurement unit.");
+    const quantity = Number(row.amount),
+      values = scaleNutrients(row.values, row.baseAmount, quantity);
     if (
       nutrients.some((n, i) =>
         values[n] === null
@@ -136,7 +156,8 @@ export function mealPayload(rows: DraftFood[]) {
       throw new Error("A sourced nutrient value is invalid.");
     return {
       name: row.name,
-      quantity_grams: grams,
+      quantity,
+      quantity_unit: row.unit,
       food_id: row.foodId ?? null,
       snapshot_id: row.snapshotId ?? null,
       nutrients: values,
@@ -147,11 +168,19 @@ export function sourceLink(url?: string | null) {
   if (!url) return null;
   try {
     const u = new URL(url);
-    return u.protocol === "https:" && u.hostname === "fdc.nal.usda.gov"
+    const allowedHosts = new Set([
+      "fdc.nal.usda.gov",
+      "www.mcdonalds.com",
+      "www.subway.com",
+      "www.tacobell.com",
+      "www.wendys.com",
+      "order.wendys.com",
+      "resources.jimmyjohns.com",
+    ]);
+    return u.protocol === "https:" && allowedHosts.has(u.hostname)
       ? u.href
       : null;
   } catch {
     return null;
   }
 }
-

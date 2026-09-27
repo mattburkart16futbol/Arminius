@@ -6,13 +6,16 @@ import { readPages } from "../lib/paging";
 import { additionalFoodNutrients } from "../lib/micronutrients";
 import {
   draftFromItem,
+  basisLabel,
   localDateTime,
   mealPayload,
   nutrients,
   scaleNutrients,
   sourceLink,
+  unitLabel,
   type DraftFood,
   type Food,
+  type FoodUnit,
   type MealItem,
   type MealRecord,
   type NutrientValues,
@@ -22,7 +25,8 @@ export { nutrients } from "../lib/food-library";
 const label = (n: string) => n.replaceAll("_", " ");
 type SavedDraft = {
   name: string;
-  grams: string;
+  quantity: string;
+  quantityUnit: FoodUnit;
   values: Record<string, string>;
   selected: Food | null;
   rows: DraftFood[];
@@ -42,18 +46,51 @@ function readDraft(userId?: string): SavedDraft | null {
       !Array.isArray(value.rows) ||
       value.rows.length > 50 ||
       !value.rows.every(
-        (r: DraftFood) =>
+        (r: DraftFood & { grams?: string; baseGrams?: number }) =>
           r &&
           typeof r.name === "string" &&
           r.values &&
-          Number.isFinite(r.baseGrams),
+          Number.isFinite(r.baseAmount ?? r.baseGrams),
       ) ||
       typeof value.name !== "string" ||
       typeof value.when !== "string" ||
       typeof value.mealName !== "string"
     )
       return null;
-    return value as SavedDraft;
+    const rows = value.rows.map(
+      (row: DraftFood & { grams?: string; baseGrams?: number }) => ({
+        ...row,
+        amount: row.amount ?? row.grams ?? "100",
+        unit: row.unit ?? "g",
+        baseAmount: row.baseAmount ?? row.baseGrams ?? 100,
+        baseUnit: row.baseUnit ?? "g",
+      }),
+    );
+    const rawFood = value.selected as
+      | (Food & { serving_grams?: number })
+      | null
+      | undefined;
+    const selected = rawFood
+      ? {
+          ...rawFood,
+          serving_amount: rawFood.serving_amount ?? rawFood.serving_grams ?? 100,
+          serving_unit: rawFood.serving_unit ?? "g",
+          portions: (rawFood.portions ?? []).map(
+            (portion: Food["portions"][number] & { grams?: number }) => ({
+              ...portion,
+              amount: portion.amount ?? portion.grams ?? 0,
+              unit: portion.unit ?? "g",
+            }),
+          ),
+        }
+      : null;
+    return {
+      ...value,
+      quantity: value.quantity ?? value.grams ?? "100",
+      quantityUnit: value.quantityUnit ?? "g",
+      rows,
+      selected,
+    } as SavedDraft;
   } catch {
     return null;
   }
@@ -87,7 +124,10 @@ export function NutritionEntry({ onSaved }: { onSaved: () => void }) {
   const userId = session?.user.id;
   const [initial] = useState(() => readDraft(userId));
   const [name, setName] = useState(initial?.name ?? "");
-  const [grams, setGrams] = useState(initial?.grams ?? "100");
+  const [quantity, setQuantity] = useState(initial?.quantity ?? "100");
+  const [quantityUnit, setQuantityUnit] = useState<FoodUnit>(
+    initial?.quantityUnit ?? "g",
+  );
   const [values, setValues] = useState<Record<string, string>>(
     initial?.values ?? {},
   );
@@ -131,7 +171,8 @@ export function NutritionEntry({ onSaved }: { onSaved: () => void }) {
         `arminius:nutrition:${userId}`,
         JSON.stringify({
           name,
-          grams,
+          quantity,
+          quantityUnit,
           values,
           selected,
           rows,
@@ -147,7 +188,8 @@ export function NutritionEntry({ onSaved }: { onSaved: () => void }) {
   }, [
     userId,
     name,
-    grams,
+    quantity,
+    quantityUnit,
     values,
     selected,
     rows,
@@ -248,13 +290,15 @@ export function NutritionEntry({ onSaved }: { onSaved: () => void }) {
   function choose(food: Food) {
     setSelected(food);
     setName(food.name);
-    setGrams("100");
+    setQuantity(String(food.serving_amount));
+    setQuantityUnit(food.serving_unit);
     setValues({});
   }
   function clearFood() {
     setSelected(null);
     setName("");
-    setGrams("100");
+    setQuantity("100");
+    setQuantityUnit("g");
     setValues({});
   }
   function resetMeal() {
@@ -282,8 +326,10 @@ export function NutritionEntry({ onSaved }: { onSaved: () => void }) {
         key: crypto.randomUUID(),
         name: name.trim(),
         foodId: selected?.id,
-        grams,
-        baseGrams: selected?.serving_grams ?? Number(grams),
+        amount: quantity,
+        unit: selected?.serving_unit ?? quantityUnit,
+        baseAmount: selected?.serving_amount ?? Number(quantity),
+        baseUnit: selected?.serving_unit ?? quantityUnit,
         values: data,
         source: selected
           ? {
@@ -442,7 +488,11 @@ export function NutritionEntry({ onSaved }: { onSaved: () => void }) {
   let preview: NutrientValues | null = null;
   if (selected) {
     try {
-      preview = scaleNutrients(selected, selected.serving_grams, Number(grams));
+      preview = scaleNutrients(
+        selected,
+        selected.serving_amount,
+        Number(quantity),
+      );
     } catch {
       /* Invalid quantities are validated on add. */
     }
@@ -564,7 +614,7 @@ export function NutritionEntry({ onSaved }: { onSaved: () => void }) {
                     <span>
                       {Math.round(food.calories ?? 0)} kcal ·{" "}
                       {food.protein_g?.toFixed(1)} g protein /{" "}
-                      {food.serving_grams} g
+                      {basisLabel(food.serving_amount, food.serving_unit)}
                     </span>
                   </button>
                   <Source
@@ -615,7 +665,9 @@ export function NutritionEntry({ onSaved }: { onSaved: () => void }) {
                     }}
                   >
                     <strong>{item.name}</strong>
-                    <span> · {item.quantity_grams} g</span>
+                    <span>
+                      {" "}· {item.quantity} {unitLabel(item.quantity_unit, item.quantity)}
+                    </span>
                   </button>
                 ))
               )}
@@ -650,30 +702,48 @@ export function NutritionEntry({ onSaved }: { onSaved: () => void }) {
                 <select
                   value=""
                   onChange={(e) => {
-                    if (e.target.value) setGrams(e.target.value);
+                    if (e.target.value) setQuantity(e.target.value);
                   }}
                 >
-                  <option value="">Choose a serving or enter grams</option>
+                  <option value="">Choose a serving or enter a quantity</option>
                   {selected.portions.map((p, i) => (
-                    <option key={i} value={p.grams}>
+                    <option key={i} value={p.amount}>
                       {p.label.replaceAll("RACC", "USDA reference portion")} (
-                      {p.grams} g)
+                      {p.amount} {unitLabel(p.unit, p.amount)})
                     </option>
                   ))}
                 </select>
               </label>
             )}
             <label>
-              Portion (grams)
+              Portion ({selected ? unitLabel(selected.serving_unit, Number(quantity)) : unitLabel(quantityUnit, Number(quantity))})
               <input
                 type="number"
                 min="0.01"
                 max="100000"
                 step="any"
-                value={grams}
-                onChange={(e) => setGrams(e.target.value)}
+                value={quantity}
+                onChange={(e) => setQuantity(e.target.value)}
               />
             </label>
+            {!selected && (
+              <label>
+                Portion unit
+                <select
+                  value={quantityUnit}
+                  onChange={(e) => setQuantityUnit(e.target.value as FoodUnit)}
+                >
+                  <option value="g">Grams (g)</option>
+                  <option value="ml">Milliliters (ml)</option>
+                  <option value="serving">Servings</option>
+                </select>
+              </label>
+            )}
+            {!selected && (
+              <p className="fine">
+                Enter label nutrients for exactly this amount and unit.
+              </p>
+            )}
             {selected ? (
               <>
                 <div className="nutrient-grid">
@@ -746,17 +816,17 @@ export function NutritionEntry({ onSaved }: { onSaved: () => void }) {
               <strong>{row.name}</strong>
               <Source value={row.source} />
               <label>
-                Grams for item {index + 1}
+                Portion for item {index + 1} ({unitLabel(row.unit, Number(row.amount))})
                 <input
                   type="number"
                   min="0.01"
                   max="100000"
                   step="any"
-                  value={row.grams}
+                  value={row.amount}
                   onChange={(e) =>
                     setRows(
                       rows.map((r) =>
-                        r.key === row.key ? { ...r, grams: e.target.value } : r,
+                        r.key === row.key ? { ...r, amount: e.target.value } : r,
                       ),
                     )
                   }
@@ -855,7 +925,7 @@ export function NutritionEntry({ onSaved }: { onSaved: () => void }) {
                   .filter((i) => i.meal_id === meal.id)
                   .map((i) => (
                     <li key={i.id}>
-                      {i.name} · {i.quantity_grams} g ·{" "}
+                      {i.name} · {i.quantity} {unitLabel(i.quantity_unit, i.quantity)} ·{" "}
                       {Math.round(i.calories ?? 0)} kcal
                     </li>
                   ))}
@@ -887,4 +957,3 @@ export function NutritionEntry({ onSaved }: { onSaved: () => void }) {
     </section>
   );
 }
-

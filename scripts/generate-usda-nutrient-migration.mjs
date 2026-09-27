@@ -10,12 +10,23 @@ const fndds = JSON.parse(
 const branded = JSON.parse(
   readFileSync(new URL("data/usda-branded-selected.json", root), "utf8"),
 );
-const foods = [...foundation.foods, ...fndds.foods, ...branded.foods];
+const foods = [...foundation.foods, ...fndds.foods, ...branded.foods].map(
+  (food) => ({
+    ...food,
+    serving_amount: food.serving_amount ?? food.serving_grams,
+    serving_unit: food.serving_unit ?? "g",
+    portions: (food.portions ?? []).map((portion) => ({
+      label: portion.label,
+      amount: portion.amount ?? portion.grams,
+      unit: portion.unit ?? "g",
+    })),
+  }),
+);
 if (
   foundation.foods.length !== 311 ||
   fndds.foods.length !== 5431 ||
   branded.foods.length < 100 ||
-  branded.foods.length > 640
+  branded.foods.length > 1200
 ) {
   throw new Error(
     "Unexpected USDA import size; inspect both source files first.",
@@ -68,6 +79,8 @@ const fields = [
   "source_release",
   "source_data_type",
   "serving_grams",
+  "serving_amount",
+  "serving_unit",
   "portions",
   "nutrient_values",
   "calories",
@@ -91,15 +104,17 @@ const types = [
   "date",
   "text",
   "numeric",
+  "numeric",
+  "text",
   "jsonb",
   "jsonb",
   ...Array(9).fill("numeric"),
 ];
 const payload = JSON.stringify(foods).replaceAll("'", "''");
-const seed = `-- USDA Foundation April 2026, FNDDS 2021-2023, and a filtered branded sample.
+const createSeed = (records, heading) => `-- ${heading}
 -- See archive SHA256 and CC0 source in data/usda-*-normalized.json and data/usda-branded-selected.json.
 insert into public.foods(${fields.join(",")})
-select ${fields.join(",")} from jsonb_to_recordset('${payload}'::jsonb)
+select ${fields.join(",")} from jsonb_to_recordset('${JSON.stringify(records).replaceAll("'", "''")}'::jsonb)
 as imported(${fields.map((field, i) => `${field} ${types[i]}`).join(",")})
 on conflict(source,source_id) where source_id is not null do update set
 ${fields
@@ -107,12 +122,16 @@ ${fields
   .map((field) => `${field}=excluded.${field}`)
   .join(",\n")};`;
 
+const seed = createSeed(
+  foods,
+  "USDA Foundation April 2026, FNDDS 2021-2023, and a filtered branded sample.",
+);
 const template = readFileSync(
   new URL("scripts/templates/usda-catalog-seed.sql", root),
   "utf8",
 );
 writeFileSync(
-  new URL("supabase/migrations/202609270004_usda_catalog_seed.sql", root),
+  new URL("supabase/migrations/202609270008_usda_catalog_seed.sql", root),
   template.replace("/* USDA_FOOD_SEED */", seed).replace(
     "/* USDA_MEAL_BACKFILL */",
     `-- Existing catalog-linked meals can receive the new sourced snapshot.
@@ -121,7 +140,7 @@ set nutrient_values = (
   select coalesce(
     jsonb_object_agg(
       fact.key,
-      to_jsonb(round(fact.value::text::numeric * item.quantity_grams / food.serving_grams, 6))
+      to_jsonb(round(fact.value::text::numeric * item.quantity / food.serving_amount, 6))
     ),
     '{}'::jsonb
   )
@@ -131,8 +150,16 @@ set nutrient_values = (
 )
 where item.nutrient_values = '{}'::jsonb
   and item.food_id is not null
-  and exists (select 1 from public.foods as food where food.id = item.food_id);`,
+  and exists (
+    select 1 from public.foods as food
+    where food.id = item.food_id and food.serving_unit = item.quantity_unit
+  );`,
   ),
+  "utf8",
+);
+writeFileSync(
+  new URL("supabase/migrations/202609270006_usda_branded_expansion.sql", root),
+  `-- Filtered USDA Branded expansion; 100 g / 100 ml basis, CC0 data.\nbegin;\n${createSeed(branded.foods, "Filtered USDA Branded April 2026 expansion.")}\ncommit;\n`,
   "utf8",
 );
 console.log(
