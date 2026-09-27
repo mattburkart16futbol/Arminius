@@ -83,7 +83,7 @@ Tests execute the actual migrations in PGlite (PostgreSQL) with minimal `auth.us
 
 Build with `npm run build` and serve `dist/` over HTTPS. Configure your host to rewrite non-asset routes to `index.html` so direct links to `/workout` and `/auth` work. Add the production Auth callback URL and public environment values to the host before building. No deployment is included in this PR.
 
-Next milestones: apply and verify the social/metrics update with real accounts, generate database types, connect Home targets to real data, expand the food catalog and meal editing, and add operational monitoring before a public launch. PWA/offline support and optional AI remain future work.
+Next milestones: verify the hosted social/metrics update with real accounts, generate database types, connect Home targets to real data, expand the food catalog and meal editing, and add operational monitoring before a public launch. PWA/offline support and optional AI remain future work.
 
 Reference documentation: [Vite setup](https://vite.dev/guide/), [Supabase RLS](https://supabase.com/docs/guides/database/postgres/row-level-security), [Auth profile management](https://supabase.com/docs/guides/auth/managing-user-data).
 
