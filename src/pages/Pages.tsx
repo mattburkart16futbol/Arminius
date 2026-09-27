@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowUpRight, Flame, MoveUpRight } from "lucide-react";
+import { ArrowUpRight, MoveUpRight } from "lucide-react";
 import { TargetCard } from "../components/TargetCard";
-import { Leaderboard } from "../components/Leaderboard";
+import { TrendingThisWeek } from "../components/TrendingThisWeek";
+import { SocialComparisonSettings } from "../components/SocialComparisonSettings";
+import { BodyweightEntry } from "../components/BodyweightEntry";
 import { MuscleMap } from "../components/muscle-map/MuscleMap";
 import { muscleLoads } from "../components/muscle-map/model";
 import { useAuth } from "../auth/AuthProvider";
@@ -65,31 +67,11 @@ export function Home() {
             </div>
           </div>
         </section>
-        <Leaderboard />
+        <TrendingThisWeek />
+        <Link className="text-link" to="/leaderboards">
+          Explore benchmark leaderboards
+        </Link>
       </div>
-    </>
-  );
-}
-export function Nutrition() {
-  return (
-    <>
-      <div className="page-heading">
-        <p className="eyebrow">FUEL THE WORK</p>
-        <h1>Good habits, one meal at a time.</h1>
-        <p>Your food journal and nutrition goals will come together here.</p>
-      </div>
-      <section className="card">
-        <Flame className="section-icon" />
-        <h2>A fresh start.</h2>
-        <p>
-          Food search, meal logging, and daily totals are planned for the next
-          stage.
-        </p>
-        <div className="empty">
-          <p>No meals logged yet.</p>
-          <small>Preview only · no nutrition records have been saved.</small>
-        </div>
-      </section>
     </>
   );
 }
@@ -132,14 +114,8 @@ export function Profile() {
         )}
         <p role="alert">{error}</p>
       </section>
-      <section className="card privacy">
-        <h2>Private by default.</h2>
-        <p>
-          Your training and nutrition belong to you. Leaderboard participation
-          starts disabled; sharing controls will be added with the leaderboard
-          feature.
-        </p>
-      </section>
+      <BodyweightEntry />
+      <SocialComparisonSettings />
     </>
   );
 }

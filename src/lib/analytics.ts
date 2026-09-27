@@ -1,3 +1,4 @@
+import { strengthEstimate } from "./strength";
 import { tracking } from "./workout";
 import catalog from "../data/exercises.json";
 import type { MuscleId } from "../components/muscle-map/model";
@@ -145,7 +146,7 @@ function volumeFor(set: AnalyticsSet, exerciseId: string) {
     : setVolumeKg(set);
 }
 function estimateFor(set: AnalyticsSet, exerciseId: string) {
-  return tracking[exerciseId]?.e1rm ? estimatedOneRepMaxKg(set) : null;
+  return strengthEstimate(set, exerciseId);
 }
 
 function setsByWorkoutExercise(dataset: AnalyticsDataset) {

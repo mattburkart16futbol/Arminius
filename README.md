@@ -1,6 +1,6 @@
 # Arminius
 
-A mobile-first fitness and nutrition platform foundation built with React, TypeScript, Vite, and Supabase. The foundation now includes persistent workout logging, a 300-exercise catalog, deterministic progress analytics, and an interactive muscle heatmap. Nutrition, goals, and social comparisons remain placeholders.
+A mobile-first fitness and nutrition platform foundation built with React, TypeScript, Vite, and Supabase. The foundation now includes persistent workout logging, a 300-exercise catalog, deterministic progress analytics, and an interactive muscle heatmap. Nutrition entries/metrics, bodyweight tracking, private percentiles, opt-in benchmark boards, and community trends are now implemented. Home targets remain labeled samples.
 
 ## Run locally
 
@@ -29,7 +29,7 @@ npm run test:e2e
 
 ## Connect Supabase
 
-1. Create a Supabase project. Apply all seven files in `supabase/migrations/` in filename order through the SQL editor, or use the Supabase CLI (`supabase init`, `supabase link --project-ref YOUR_REF`, `supabase db push`). Never reapply a migration that already succeeded.
+1. Create a Supabase project. Apply all files in `supabase/migrations/` in filename order through the SQL editor, or use the Supabase CLI (`supabase init`, `supabase link --project-ref YOUR_REF`, `supabase db push`). Never reapply a migration that already succeeded.
 2. Set `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY` in `.env.local`. A legacy public anon key also works. Only these public browser values belong in Vite variables. **Never expose service-role keys, secret keys, database passwords, or AI provider keys in a `VITE_` variable.**
 3. In Auth settings, enable email/password sign-in and email confirmation. Set the site URL to the app origin, and allow the exact `/auth` redirect URL for localhost and your deployment (e.g. `http://localhost:5173/auth`). Use the same hostname when opening the app. Configure production SMTP before launch.
 4. Restart Vite. Configured mode protects all application routes and exposes sign-up, sign-in, session restoration, sign-out, reset-email, and recovery password-update scaffolding at `/auth`.
@@ -73,9 +73,9 @@ The SVG architecture separates typed muscle IDs, front/back path geometry, invol
 | Sharing          | leaderboard_settings                             | Own settings only; opt-in defaults false                        |
 | AI               | ai_requests, recommendations                     | Read own; trusted writes                                        |
 
-All 18 tables have RLS and explicit grants. Anonymous database access is denied. Composite foreign keys enforce ownership across goals/targets, workouts/exercises/sets, meals/items, and AI requests/recommendations, including updates. Quantities have checks and explicit canonical units (kg, g, cm, m, seconds, kcal); dates use PostgreSQL timestamptz. Meal items snapshot consumed-portion nutrients rather than relying on mutable food entries.
+All 23 tables have RLS and explicit grants. Anonymous database access is denied. Composite foreign keys enforce ownership across goals/targets, workouts/exercises/sets, meals/items, and AI requests/recommendations, including updates. Quantities have checks and explicit canonical units (kg, g, cm, m, seconds, kcal); dates use PostgreSQL timestamptz. Meal items snapshot consumed-portion nutrients rather than relying on mutable food entries.
 
-No public leaderboard view exists. Opting in does not expose private profiles or raw activity. Add a server-owned, consent-filtered ranking projection with verified scores before implementing sharing. Awards, personal records, AI requests/results, and catalogs cannot be forged by browser clients. A future authenticated server/Edge Function must validate ownership, rate-limit AI jobs, and use trusted credentials only on the server. AI functionality is not connected in this release.
+Cross-user access is restricted to aggregate comparison/trending RPCs and explicitly opted-in named benchmark scores. Raw profiles, measurements, workouts, and meal items stay private. Browser clients cannot write derived score tables, friendships, or catalogs directly. Named consent discloses the bodyweight inference tradeoff. AI functionality is not connected.
 
 Tests execute the actual migrations in PGlite (PostgreSQL) with minimal `auth.users`, `auth.uid()`, and Supabase role shims. They verify account provisioning, grants, RLS visibility, cross-account references, owner CRUD, ownership changes, invalid data, cascade deletion, and catalog parity. Run equivalent checks against a staging Supabase project before production use.
 
@@ -83,7 +83,7 @@ Tests execute the actual migrations in PGlite (PostgreSQL) with minimal `auth.us
 
 Build with `npm run build` and serve `dist/` over HTTPS. Configure your host to rewrite non-asset routes to `index.html` so direct links to `/workout` and `/auth` work. Add the production Auth callback URL and public environment values to the host before building. No deployment is included in this PR.
 
-Next milestones: apply and verify the workout update in hosted Supabase with two accounts, generate database types, implement meal search/logging, goal editing and metrics, then consent-based rankings. AI is optional future work. PWA/offline support, custom foods, full exercise taxonomy, telemetry, and production operations are future work.
+Next milestones: verify the hosted social/metrics update with real accounts, generate database types, connect Home targets to real data, expand the food catalog and meal editing, and add operational monitoring before a public launch. PWA/offline support and optional AI remain future work.
 
 Reference documentation: [Vite setup](https://vite.dev/guide/), [Supabase RLS](https://supabase.com/docs/guides/database/postgres/row-level-security), [Auth profile management](https://supabase.com/docs/guides/auth/managing-user-data).
 
@@ -101,8 +101,27 @@ Unsaved edits are retained in sessionStorage, scoped to the signed-in account an
 - Barbell/external load includes the bar. Bodyweight movements record added load only. Assisted movements record assistance, excluded from load-volume and heaviest-load rankings.
 - Time/distance movements use seconds/metres. All stored weight uses kg; display may use lb. RPE and RIR are optional.
 - Completed, non-warm-up sets in finished sessions drive analytics. Timed/distance sets count toward workload, but not rep volume. Repeated lifts produce one best e1RM point per session.
-- e1RM uses Epley for a conservative whitelist of barbell lifts with 1–12 reps. These are estimates, not verified rankings. Muscle maps use fixed editorial involvement weights, not recovery or physiological measurements.
+- e1RM uses Epley for eligible strength lifts and benchmarks with 1–12 reps. These are estimates, not verified rankings. Muscle maps use fixed editorial involvement weights, not recovery or physiological measurements.
 - Progress shows the latest 250 sessions within 30/90/365 days and explicitly warns if capped. Child rows are paginated. Recent workout details and prefill cover the latest 20 sessions.
-- No bodyweight-normalized strength scores, platform/friend percentiles, nutrition logging, or paid AI calls are implemented yet. No paid service, deployment, subscription, or background job is added by this update.
+- The metrics/social extension below adds nutrition, bodyweight-relative scores, and opt-in comparisons. No paid service, deployment, subscription, or background job is added.
 
 Tests include real SQL execution in PGlite and browser tests with a fake Supabase endpoint. Browser tests explicitly override local environment values, so they do not write to your hosted project. After applying SQL, manually start a workout, save a dumbbell set, reload, finish, check Progress, and verify another account cannot see it.
+
+## Metrics and social update (008–012)
+
+Apply 008 nutrition metrics, 009 strength percentiles/friends, 010 benchmarks/cache, 011 nutrition entry, and 012 internal RLS-trigger grant hardening **after** the existing 001–007 migrations. The supplied Chat package reused 006/007; its files have been renumbered to preserve deployed history. The old workout logger and save RPC remain intact. Migrations 008–012 are applied to the hosted Arminius project; do not replay them there.
+
+Nutrition supports manual consumed-portion entries, search of your curated food catalog, daily targets, 7/30/90 local-calendar-day summaries, 4/4/9 macro shares, and item-weighted nutrient coverage. Missing optional nutrients remain unknown, and days without entries are not zero-intake days. Optional averages use only days with complete values for that nutrient. Current standalone daily targets are applied across the selected period; goal-linked targets are not included. The food catalog is not prepopulated by this update and no paid food API is connected. Custom entries work immediately. Meal editing/deletion and multi-item meal composition remain follow-ups.
+
+Profile has bodyweight entry (kg/lb and measurement time), alias, aggregate participation, a separate named-score consent checkbox, and friend request/accept/decline/remove controls. Relative strength uses the most recent weight on/before the workout, at most 90 days old. No future weight is inferred. Progress ratios use the displayed date range; percentiles compare all-time bests. Percentiles require **five other eligible athletes**; smaller cohorts show their count but no percentile. Ties receive half credit. This is a minimum privacy threshold, not a formal differential-privacy guarantee.
+
+Home has one community pulse card; /leaderboards holds ten benchmarks with Friends/Platform, absolute/relative/90-day-growth, and Top 25/100/500 controls. Named boards require both opt-ins. The explicit consent explains that publishing absolute and relative scores can allow inference of approximate bodyweight. Raw measurements and workout rows stay private. Opting out excludes a user immediately, regardless of cached scores. Users who only consent to aggregate participation do not appear by alias on boards.
+
+Scores use completed non-warm-up sets of 1–12 reps, grouped to one best estimate per workout. Eligible strength lifts and the ten benchmarks share the same formula. Dumbbell scores mean one dumbbell. Weighted pull-ups use bodyweight plus added load. Machines carry the variability caveat. Dense ranks preserve ties; growth uses first and latest sessions in the trailing 90 days, requires two sessions, and uses workout IDs to break timestamp ties. These are **self-reported comparisons**, not independently verified achievements or population norms.
+
+Private dirty-cache state is invalidated by workout, exercise, set, or bodyweight changes. Comparison reads refresh only dirty/expired eligible athletes; expiry handles the next 90-day boundary and has a daily fallback. No scheduled workers or paid model calls are added. For a large audience, batch refresh work and add abuse controls before scaling; this initial implementation may rebuild several opted-in athletes on a cold read.
+
+Trending uses Monday 00:00 UTC through now, at least **three opted-in athletes per entry**, and unique-athlete counts before volume. Only catalog food names are public; private custom food labels never enter trending. Draft-only exercises and future activities are excluded. Friends rankings include the viewer only if they separately consented to named scores.
+
+Security tests execute all migrations in PostgreSQL/PGlite with multiple simulated account roles. Browser tests use an isolated fake Supabase origin. Hosted application checks still require real authenticated accounts. No migrations are automatically applied by Vite or GitHub Actions.
+

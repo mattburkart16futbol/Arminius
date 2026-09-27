@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+import { StrengthMetricsPanel } from "../components/StrengthMetricsPanel";
 import {
   children,
   setColumns,
@@ -219,6 +221,9 @@ export function ProgressPage() {
         </p>
       </div>
 
+      <Link className="text-link" to="/leaderboards">
+        Benchmark leaderboards
+      </Link>
       <div className="analytics-toolbar">
         <div className="range-tabs" aria-label="Analytics range">
           {([30, 90, 365] as const).map((days) => (
@@ -329,7 +334,8 @@ export function ProgressPage() {
                 <div className="empty">
                   <p>No e1RM trend yet.</p>
                   <small>
-                    Log 1–12 reps for an eligible barbell lift to create one.
+                    Log 1–12 reps for an eligible strength or benchmark lift to
+                    create one.
                   </small>
                 </div>
               ) : (
@@ -357,12 +363,18 @@ export function ProgressPage() {
               )}
             </div>
             <p className="fine">
-              e1RM uses the Epley formula for eligible barbell lifts with 1–12
-              completed reps. Assistance, timed work, and other ineligible lifts
-              have no estimate. It is an estimate, not a measured max.
+              e1RM uses the Epley formula for eligible strength and benchmark
+              lifts with 1–12 completed reps. Assistance, timed work, and other
+              ineligible lifts have no estimate. It is an estimate, not a
+              measured max.
             </p>
           </section>
 
+          <StrengthMetricsPanel
+            dataset={dataset}
+            exerciseId={selectedExerciseId}
+            unitSystem={unitSystem}
+          />
           <section className="card heatmap-card">
             <div className="spread">
               <h2>Muscle heatmap</h2>
