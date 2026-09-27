@@ -107,9 +107,9 @@ Unsaved edits are retained in sessionStorage, scoped to the signed-in account an
 
 Tests include real SQL execution in PGlite and browser tests with a fake Supabase endpoint. Browser tests explicitly override local environment values, so they do not write to your hosted project. After applying SQL, manually start a workout, save a dumbbell set, reload, finish, check Progress, and verify another account cannot see it.
 
-## Metrics and social update (008–011)
+## Metrics and social update (008–012)
 
-Apply 008 nutrition metrics, 009 strength percentiles/friends, 010 benchmarks/cache, and 011 nutrition entry **after** the existing 001–007 migrations. The supplied Chat package reused 006/007; its files have been renumbered to preserve deployed history. The old workout logger and save RPC remain intact.
+Apply 008 nutrition metrics, 009 strength percentiles/friends, 010 benchmarks/cache, 011 nutrition entry, and 012 internal RLS-trigger grant hardening **after** the existing 001–007 migrations. The supplied Chat package reused 006/007; its files have been renumbered to preserve deployed history. The old workout logger and save RPC remain intact. Migrations 008–012 are applied to the hosted Arminius project; do not replay them there.
 
 Nutrition supports manual consumed-portion entries, search of your curated food catalog, daily targets, 7/30/90 local-calendar-day summaries, 4/4/9 macro shares, and item-weighted nutrient coverage. Missing optional nutrients remain unknown, and days without entries are not zero-intake days. Optional averages use only days with complete values for that nutrient. Current standalone daily targets are applied across the selected period; goal-linked targets are not included. The food catalog is not prepopulated by this update and no paid food API is connected. Custom entries work immediately. Meal editing/deletion and multi-item meal composition remain follow-ups.
 
@@ -123,4 +123,5 @@ Private dirty-cache state is invalidated by workout, exercise, set, or bodyweigh
 
 Trending uses Monday 00:00 UTC through now, at least **three opted-in athletes per entry**, and unique-athlete counts before volume. Only catalog food names are public; private custom food labels never enter trending. Draft-only exercises and future activities are excluded. Friends rankings include the viewer only if they separately consented to named scores.
 
-Security tests execute all migrations in PostgreSQL/PGlite with multiple simulated account roles. Browser tests use an isolated fake Supabase origin. Hosted application checks still require applying the migration bundle and real authenticated accounts. No migrations are automatically applied by Vite or GitHub Actions.
+Security tests execute all migrations in PostgreSQL/PGlite with multiple simulated account roles. Browser tests use an isolated fake Supabase origin. Hosted application checks still require real authenticated accounts. No migrations are automatically applied by Vite or GitHub Actions.
+
