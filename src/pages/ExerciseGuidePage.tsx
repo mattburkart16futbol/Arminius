@@ -15,7 +15,7 @@ export function ExerciseGuidePage() {
   const profile=selected ? exerciseProfile(selected) : null;
   return <>
     <div className="page-heading"><p className="eyebrow">KNOW YOUR MOVEMENT</p><h1>Exercise guide</h1><p>Explore 300 exercises, understand their purpose, and plan your training.</p><Link to="/workout">Back to workout</Link></div>
-    <section className="card">
+    <section className="card exercise-guide-search">
       <h2>Find an exercise</h2>
       <div className="picker-filters">
         <label>Search exercise profiles<input type="search" value={search} onChange={e=>setSearch(e.target.value)} placeholder="Bench press, squat, curl…" /></label>
