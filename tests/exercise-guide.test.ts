@@ -31,3 +31,14 @@ it("distinguishes movements that share words",()=>{
   expect(profile("barbell-bench-press").primary).toContain("chest");
   expect(profile("barbell-bench-press").pairs.map(e=>e.id)).toContain("seated-cable-row");
 });
+it("prioritizes session fit and explains order and fatigue for every pairing",()=>{
+  expect(profile("barbell-bench-press").pairs[0].id).toBe("cable-triceps-pushdown");
+  expect(profile("preacher-curl").pairs[0].id).toBe("seated-cable-row");
+  expect(profile("preacher-curl").pairs[0].order).toContain("row first");
+  expect(profile("barbell-back-squat").pairs.map(p=>p.id)).toEqual(["seated-leg-curl","dumbbell-lateral-raise"]);
+  for (const exercise of exercises) for(const pair of profile(exercise.id).pairs) {
+    expect(pair.style).toBeTruthy(); expect(pair.reason).toBeTruthy();
+    expect(pair.order).toBeTruthy(); expect(pair.fatigue).toBeTruthy();
+  }
+  expect(profile("barbell-bench-press").pairs[1].style).toBe("Opposing-muscle alternative");
+});

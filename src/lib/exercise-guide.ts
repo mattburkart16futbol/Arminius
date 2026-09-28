@@ -82,8 +82,36 @@ export function exerciseProfile(e: Exercise) {
     : [{goal:"Learn the movement",sets:"1–2",reps:"8–12",rest:"1–2 minutes"},
        {goal:"Build muscle",sets:"2–3",reps:"8–15",rest:"1–3 minutes"},
        ...(info.e1rm ? [{goal:"Strength (experienced)",sets:"2–3",reps:"3–6",rest:"2–3+ minutes"}] : [])];
-  const pool=info.category === "push" ? ["seated-cable-row","cable-curl"] : info.category === "pull" ? ["machine-chest-press","cable-triceps-pushdown"] : info.category === "legs" ? ["cable-curl","cable-triceps-pushdown"] : ["calf-raise","cable-curl"];
-  const pairs=special || key === "hinge" || key === "carry" ? [] : pool.map(id=>exercises.find(x=>x.id===id)!).filter(x=>x.id!==e.id && Object.entries(x.muscles).every(([m,v])=>v<0.75 || (e.muscles[m as keyof typeof e.muscles]??0)<0.75));
+  type PairIdea = { id: string; style: string; reason: string; order: string; fatigue: string };
+  const pool: PairIdea[] = [];
+  const add = (id: string, style: string, reason: string, order: string, fatigue: string) => pool.push({id,style,reason,order,fatigue});
+  const pushFatigue = "Both movements involve the triceps. Fatiguing them can reduce pressing performance; use moderate loads and keep heavy pressing separate.";
+  const pullFatigue = "Both movements involve the elbow flexors. Biceps and grip fatigue may reduce pulling performance; keep heavy pulling separate.";
+  if (!special && !["hinge","carry"].includes(key)) {
+    if (["press","fly","overhead"].includes(key)) {
+      add("cable-triceps-pushdown", "Push-session pairing", "Keeps chest or shoulder work and a triceps accessory together in a push session.", "Perform the main press or chest exercise first, then the pushdown.", pushFatigue);
+      add("seated-cable-row", "Opposing-muscle alternative", "Alternates pressing/chest work with a back-focused pull for a mixed upper-body session.", "Put the exercise you most want to improve first.", "Different emphasis does not mean full recovery: shoulders, grip, and trunk still work in both movements.");
+    } else if (key === "triceps") {
+      add("machine-chest-press", "Push-session pairing", "Pairs a triceps accessory with chest pressing in the same push session.", "Perform the chest press first, then this triceps exercise.", pushFatigue);
+      add("cable-curl", "Opposing-muscle alternative", "Alternates elbow extension with elbow flexion for an arm-focused session.", "Put the priority arm exercise first.", "Elbow and grip fatigue can still accumulate; keep both movements controlled.");
+    } else if (["row","pull"].includes(key)) {
+      add("cable-curl", "Pull-session pairing", "Combines a back-focused movement with a biceps accessory in a pull session.", "Perform the back exercise first, then the curl.", pullFatigue);
+      add("machine-chest-press", "Opposing-muscle alternative", "Alternates back work with chest pressing for a mixed upper-body session.", "Put the exercise you most want to improve first.", "Shoulder, grip, and trunk fatigue can carry over even with different primary muscles.");
+    } else if (key === "curl") {
+      add("seated-cable-row", "Pull-session pairing", "Groups this biceps exercise with a back movement that also uses the elbow flexors.", "Perform the row first, then this curl.", pullFatigue);
+      add("cable-triceps-pushdown", "Opposing-muscle alternative", "Alternates biceps and triceps work in an arm-focused session.", "Put the priority arm exercise first.", "Both exercises load the elbow region; reduce effort if technique deteriorates.");
+    } else if (["squat","lunge","extension","legCurl","hip","calf"].includes(key)) {
+      const kneeFlexion = ["squat","lunge","extension"].includes(key);
+      add(kneeFlexion ? "seated-leg-curl" : "leg-extension", "Leg-session pairing", kneeFlexion ? "Adds hamstring knee-flexion work alongside a knee-dominant leg movement." : "Adds quadriceps knee-extension work alongside this posterior-chain or calf movement.", "Do the compound movement first when present; otherwise put the priority exercise first.", "Both tax the lower body. Use straight sets for heavy compounds and allow extra rest if leg performance drops.");
+      add("dumbbell-lateral-raise", "Optional legs + shoulders", "Adds a light shoulder accessory when your session intentionally combines legs and shoulders.", "Do the leg exercise first, then a light lateral raise.", "Breathing and trunk fatigue still carry over. Skip the pairing if you cannot stay stable for the raises.");
+    } else if (key === "shoulder") {
+      add("leg-extension", "Optional shoulders + legs", "Combines a shoulder accessory with supported quadriceps work in a mixed session.", "Put your priority exercise first and keep both moderate.", "This is a mixed-session option, not a default push or pull pairing. Rest enough to keep posture controlled.");
+    }
+  }
+  const pairs=pool.filter(p=>p.id!==e.id).flatMap(p=>{
+    const exercise=exercises.find(x=>x.id===p.id);
+    return exercise ? [{...exercise, ...p}] : [];
+  });
   const alternatives=exercises.filter(x=>x.id!==e.id&&familyKey(x)===key&&tracking[x.id].mode===info.mode).sort((a,b)=>{
     const overlap=(x:Exercise)=>Object.entries(x.muscles).reduce((s,[m,v])=>s+v*(e.muscles[m as keyof typeof e.muscles]??0),0);
     return overlap(b)-overlap(a)||a.name.localeCompare(b.name);

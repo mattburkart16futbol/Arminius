@@ -42,8 +42,8 @@ export function ExerciseGuidePage() {
           <p>For ordinary working sets, leave a few controlled reps in reserve while learning. Stop if you feel sharp pain.</p>
         </section>
       </div>
-      <section className="card"><h3>Superset ideas</h3><p>A superset alternates two exercises. These suggestions aim to limit overlap in the main muscles; they are not proven best pairings for you. Shared grip, shoulder, and trunk fatigue can still matter.</p>
-        {profile.pairs.length ? <ul>{profile.pairs.map(e=><li key={e.id}><Link to={`/exercises/${e.id}`}>{e.name}</Link> — emphasizes different primary muscles in this catalog.</li>)}</ul> : <p>Use separate sets and full recovery for this movement. No automatic pairing is suggested.</p>}
+      <section className="card"><h3>Superset ideas</h3><p>A superset alternates two exercises. Choose a pairing that fits your session. Same-session options come first; opposing-muscle and mixed-session options are labeled alternatives. These are starting ideas, not personalized prescriptions.</p>
+        {profile.pairs.length ? <ul>{profile.pairs.map(e=><li key={e.id}><strong>{e.style}</strong>: <Link to={`/exercises/${e.id}`}>{e.name}</Link><p>{e.reason}</p><p><strong>Order:</strong> {e.order}</p><p><strong>Fatigue to consider:</strong> {e.fatigue}</p></li>)}</ul> : <p>Use separate sets and full recovery for this movement. No automatic pairing is suggested.</p>}
         <p>For heavy strength work, keep straight sets. For moderate accessory work, alternate one set of each exercise, then rest about 1–2 minutes or longer until technique and breathing recover. Start with fewer rounds and stop the pairing if performance drops.</p>
       </section>
       <section className="card"><h3>Related lifts to explore</h3><p>Related movement options, not identical replacements. Compare equipment, range, and muscle emphasis.</p><ul>{profile.alternatives.map(e=><li key={e.id}><Link to={`/exercises/${e.id}`}>{e.name}</Link> · {e.equipment}</li>)}</ul></section>
