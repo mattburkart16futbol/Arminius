@@ -1742,3 +1742,5 @@ select:focus-visible {
     grid-column: 1/-1;
   }
 }
+
+.workout-text-entry textarea { width: 100%; box-sizing: border-box; resize: vertical; min-height: 8rem; padding: .75rem; font: inherit; border: 1px solid #78868a; border-radius: .5rem; }

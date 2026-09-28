@@ -1,3 +1,4 @@
+import { WorkoutTextEntry } from "../components/WorkoutTextEntry";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useAuth } from "../auth/AuthProvider";
 import { supabase } from "../lib/supabase";
@@ -379,6 +380,9 @@ export function Workout() {
         </section>
       )}
       <fieldset disabled={busy} className="logger-fieldset">
+        <WorkoutTextEntry key={userId ?? "preview"} units={units}
+          remaining={50 - (active?.exercises.length ?? 0)}
+          onAdd={active ? (lifts) => edit({ ...active, exercises: [...active.exercises, ...lifts] }) : undefined} />
         <section className="card picker-card">
           <h2>Exercise library</h2>
           <div className="picker-filters">
