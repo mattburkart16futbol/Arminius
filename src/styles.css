@@ -1744,3 +1744,17 @@ select:focus-visible {
 }
 
 .workout-text-entry textarea { width: 100%; box-sizing: border-box; resize: vertical; min-height: 8rem; padding: .75rem; font: inherit; border: 1px solid #78868a; border-radius: .5rem; }
+
+.exercise-profile { display: grid; gap: 1rem; margin-top: 1rem; }
+.exercise-guide-results { list-style: none; padding: 0; max-height: 24rem; overflow-y: auto; }
+.exercise-guide-results li { display: flex; flex-wrap: wrap; gap: .5rem; justify-content: space-between; padding: .65rem 0; border-bottom: 1px solid #d8ddd4; }
+.exercise-guide-results a { padding: .3rem 0; }
+.exercise-guide-results span { font-size: .85rem; }
+.exercise-guide-columns { display: grid; gap: 1rem; }
+.muscle-role-list dt { font-weight: 700; margin-top: .8rem; }
+.muscle-role-list dd { margin-left: 0; text-transform: capitalize; }
+.exercise-profile li { margin-bottom: .65rem; }
+.guide-table-scroll { overflow-x: auto; }
+.guide-table-scroll table { width: 100%; border-collapse: collapse; }
+.guide-table-scroll th, .guide-table-scroll td { text-align: left; padding: .6rem; border-bottom: 1px solid #d8ddd4; }
+@media (min-width: 960px) { .exercise-guide-columns { grid-template-columns: 1fr 1fr; } }

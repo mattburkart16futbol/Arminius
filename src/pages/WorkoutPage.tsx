@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { WorkoutTextEntry } from "../components/WorkoutTextEntry";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useAuth } from "../auth/AuthProvider";
@@ -385,6 +386,7 @@ export function Workout() {
           onAdd={active ? (lifts) => edit({ ...active, exercises: [...active.exercises, ...lifts] }) : undefined} />
         <section className="card picker-card">
           <h2>Exercise library</h2>
+          <p><Link to="/exercises">Browse exercise profiles</Link></p>
           <div className="picker-filters">
             <label>
               Search exercises
@@ -468,6 +470,7 @@ export function Workout() {
             )}
           </div>
           <p className="fine">{filtered.length} of 300 exercises</p>
+          {chosen && <p><Link to={`/exercises/${chosen}`}>View muscles, technique & training suggestions</Link></p>}
           <details>
             <summary>Preview muscle involvement</summary>
             <div className="maps">

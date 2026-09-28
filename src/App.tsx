@@ -1,3 +1,4 @@
+import { ExerciseGuidePage } from "./pages/ExerciseGuidePage";
 import { useEffect, useRef } from "react";
 import {
   NavLink,
@@ -53,7 +54,7 @@ function Shell() {
   const location = useLocation();
   const main = useRef<HTMLElement>(null);
   useEffect(() => {
-    document.title = `${navigation.find((n) => n.to === location.pathname)?.label ?? (location.pathname === "/leaderboards" ? "Leaderboards" : "Page not found")} · Arminius`;
+    document.title = `${navigation.find((n) => n.to === location.pathname)?.label ?? (location.pathname === "/leaderboards" ? "Leaderboards" : location.pathname.startsWith("/exercises") ? "Exercise guide" : "Page not found")} · Arminius`;
     main.current?.focus({ preventScroll: true });
     window.scrollTo(0, 0);
   }, [location.pathname]);
@@ -99,6 +100,8 @@ export function App() {
         <Route element={<Shell />}>
           <Route index element={<Home />} />
           <Route path="workout" element={<Workout />} />
+          <Route path="exercises" element={<ExerciseGuidePage />} />
+          <Route path="exercises/:exerciseId" element={<ExerciseGuidePage />} />
           <Route path="nutrition" element={<NutritionPage />} />
           <Route path="progress" element={<ProgressPage />} />
           <Route path="leaderboards" element={<LeaderboardsPage />} />
