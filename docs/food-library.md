@@ -14,7 +14,7 @@ References: [USDA API/licensing](https://fdc.nal.usda.gov/api-guide/), [USDA dow
 
 ## Data
 
-After the hosted expansion, the catalog contains **6,660 sourced foods**: 5,742 generic and prepared foods (311 Foundation and 5,431 FNDDS 2021–2023 foods), 899 branded products, and 19 complete restaurant menu entries from Subway, Jimmy John's, and Chick-fil-A. The new USDA branded sample contains 820 grocery, bakery, beverage, and pantry products with UPCs where provided; 79 earlier catalog items remain to preserve existing food references. A clean full USDA seed contains the new 820-product sample; applying it to the hosted database preserves prior rows. Foundation and FNDDS are from USDA's April 2026 and October 2024 releases. Their source archives are pinned by URL and SHA256. Foods without complete energy and all three macros are omitted. Unknown nutrients stay absent; zero is preserved as zero.
+After the hosted expansion, the catalog contains **6,685 sourced foods**: 5,742 generic and prepared foods (311 Foundation and 5,431 FNDDS 2021–2023 foods), 899 branded products, and 44 restaurant menu entries and components from Subway, Jimmy John's, Chick-fil-A, and Chipotle. The new USDA branded sample contains 820 grocery, bakery, beverage, and pantry products with UPCs where provided; 79 earlier catalog items remain to preserve existing food references. A clean full USDA seed contains the new 820-product sample; applying it to the hosted database preserves prior rows. Foundation and FNDDS are from USDA's April 2026 and October 2024 releases. Their source archives are pinned by URL and SHA256. Foods without complete energy and all three macros are omitted. Unknown nutrients stay absent; zero is preserved as zero.
 
 ## Restaurant and alcohol records
 
@@ -63,3 +63,11 @@ No paid food API, AI model, scheduled worker, new project, or subscription is ad
 Database tests execute the migrations with multiple roles, testing derived values, snapshots, invalid partial saves, stale edits, retries, pagination, and private favorites. Phone/desktop browser tests cover search, portions, favorites, retained drafts, multi-food saving, editing, reuse, and deletion against a fake backend. Live catalog checks confirm source counts and micronutrients; real-account end-to-end checks remain before public launch.
 
 Dedicated saved recipes with serving yields and camera barcode scanning remain future work. The free-text meal plan above is still design guidance; no AI model, inference endpoint, request, or new recurring charge is connected yet.
+
+## Focused Chipotle batch (checked September 27, 2026)
+
+Added 25 adult menu components from page 2 of the [official U.S. nutrition PDF](https://www.chipotle.com/content/dam/chipotle/menu/nutrition/US-Nutrition-Facts-Paper-Menu-3-2025.pdf#page=2): proteins, rice, beans, tortillas, vegetables, salsas, dairy toppings, guacamole, chips, and dressing. The curated transcription is `data/chipotle-core-menu.json`; migration `20260928022308_popular_chipotle_components.sql` imports it using stable source IDs. No default bowl recipe is assumed. Add the actual components and portions to a meal, and use two portions for double chicken.
+
+This is a dated official snapshot: the filename says March 2025 while the printed footer says OCT-2024-US-CK. We retain both in provenance and leave the exact release date unknown. It is not a guarantee of current availability or unchanged recipes. The taco tortilla publishes fiber as less than 1 g; that scalar remains unknown rather than being changed to zero or one. Unpublished minerals and added sugars remain unknown. Fluid-ounce portions retain that label without being treated as weight ounces. Regular chips are 540 calories per whole 4 oz order (the guide says it serves two); half an order is 0.5 portions.
+
+Dunkin has been deferred at the user's request. Remaining priority coverage includes common U.S. McDonald's, Taco Bell, Wendy's, Subway, and pizza-chain items once their complete first-party panels and portions are verified. Do not substitute overseas menus or AI-generated nutrition to fill gaps. The hosted catalog is intentionally selective, not complete.

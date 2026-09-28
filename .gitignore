@@ -13,3 +13,6 @@ data/usda-branded-selected.json
 usda-catalog.json
 supabase/migrations/202609270004_usda_catalog_seed.sql
 supabase/migrations/202609270008_usda_catalog_seed.sql
+
+# Local nutrition source downloads and visual inspection files
+data/sources/

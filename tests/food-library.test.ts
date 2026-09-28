@@ -134,7 +134,7 @@ it("seeds sourced menu and beer data and searches multiple words with stable pag
   const restaurants = await db.query<{ name: string; calories: string; serving_unit: string; source_url: string }>(
     "select name,calories,serving_unit,source_url from foods where source_data_type='Restaurant menu' order by name",
   );
-  expect(restaurants.rows).toHaveLength(19);
+  expect(restaurants.rows).toHaveLength(44);
   expect(restaurants.rows.every((item) => item.serving_unit === "serving" && item.source_url.startsWith("https://"))).toBe(true);
   expect(Number(restaurants.rows.find((item) => item.name.startsWith("Turkey Tom"))?.calories)).toBe(480);
   const cfa = await db.query<{
@@ -348,4 +348,27 @@ it("keeps favorites private and rejects anonymous access", async () => {
       { name: "Anon", quantity_grams: 100, nutrients: values },
     ]),
   ).rejects.toThrow(/permission denied/);
+});
+
+it("keeps Chipotle portions repeatable, unknown fiber distinct, and bowl totals source-derived", async () => {
+  await db.exec("reset role");
+  const migration = readFileSync(new URL("../supabase/migrations/20260928022308_popular_chipotle_components.sql", import.meta.url), "utf8");
+  const before = await db.query("select id from foods where brand='Chipotle' order by id");
+  await db.exec(migration);
+  expect((await db.query("select id from foods where brand='Chipotle' order by id")).rows).toEqual(before.rows);
+  expect(before.rows).toHaveLength(25);
+  await asUser();
+  const tortilla = await db.query("select fiber_g,sugar_g,potassium_mg,source_release from foods where source_id='chipotle-us-flour-tortilla-taco'");
+  expect(tortilla.rows[0]).toEqual({fiber_g:null,sugar_g:"0",potassium_mg:null,source_release:null});
+  const matches = await db.query<{id:string}>("select id from search_foods('Chipotle chicken')");
+  expect(matches.rows).toHaveLength(1);
+  const components = await db.query<{id:string}>("select id from foods where source_id in ('chipotle-us-chicken','chipotle-us-cilantro-lime-white-rice','chipotle-us-black-beans')");
+  const meal = crypto.randomUUID();
+  await save(meal, components.rows.map(({id}) => ({food_id:id,quantity:1,quantity_unit:"serving",nutrients:{calories:9999}})));
+  const totals = await db.query<{calories:string;protein:string;sodium:string}>("select sum(calories)::text calories,sum(protein_g)::text protein,sum(sodium_mg)::text sodium from meal_items where meal_id=$1",[meal]);
+  expect(Number(totals.rows[0].calories)).toBe(520);
+  expect(Number(totals.rows[0].protein)).toBe(44);
+  expect(Number(totals.rows[0].sodium)).toBe(870);
+  expect(sourceLink("https://www.chipotle.com/content/dam/chipotle/menu/nutrition/US-Nutrition-Facts-Paper-Menu-3-2025.pdf#page=2")).not.toBeNull();
+  expect(sourceLink("https://www.chipotle.com.evil.example/menu")).toBeNull();
 });
