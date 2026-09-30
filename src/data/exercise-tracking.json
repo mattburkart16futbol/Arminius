@@ -1798,5 +1798,11 @@
     "load": "per_dumbbell",
     "category": "legs",
     "e1rm": false
+  },
+  "cable-jackhammer-pushdown": {
+    "mode": "reps",
+    "load": "external",
+    "category": "push",
+    "e1rm": false
   }
 }

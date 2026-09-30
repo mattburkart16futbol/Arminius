@@ -1,0 +1,499 @@
+import { PGlite } from "@electric-sql/pglite";
+import { readFileSync, readdirSync } from "node:fs";
+import { beforeAll, afterAll, expect, it } from "vitest";
+import {
+  mealPayload,
+  scaleNutrients,
+  sourceLink,
+  type NutrientValues,
+} from "../src/lib/food-library";
+const db = new PGlite();
+const a = crypto.randomUUID(),
+  b = crypto.randomUUID();
+const food = crypto.randomUUID();
+const values: NutrientValues = {
+  calories: 200,
+  protein_g: 10,
+  carbs_g: 25,
+  fat_g: 8,
+  fiber_g: null,
+  sugar_g: 0,
+  saturated_fat_g: null,
+  sodium_mg: 100,
+  potassium_mg: null,
+};
+async function asUser(id = a) {
+  await db.exec("reset role");
+  await db.query("select set_config('request.jwt.claim.sub',$1,false)", [id]);
+  await db.exec("set role authenticated");
+}
+async function save(
+  id: string,
+  items: unknown[],
+  revision = 0,
+  operation = crypto.randomUUID(),
+) {
+  return db.query<{ save_meal: number }>(
+    "select save_meal($1,$2,$3,$4,$5,$6)",
+    [
+      id,
+      revision,
+      operation,
+      "Lunch",
+      new Date(Date.now() - 60000).toISOString(),
+      JSON.stringify(items),
+    ],
+  );
+}
+beforeAll(async () => {
+  await db.exec(
+    "create role anon;create role authenticated;create role service_role bypassrls;create schema auth;create table auth.users(id uuid primary key);create function auth.uid() returns uuid language sql stable as $$select nullif(current_setting('request.jwt.claim.sub',true),'')::uuid$$;grant usage on schema public,auth to anon,authenticated,service_role;",
+  );
+  const dir = new URL("../supabase/migrations/", import.meta.url);
+  for (const f of readdirSync(dir)
+    .filter((f) => f.endsWith(".sql") && !f.startsWith("202609270008_"))
+    .sort())
+    await db.exec(readFileSync(new URL(f, dir), "utf8"));
+  await db.query("insert into auth.users values($1),($2)", [a, b]);
+  await db.query(
+    "insert into foods(id,name,serving_grams,serving_amount,serving_unit,calories,protein_g,carbs_g,fat_g,source,source_id,source_url) values($1,'Test cooked oats',100,100,'g',200,10,25,8,'USDA FoodData Central','test','https://fdc.nal.usda.gov/food-details/test/nutrients')",
+    [food],
+  );
+  const searchFixtures = Array.from({ length: 55 }, (_, index) => {
+    const suffix = String(index + 1).padStart(2, "0");
+    return [
+      crypto.randomUUID(),
+      `Test raw chicken ${suffix}`,
+      100,
+      100,
+      "g",
+      120,
+      22,
+      0,
+      3,
+      "Test fixture",
+      `test-raw-chicken-${suffix}`,
+      `https://example.com/foods/test-raw-chicken-${suffix}`,
+    ];
+  });
+  const fixtureParams: (string | number)[] = [];
+  const fixtureValues = searchFixtures
+    .map((fixture, index) => {
+      const offset = index * fixture.length;
+      fixtureParams.push(...fixture);
+      return `(${fixture.map((_, column) => `$${offset + column + 1}`).join(",")})`;
+    })
+    .join(",");
+  await db.query(
+    `insert into foods(id,name,serving_grams,serving_amount,serving_unit,calories,protein_g,carbs_g,fat_g,source,source_id,source_url) values ${fixtureValues}`,
+    fixtureParams,
+  );
+}, 60000);
+afterAll(() => db.close());
+it("scales known values, preserves unknowns, and refuses invalid portions", () => {
+  expect(scaleNutrients(values, 100, 250)).toMatchObject({
+    calories: 500,
+    sodium_mg: 250,
+    fiber_g: null,
+    sugar_g: 0,
+  });
+  expect(() => scaleNutrients(values, 0, 100)).toThrow();
+  expect(() => scaleNutrients(values, 100, NaN)).toThrow();
+  expect(() => mealPayload([])).toThrow();
+  expect(sourceLink("javascript:alert(1)")).toBeNull();
+  expect(sourceLink("https://fdc.nal.usda.gov.evil.example/x")).toBeNull();
+  expect(
+    sourceLink("https://www.mcdonalds.com/us/en-us/product/big-mac.html"),
+  ).not.toBeNull();
+  expect(
+    sourceLink("https://www.chick-fil-a.com/nutrition-allergens"),
+  ).not.toBeNull();
+  expect(
+    sourceLink("https://www.heineken.com/us/en/our-beers/heineken-original/"),
+  ).not.toBeNull();
+  expect(
+    mealPayload([
+      {
+        key: "drink",
+        name: "Cola",
+        amount: "355",
+        unit: "ml",
+        baseAmount: 100,
+        baseUnit: "ml",
+        values,
+        source: null,
+      },
+    ])[0],
+  ).toMatchObject({
+    quantity: 355,
+    quantity_unit: "ml",
+    nutrients: { calories: 710 },
+  });
+});
+it("seeds sourced menu and beer data and searches multiple words with stable pagination", async () => {
+  await asUser();
+  const count = await db.query<{ count: number }>(
+    "select count(*)::int count from foods where source_data_type='Foundation'",
+  );
+  expect(count.rows[0].count).toBe(311);
+  const branded = await db.query<{ count: number; milliliter_count: number }>(
+    "select count(*)::int count,count(*) filter(where serving_unit='ml')::int milliliter_count from foods where source_data_type='Branded'",
+  );
+  expect(branded.rows[0].count).toBeGreaterThanOrEqual(820);
+  expect(branded.rows[0].milliliter_count).toBe(154);
+  const restaurants = await db.query<{
+    name: string;
+    calories: string;
+    serving_unit: string;
+    source_url: string;
+  }>(
+    "select name,calories,serving_unit,source_url from foods where source_data_type='Restaurant menu' order by name",
+  );
+  expect(restaurants.rows).toHaveLength(44);
+  expect(
+    restaurants.rows.every(
+      (item) =>
+        item.serving_unit === "serving" &&
+        item.source_url.startsWith("https://"),
+    ),
+  ).toBe(true);
+  expect(
+    Number(
+      restaurants.rows.find((item) => item.name.startsWith("Turkey Tom"))
+        ?.calories,
+    ),
+  ).toBe(480);
+  const cfa = await db.query<{
+    calories: string;
+    protein_g: string;
+    carbs_g: string;
+    source_url: string;
+    portions: { label: string }[];
+    nutrient_values: Record<string, number>;
+  }>(
+    "select calories,protein_g,carbs_g,source_url,portions,nutrient_values from foods where source_id='cfa-us-chicken-sandwich'",
+  );
+  expect(cfa.rows).toHaveLength(1);
+  expect(cfa.rows[0]).toMatchObject({
+    calories: "420",
+    protein_g: "29",
+    carbs_g: "41",
+    source_url: "https://www.chick-fil-a.com/nutrition-allergens",
+  });
+  expect(cfa.rows[0].portions[0].label).toBe("1 sandwich (183 g)");
+  expect(cfa.rows[0].nutrient_values).toMatchObject({ "1253": 70, "1257": 0 });
+  const beer = await db.query<{
+    calories: string;
+    serving_amount: string;
+    serving_unit: string;
+    source_url: string;
+    ethanol: string;
+  }>(
+    "select calories,serving_amount,serving_unit,source_url,nutrient_values->>'1018' ethanol from foods where source_id='2127272' and brand='HEINEKEN'",
+  );
+  expect(beer.rows).toHaveLength(1);
+  expect(beer.rows[0]).toMatchObject({
+    calories: "40",
+    serving_amount: "100",
+    serving_unit: "ml",
+    source_url: "https://www.heineken.com/us/en/our-beers/heineken-original/",
+    ethanol: "3.95",
+  });
+  const rows = await db.query<{ name: string }>(
+    "select name from search_foods('chicken raw')",
+  );
+  expect(rows.rows.length).toBeGreaterThan(0);
+  expect(
+    rows.rows.every((r) => /chicken/i.test(r.name) && /raw/i.test(r.name)),
+  ).toBe(true);
+  expect((await db.query("select id from search_foods('%_')")).rows).toEqual(
+    [],
+  );
+  const first = (
+    await db.query<{ id: string }>("select id from search_foods('raw',0)")
+  ).rows;
+  const next = (
+    await db.query<{ id: string }>("select id from search_foods('raw',50)")
+  ).rows;
+  expect(first).toHaveLength(50);
+  expect(next.length).toBeGreaterThan(0);
+  expect(next.some((r) => first.some((f) => f.id === r.id))).toBe(false);
+});
+it("atomically saves multiple foods and derives catalog nutrition on the server", async () => {
+  await asUser();
+  const id = crypto.randomUUID(),
+    op = crypto.randomUUID();
+  const items = [
+    { food_id: food, quantity_grams: 150, nutrients: { calories: 999999 } },
+    { name: "Label food", quantity_grams: 100, nutrients: values },
+  ];
+  await save(id, items, 0, op);
+  await save(id, items, 0, op);
+  const rows = (
+    await db.query<{
+      calories: string;
+      fiber_g: null;
+      source_snapshot: unknown;
+    }>(
+      "select calories,fiber_g,source_snapshot from meal_items where meal_id=$1 order by name",
+      [id],
+    )
+  ).rows;
+  expect(rows).toHaveLength(2);
+  expect(rows.map((r) => Number(r.calories)).sort()).toEqual([200, 300]);
+  expect(rows.every((r) => r.fiber_g === null)).toBe(true);
+  expect(rows.some((r) => r.source_snapshot !== null)).toBe(true);
+  const bad = crypto.randomUUID();
+  await expect(
+    save(bad, [
+      items[0],
+      { name: "Bad", quantity_grams: 100, nutrients: { calories: 1 } },
+    ]),
+  ).rejects.toThrow();
+  expect(
+    (await db.query("select id from meals where id=$1", [bad])).rows,
+  ).toEqual([]);
+  await expect(save(id, items, 0)).rejects.toThrow(/Meal changed/);
+  await expect(db.query("select delete_meal($1,0)", [id])).rejects.toThrow(
+    /Meal changed/,
+  );
+  await db.query("select delete_meal($1,1)", [id]);
+  expect(
+    (await db.query("select id from meal_items where meal_id=$1", [id])).rows,
+  ).toEqual([]);
+});
+it("scales milliliters and whole restaurant servings while retaining the unit", async () => {
+  const drink = crypto.randomUUID(),
+    sandwich = crypto.randomUUID();
+  await db.exec("reset role");
+  await db.query(
+    "insert into foods(id,name,serving_grams,serving_amount,serving_unit,calories,protein_g,carbs_g,fat_g,source,source_id,source_url) values($1,'Test cola',null,100,'ml',42,0,10.6,0,'Test source','cola','https://example.com/cola'),($2,'Test sandwich',null,1,'serving',480,23,48,19,'Test source','sandwich','https://example.com/sandwich')",
+    [drink, sandwich],
+  );
+  await asUser();
+  const drinkMeal = crypto.randomUUID();
+  await save(drinkMeal, [
+    { food_id: drink, quantity: 355, quantity_unit: "ml" },
+  ]);
+  const drinkItem = (
+    await db.query<{
+      quantity: string;
+      quantity_unit: string;
+      quantity_grams: null;
+      calories: string;
+    }>(
+      "select quantity,quantity_unit,quantity_grams,calories from meal_items where meal_id=$1",
+      [drinkMeal],
+    )
+  ).rows[0];
+  expect(drinkItem).toMatchObject({
+    quantity: "355",
+    quantity_unit: "ml",
+    quantity_grams: null,
+  });
+  expect(Number(drinkItem.calories)).toBeCloseTo(149.1);
+  const drinkSnapshot = (
+    await db.query<{ id: string }>(
+      "select id from meal_items where meal_id=$1",
+      [drinkMeal],
+    )
+  ).rows[0].id;
+  await save(
+    drinkMeal,
+    [{ snapshot_id: drinkSnapshot, quantity: 710, quantity_unit: "ml" }],
+    1,
+  );
+  expect(
+    Number(
+      (
+        await db.query<{ calories: string }>(
+          "select calories from meal_items where meal_id=$1",
+          [drinkMeal],
+        )
+      ).rows[0].calories,
+    ),
+  ).toBe(298.2);
+  await expect(
+    save(crypto.randomUUID(), [
+      { food_id: drink, quantity: 100, quantity_unit: "g" },
+    ]),
+  ).rejects.toThrow(/does not match/);
+  const sandwichMeal = crypto.randomUUID();
+  await save(sandwichMeal, [
+    { food_id: sandwich, quantity: 2, quantity_unit: "serving" },
+  ]);
+  const sandwichItem = (
+    await db.query<{
+      quantity: string;
+      quantity_unit: string;
+      calories: string;
+    }>(
+      "select quantity,quantity_unit,calories from meal_items where meal_id=$1",
+      [sandwichMeal],
+    )
+  ).rows[0];
+  expect(sandwichItem).toMatchObject({
+    quantity: "2",
+    quantity_unit: "serving",
+  });
+  expect(Number(sandwichItem.calories)).toBe(960);
+});
+it("preserves historical snapshots through catalog changes, edits, and meal reuse", async () => {
+  await asUser();
+  const id = crypto.randomUUID();
+  await save(id, [{ food_id: food, quantity_grams: 100 }]);
+  const old = (
+    await db.query<{ id: string }>(
+      "select id from meal_items where meal_id=$1",
+      [id],
+    )
+  ).rows[0].id;
+  await db.exec("reset role");
+  await db.query("update foods set calories=900 where id=$1", [food]);
+  await asUser();
+  await save(id, [{ snapshot_id: old, quantity_grams: 200 }], 1);
+  const item = (
+    await db.query<{ id: string; calories: string }>(
+      "select id,calories from meal_items where meal_id=$1",
+      [id],
+    )
+  ).rows[0];
+  expect(Number(item.calories)).toBe(400);
+  const repeat = crypto.randomUUID();
+  await save(repeat, [{ snapshot_id: item.id, quantity_grams: 50 }]);
+  expect(
+    Number(
+      (
+        await db.query<{ calories: string }>(
+          "select calories from meal_items where meal_id=$1",
+          [repeat],
+        )
+      ).rows[0].calories,
+    ),
+  ).toBe(100);
+  await asUser(b);
+  await expect(
+    save(crypto.randomUUID(), [{ snapshot_id: item.id, quantity_grams: 50 }]),
+  ).rejects.toThrow(/snapshot unavailable/);
+  await expect(
+    save(
+      id,
+      [{ name: "Overwrite", quantity_grams: 100, nutrients: values }],
+      2,
+    ),
+  ).rejects.toThrow(/unavailable/);
+  await db.query("select delete_meal($1,2)", [id]);
+  expect(
+    (await db.query("select id from meals where id=$1", [id])).rows,
+  ).toEqual([]);
+  await asUser();
+  expect(
+    (await db.query("select id from meals where id=$1", [id])).rows,
+  ).toHaveLength(1);
+});
+it("keeps favorites private and rejects anonymous access", async () => {
+  await asUser();
+  await db.query("insert into food_favorites(food_id) values($1)", [food]);
+  await asUser(b);
+  expect((await db.query("select * from food_favorites")).rows).toEqual([]);
+  await expect(
+    db.query("insert into food_favorites(user_id,food_id) values($1,$2)", [
+      a,
+      food,
+    ]),
+  ).rejects.toThrow();
+  await db.exec("reset role;set role anon");
+  await expect(db.query("select * from search_foods('oats')")).rejects.toThrow(
+    /permission denied/,
+  );
+  await expect(
+    save(crypto.randomUUID(), [
+      { name: "Anon", quantity_grams: 100, nutrients: values },
+    ]),
+  ).rejects.toThrow(/permission denied/);
+});
+
+it("keeps Chipotle portions repeatable, unknown fiber distinct, and bowl totals source-derived", async () => {
+  await db.exec("reset role");
+  const migration = readFileSync(
+    new URL(
+      "../supabase/migrations/20260928022308_popular_chipotle_components.sql",
+      import.meta.url,
+    ),
+    "utf8",
+  );
+  const before = await db.query(
+    "select id from foods where brand='Chipotle' order by id",
+  );
+  await db.exec(migration);
+  expect(
+    (await db.query("select id from foods where brand='Chipotle' order by id"))
+      .rows,
+  ).toEqual(before.rows);
+  expect(before.rows).toHaveLength(25);
+  await asUser();
+  const tortilla = await db.query(
+    "select fiber_g,sugar_g,potassium_mg,source_release from foods where source_id='chipotle-us-flour-tortilla-taco'",
+  );
+  expect(tortilla.rows[0]).toEqual({
+    fiber_g: null,
+    sugar_g: "0",
+    potassium_mg: null,
+    source_release: null,
+  });
+  const matches = await db.query<{ id: string }>(
+    "select id from search_foods('Chipotle chicken')",
+  );
+  expect(matches.rows).toHaveLength(1);
+  const components = await db.query<{ id: string }>(
+    "select id from foods where source_id in ('chipotle-us-chicken','chipotle-us-cilantro-lime-white-rice','chipotle-us-black-beans')",
+  );
+  const meal = crypto.randomUUID();
+  await save(
+    meal,
+    components.rows.map(({ id }) => ({
+      food_id: id,
+      quantity: 1,
+      quantity_unit: "serving",
+      nutrients: { calories: 9999 },
+    })),
+  );
+  const totals = await db.query<{
+    calories: string;
+    protein: string;
+    sodium: string;
+  }>(
+    "select sum(calories)::text calories,sum(protein_g)::text protein,sum(sodium_mg)::text sodium from meal_items where meal_id=$1",
+    [meal],
+  );
+  expect(Number(totals.rows[0].calories)).toBe(520);
+  expect(Number(totals.rows[0].protein)).toBe(44);
+  expect(Number(totals.rows[0].sodium)).toBe(870);
+  expect(
+    sourceLink(
+      "https://www.chipotle.com/content/dam/chipotle/menu/nutrition/US-Nutrition-Facts-Paper-Menu-3-2025.pdf#page=2",
+    ),
+  ).not.toBeNull();
+  expect(sourceLink("https://www.chipotle.com.evil.example/menu")).toBeNull();
+});
+
+it("matches beverage product names without manufacturer-only matches or excluded bundles", async () => {
+  await db.exec("reset role");
+  await db.exec(`insert into foods(name,brand,serving_grams,serving_amount,serving_unit,calories,protein_g,carbs_g,fat_g,source,source_id,search_exclusion_reason) values
+ ('Fixture Coca-Cola Bottle','The Coca-Cola Company-0049000000016',100,100,'g',40,0,10,0,'Test fixture','coke-test',null),
+ ('Fixture Gold Peak Tea','The Coca-Cola Company-0049000000016',100,100,'g',40,0,10,0,'Test fixture','tea-test',null),
+ ('Fixture Gift Bundle','Coca-Cola',100,100,'g',40,0,10,0,'Test fixture','bundle-test','Mixed gift bundle');`);
+  await asUser();
+  const first = await db.query<{ source_id: string }>(
+    "select source_id from search_foods('coca-cola') where source='Test fixture'",
+  );
+  expect(first.rows.map((r) => r.source_id)).toEqual(["coke-test"]);
+  const spaced = await db.query<{ source_id: string }>(
+    "select source_id from search_foods('coca cola') where source='Test fixture'",
+  );
+  expect(spaced.rows).toEqual(first.rows);
+  expect((await db.query("select * from search_foods('%_')")).rows).toEqual([]);
+  expect(
+    (await db.query("select * from search_foods('Fixture Gold Peak')")).rows,
+  ).toHaveLength(1);
+});

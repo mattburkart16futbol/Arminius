@@ -48,10 +48,22 @@ test("nutrition entry, bodyweight, explicit sharing consent, and benchmark contr
     } else if (path.endsWith("/body_metrics")) {
       if (body) measurement = body;
       result = measurement ? [measurement] : [];
-    } else if (path.endsWith("/rpc/save_meal_entry")) {
-      meals.push({ id: body.p_id, eaten_at: body.p_eaten_at });
-      items.push({ id: "item", meal_id: body.p_id, ...body.p_nutrients });
-      result = null;
+    } else if (path.endsWith("/rpc/save_meal")) {
+      meals.push({
+        id: body.p_id,
+        name: body.p_name,
+        eaten_at: body.p_eaten_at,
+        revision: 1,
+      });
+      for (const item of body.p_items)
+        items.push({
+          id: "item",
+          meal_id: body.p_id,
+          name: item.name,
+          quantity_grams: item.quantity_grams,
+          ...item.nutrients,
+        });
+      result = 1;
     } else if (path.endsWith("/rpc/save_daily_nutrition_target")) {
       targets.push({
         metric: body.p_metric,
@@ -119,7 +131,8 @@ test("nutrition entry, bodyweight, explicit sharing consent, and benchmark contr
     ["fat g", "10"],
   ])
     await page.getByLabel(label, { exact: true }).fill(value);
-  await page.getByRole("button", { name: "Save food entry" }).click();
+  await page.getByRole("button", { name: "Add to meal", exact: true }).click();
+  await page.getByRole("button", { name: "Save meal", exact: true }).click();
   await expect(page.getByText("Meal saved.")).toBeVisible();
   await expect(page.getByText("400 kcal", { exact: true })).toBeVisible();
   await page.getByText("Set a daily nutrition target", { exact: true }).click();

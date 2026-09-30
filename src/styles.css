@@ -1650,6 +1650,87 @@ select:focus-visible {
   }
 }
 
+.nutrition-logger .food-tabs {
+  margin: 1rem 0;
+  flex-wrap: wrap;
+}
+.food-results {
+  display: grid;
+  gap: 0.75rem;
+  max-height: 24rem;
+  overflow-y: auto;
+  margin-block: 0.75rem;
+}
+.food-result,
+.draft-food,
+.meal-record {
+  padding: 1rem;
+  border: 1px solid var(--border, #33413b);
+  border-radius: 14px;
+  min-width: 0;
+}
+.food-result .food-choice {
+  display: grid;
+  gap: 0.35rem;
+  text-align: left;
+  width: 100%;
+  white-space: normal;
+}
+.food-source {
+  display: block;
+  margin: 0.5rem 0;
+  overflow-wrap: anywhere;
+}
+.food-source a {
+  color: inherit;
+  text-decoration: underline;
+}
+.food-editor {
+  margin-block: 1.25rem;
+  padding-block: 1rem;
+  border-block: 1px solid var(--border, #33413b);
+}
+.meal-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-block: 0.8rem;
+}
+.meal-history {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.meal-record .spread {
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.meal-record time {
+  font-size: 0.8rem;
+}
+.meal-record ul {
+  padding-left: 1.2rem;
+  overflow-wrap: anywhere;
+}
+.draft-food {
+  margin-bottom: 0.75rem;
+}
+.nutrition-feedback {
+  position: sticky;
+  top: 0.5rem;
+  z-index: 2;
+  background: #edf2e7;
+  color: var(--green);
+  border-radius: 8px;
+}
+.nutrition-feedback:not(:empty) {
+  padding: 0.75rem;
+}
+.nutrition-logger input,
+.nutrition-logger select {
+  max-width: 100%;
+  min-width: 0;
+}
 .logger-fieldset .toggle-row {
   display: flex;
   align-items: flex-start;
@@ -1661,3 +1742,22 @@ select:focus-visible {
     grid-column: 1/-1;
   }
 }
+
+.workout-text-entry textarea { width: 100%; box-sizing: border-box; resize: vertical; min-height: 8rem; padding: .75rem; font: inherit; border: 1px solid #78868a; border-radius: .5rem; }
+
+.exercise-profile { display: grid; gap: 1rem; margin-top: 1rem; }
+.exercise-guide-results { list-style: none; padding: 0; max-height: 24rem; overflow-y: auto; }
+.exercise-guide-results li { display: flex; flex-wrap: wrap; gap: .5rem; justify-content: space-between; padding: .65rem 0; border-bottom: 1px solid #d8ddd4; }
+.exercise-guide-results a { padding: .3rem 0; }
+.exercise-guide-results span { font-size: .85rem; }
+.exercise-guide-columns { display: grid; gap: 1rem; }
+.muscle-role-list dt { font-weight: 700; margin-top: .8rem; }
+.muscle-role-list dd { margin-left: 0; text-transform: capitalize; }
+.exercise-profile li { margin-bottom: .65rem; }
+.guide-table-scroll { overflow-x: auto; }
+.guide-table-scroll table { width: 100%; border-collapse: collapse; }
+.guide-table-scroll th, .guide-table-scroll td { text-align: left; padding: .6rem; border-bottom: 1px solid #d8ddd4; }
+@media (min-width: 960px) { .exercise-guide-columns { grid-template-columns: 1fr 1fr; } }
+
+.exercise-guide-search label { display: grid; gap: .4rem; min-width: 0; }
+.exercise-guide-search input, .exercise-guide-search select { width: 100%; min-width: 0; min-height: 44px; box-sizing: border-box; padding: .65rem; font: inherit; border: 1px solid #78868a; border-radius: .5rem; background: white; color: #20352d; }

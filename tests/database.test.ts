@@ -58,7 +58,7 @@ beforeAll(async () => {
     insert into public.workout_exercises(id,user_id,workout_id,exercise_id,position) values('${ids.exercise}','${alice}','${ids.workout}','squat',0);
     insert into public.sets(user_id,workout_exercise_id,position,reps) values('${alice}','${ids.exercise}',0,10);
     insert into public.meals(id,user_id,name) values('${ids.meal}','${alice}','Lunch');
-    insert into public.meal_items(user_id,meal_id,name,quantity_grams,calories,protein_g,carbs_g,fat_g) values('${alice}','${ids.meal}','Sample',100,100,10,10,2);
+    insert into public.meal_items(user_id,meal_id,name,quantity,quantity_unit,quantity_grams,calories,protein_g,carbs_g,fat_g) values('${alice}','${ids.meal}','Sample',100,'g',100,100,10,10,2);
     insert into public.body_metrics(user_id,weight_kg) values('${alice}',80);
     insert into public.achievements values('first','First session','Complete a workout','{}');
     insert into public.user_achievements(user_id,achievement_id) values('${alice}','first');
@@ -179,7 +179,7 @@ describe("migrations and ownership boundaries", () => {
       `insert into targets(goal_id,metric,target_value,period) values('${ids.goal}','sessions',3,'weekly')`,
       `insert into workout_exercises(workout_id,exercise_id,position) values('${ids.workout}','squat',1)`,
       `insert into sets(workout_exercise_id,position,reps) values('${ids.exercise}',1,5)`,
-      `insert into meal_items(meal_id,name,quantity_grams,calories,protein_g,carbs_g,fat_g) values('${ids.meal}','Invalid',1,1,1,1,1)`,
+      `insert into meal_items(meal_id,name,quantity,quantity_unit,quantity_grams,calories,protein_g,carbs_g,fat_g) values('${ids.meal}','Invalid',1,'g',1,1,1,1,1)`,
     ])
       await expect(db.exec(sql)).rejects.toThrow();
   });
@@ -251,7 +251,7 @@ describe("migrations and ownership boundaries", () => {
     }>(
       "select id,tracking_mode,load_mode,training_category,e1rm_eligible from exercises",
     );
-    expect(rows.rows).toHaveLength(300);
+    expect(rows.rows).toHaveLength(301);
     for (const row of rows.rows)
       expect(tracking[row.id]).toEqual({
         mode: row.tracking_mode,

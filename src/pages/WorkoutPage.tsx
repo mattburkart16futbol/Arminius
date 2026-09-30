@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+import { WorkoutTextEntry } from "../components/WorkoutTextEntry";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useAuth } from "../auth/AuthProvider";
 import { supabase } from "../lib/supabase";
@@ -356,7 +358,9 @@ export function Workout() {
       )}
       <p role="status">{notice}</p>
       {!supabase && (
-        <p className="badge">Preview · browse 300 exercises; sign in to save</p>
+        <p className="badge">
+          Preview · browse {exercises.length} exercises; sign in to save
+        </p>
       )}
       {!active && supabase && (
         <section className="card start-workout-card">
@@ -379,8 +383,25 @@ export function Workout() {
         </section>
       )}
       <fieldset disabled={busy} className="logger-fieldset">
+        <WorkoutTextEntry
+          key={userId ?? "preview"}
+          units={units}
+          remaining={50 - (active?.exercises.length ?? 0)}
+          onAdd={
+            active
+              ? (lifts) =>
+                  edit({
+                    ...active,
+                    exercises: [...active.exercises, ...lifts],
+                  })
+              : undefined
+          }
+        />
         <section className="card picker-card">
           <h2>Exercise library</h2>
+          <p>
+            <Link to="/exercises">Browse exercise profiles</Link>
+          </p>
           <div className="picker-filters">
             <label>
               Search exercises
@@ -463,7 +484,16 @@ export function Workout() {
               </button>
             )}
           </div>
-          <p className="fine">{filtered.length} of 300 exercises</p>
+          <p className="fine">
+            {filtered.length} of {exercises.length} exercises
+          </p>
+          {chosen && (
+            <p>
+              <Link to={`/exercises/${chosen}`}>
+                View muscles, technique & training suggestions
+              </Link>
+            </p>
+          )}
           <details>
             <summary>Preview muscle involvement</summary>
             <div className="maps">

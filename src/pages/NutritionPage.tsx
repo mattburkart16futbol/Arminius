@@ -15,6 +15,7 @@ import {
   type NutritionTarget,
 } from "../lib/nutritionAnalytics";
 import { supabase } from "../lib/supabase";
+import { averageMicronutrients } from "../lib/micronutrients";
 
 type RangeDays = 7 | 30 | 90;
 
@@ -81,7 +82,7 @@ export function NutritionPage() {
         "meal_items",
         "meal_id",
         nextMeals.map((m) => m.id),
-        "id,meal_id,calories,protein_g,carbs_g,fat_g,fiber_g,sugar_g,saturated_fat_g,sodium_mg,potassium_mg",
+        "id,meal_id,calories,protein_g,carbs_g,fat_g,fiber_g,sugar_g,saturated_fat_g,sodium_mg,potassium_mg,nutrient_values",
       );
       if (token !== generation.current) return;
       setMeals(nextMeals);
@@ -127,6 +128,10 @@ export function NutritionPage() {
       }),
     [averages.carbs_g, averages.fat_g, averages.protein_g],
   );
+  const micronutrients = useMemo(
+    () => averageMicronutrients(meals, items),
+    [items, meals],
+  );
 
   return (
     <>
@@ -154,7 +159,7 @@ export function NutritionPage() {
         </div>
       </div>
 
-      <NutritionEntry onSaved={() => void load()} />
+      <NutritionEntry key={userId ?? "preview"} onSaved={() => void load()} />
       <p className="fine">
         Calendar days in this device’s local timezone. Unlogged days are
         excluded. Optional nutrient averages use only complete logged days.
@@ -337,6 +342,33 @@ export function NutritionPage() {
               </p>
             </section>
           </div>
+
+          <section className="card">
+            <div className="spread">
+              <h2>Vitamins and minerals</h2>
+              <span className="badge">Sourced meal data</span>
+            </div>
+            <div className="nutrient-grid">
+              {micronutrients.map((nutrient) => (
+                <div key={nutrient.id}>
+                  <span>{nutrient.name}</span>
+                  <strong>
+                    {nutrient.average === null
+                      ? "—"
+                      : `${nutrient.average.toLocaleString(undefined, { maximumFractionDigits: 2 })} ${nutrient.unit}`}
+                  </strong>
+                  <small>
+                    {nutrient.completeDays}/{nutrient.loggedDays} complete days
+                  </small>
+                </div>
+              ))}
+            </div>
+            <p className="fine">
+              Averages include only days where every logged food had a sourced
+              value for that nutrient. An em dash means there is not enough
+              complete data yet.
+            </p>
+          </section>
         </>
       )}
     </>

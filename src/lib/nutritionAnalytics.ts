@@ -26,6 +26,7 @@ export type NutritionMealItem = {
   saturated_fat_g: number | null;
   sodium_mg: number | null;
   potassium_mg: number | null;
+  nutrient_values?: Record<string, number>;
 };
 
 export type NutritionTarget = {
