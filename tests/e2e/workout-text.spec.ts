@@ -125,7 +125,7 @@ test("AI review preserves notes and requires confirmation without downloading in
                 raw: JSON.stringify({
                   lines: [
                     {
-                      exercise_id: "incline-barbell-bench-press",
+                      exercise_id: "incline-bench",
                       sets: "4 sets of 7 at 135 lb",
                     },
                   ],
@@ -147,6 +147,9 @@ test("AI review preserves notes and requires confirmation without downloading in
     .getByText("Try free local AI (experimental)", { exact: true })
     .click();
   await page.getByRole("button", { name: "Download / run local AI" }).click();
+  await expect(page.getByLabel("Exercise match for line 1")).toBeVisible();
+  await expect(page.getByRole("heading", {name:"Review draft sets"})).toHaveCount(0);
+  await page.getByLabel("Exercise match for line 1").selectOption("incline-barbell-bench-press");
   await expect(
     page.getByRole("heading", { name: "Review draft sets" }),
   ).toBeVisible();

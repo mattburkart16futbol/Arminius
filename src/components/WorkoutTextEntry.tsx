@@ -12,7 +12,7 @@ import {
   type Unit,
 } from "../lib/workout";
 
-import { validateWorkoutAI } from "../lib/workout-ai";
+import { validateWorkoutAI, workoutAINameChoices } from "../lib/workout-ai";
 
 export function WorkoutTextEntry({
   units,
@@ -33,6 +33,7 @@ export function WorkoutTextEntry({
   const worker = useRef<Worker | null>(null);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [busy, setBusy] = useState(false);
+  const [aiRaw, setAiRaw] = useState("");
   const [aiResult, setAiResult] = useState(false);
   const [confirmed, setConfirmed] = useState(false);
   const stop = () => {
@@ -51,6 +52,8 @@ export function WorkoutTextEntry({
   const runAI = () => {
     stop();
     setPreview(null);
+    setChoices({});
+    setAiRaw("");
     setAiResult(true);
     setConfirmed(false);
     setBusy(true);
@@ -63,6 +66,7 @@ export function WorkoutTextEntry({
     instance.onmessage = (event) => {
       if (worker.current !== instance) return;
       if (event.data.status === "complete") {
+        setAiRaw(event.data.raw);
         setPreview(validateWorkoutAI(event.data.raw, inputUnits));
         setNotice(
           "Compare every exercise, weight, rep and set with your original notes. AI can misread or omit details.",
@@ -178,32 +182,38 @@ export function WorkoutTextEntry({
         )}
       </details>
       {preview &&
-        !aiResult &&
-        workoutNameChoices(text).map(({ index, name, options }) => (
-          <label key={index}>
-            Choose exercise for line {index + 1}: {name}
-            <select
-              aria-label={`Exercise match for line ${index + 1}`}
-              value={choices[index] ?? ""}
-              onChange={(e) => {
-                const next = { ...choices, [index]: e.target.value };
-                setChoices(next);
-                setPreview(parseWorkoutText(text, inputUnits, next));
-              }}
-            >
-              <option value="">Choose the intended movement</option>
-              {options.map((e) => (
-                <option key={e.id} value={e.id}>
-                  {e.name}
-                </option>
-              ))}
-            </select>
-            <span className="fine">
-              Closest word matches appear first. Choose only an equivalent
-              movement; if none fits, keep it unselected.
-            </span>
-          </label>
-        ))}
+        (aiResult ? workoutAINameChoices(aiRaw) : workoutNameChoices(text)).map(
+          ({ index, name, options }) => (
+            <label key={index}>
+              Choose exercise for line {index + 1}: {name}
+              <select
+                aria-label={`Exercise match for line ${index + 1}`}
+                value={choices[index] ?? ""}
+                onChange={(e) => {
+                  const next = { ...choices, [index]: e.target.value };
+                  setChoices(next);
+                  setConfirmed(false);
+                  setPreview(
+                    aiResult
+                      ? validateWorkoutAI(aiRaw, inputUnits, next)
+                      : parseWorkoutText(text, inputUnits, next),
+                  );
+                }}
+              >
+                <option value="">Choose the intended movement</option>
+                {options.map((e) => (
+                  <option key={e.id} value={e.id}>
+                    {e.name}
+                  </option>
+                ))}
+              </select>
+              <span className="fine">
+                Closest word matches appear first. Choose only an equivalent
+                movement; if none fits, keep it unselected.
+              </span>
+            </label>
+          ),
+        )}
       {preview && (
         <div aria-live="polite">
           {preview.errors.length > 0 ? (

@@ -1,5 +1,9 @@
 import catalog from "../data/exercises.json";
-import { parseWorkoutText, type ParsedLift } from "./workout-text";
+import {
+  parseWorkoutText,
+  workoutNameChoices,
+  type ParsedLift,
+} from "./workout-text";
 import { tracking, type Unit } from "./workout";
 
 export const localModel = "onnx-community/Qwen3-0.6B-ONNX";
@@ -34,48 +38,64 @@ export function workoutPrompt(text: string, units: Unit) {
   ];
 }
 
-/** Treat model output as untrusted. Only catalog exercises and the bounded set grammar reach drafts. */
-export function validateWorkoutAI(
-  raw: string,
-  units: Unit,
-): { lifts: ParsedLift[]; errors: string[] } {
-  const reject = (message: string) => ({ lifts: [], errors: [message] });
+/** Validate structure before any generated text enters the bounded parser. */
+function modelDraft(raw: string): string {
   if (raw.length > 16000)
-    return reject("AI response was too long. Try fewer exercises.");
-  try {
-    const value = JSON.parse(
-      raw.replace(/^```(?:json)?\s*/, "").replace(/\s*```$/, ""),
-    );
-    if (
-      !value ||
-      !Array.isArray(value.lines) ||
-      !Array.isArray(value.questions) ||
-      value.questions.some((q: unknown) => typeof q !== "string")
-    )
-      return reject(
-        "The AI could not produce a usable draft. Try rephrasing or use the standard review.",
-      );
-    if (value.questions.length)
-      return reject(value.questions.slice(0, 10).join(" ").slice(0, 2000));
-    if (!value.lines.length || value.lines.length > 50)
-      return reject("The AI did not identify a complete workout.");
-    const lines: string[] = [];
-    for (const line of value.lines) {
-      const exercise = catalog.find((e) => e.id === line?.exercise_id);
+    throw new Error("AI response was too long. Try fewer exercises.");
+  const value = JSON.parse(
+    raw.replace(/^```(?:json)?\s*/, "").replace(/\s*```$/, ""),
+  );
+  if (
+    !value ||
+    !Array.isArray(value.lines) ||
+    !Array.isArray(value.questions) ||
+    value.questions.some((q: unknown) => typeof q !== "string")
+  )
+    throw new Error("The AI could not produce a usable draft.");
+  if (value.questions.length)
+    throw new Error(value.questions.slice(0, 10).join(" ").slice(0, 2000));
+  if (!value.lines.length || value.lines.length > 50)
+    throw new Error("The AI did not identify a complete workout.");
+  return value.lines
+    .map((line: { exercise_id?: unknown; sets?: unknown } | null) => {
       if (
-        !exercise ||
+        !line ||
+        typeof line.exercise_id !== "string" ||
+        !/^[a-zA-Z0-9 _()'-]{1,120}$/.test(line.exercise_id) ||
         typeof line.sets !== "string" ||
         /[\n;:]/.test(line.sets)
       )
-        return reject(
-          "The AI suggested an unknown exercise or invalid sets. Use standard review to choose a match.",
-        );
-      lines.push(`${exercise.name}: ${line.sets}`);
-    }
-    return parseWorkoutText(lines.join("\n"), units);
+        throw new Error("The AI suggested invalid exercises or sets.");
+      const exercise = catalog.find((e) => e.id === line.exercise_id);
+      // Unknown IDs stay visibly unresolved until a user selects a catalog movement.
+      return `${exercise?.name ?? "Unmatched " + line.exercise_id.replace(/[_-]/g, " ")}: ${line.sets}`;
+    })
+    .join("\n");
+}
+export function workoutAINameChoices(raw: string) {
+  try {
+    return workoutNameChoices(modelDraft(raw));
   } catch {
-    return reject(
-      "The AI response was incomplete. Try one exercise at a time or use the standard review.",
-    );
+    return [];
+  }
+}
+export function validateWorkoutAI(
+  raw: string,
+  units: Unit,
+  choices: Record<number, string> = {},
+): { lifts: ParsedLift[]; errors: string[] } {
+  try {
+    return parseWorkoutText(modelDraft(raw), units, choices);
+  } catch (error) {
+    return {
+      lifts: [],
+      errors: [
+        error instanceof SyntaxError
+          ? "The AI response was incomplete. Try one exercise at a time or standard review."
+          : error instanceof Error
+            ? error.message
+            : "Could not read AI output.",
+      ],
+    };
   }
 }
