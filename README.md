@@ -1,6 +1,6 @@
 # Arminius
 
-A mobile-first fitness and nutrition platform foundation built with React, TypeScript, Vite, and Supabase. The foundation now includes persistent workout logging, a 300-exercise catalog, deterministic progress analytics, and an interactive muscle heatmap. Nutrition entries/metrics, bodyweight tracking, private percentiles, opt-in benchmark boards, and community trends are now implemented. Home targets remain labeled samples.
+A mobile-first fitness and nutrition platform foundation built with React, TypeScript, Vite, and Supabase. The foundation now includes persistent workout logging, a 301-exercise catalog, deterministic progress analytics, and an interactive muscle heatmap. Nutrition entries/metrics, bodyweight tracking, private percentiles, opt-in benchmark boards, and community trends are now implemented. Home targets remain labeled samples.
 
 ## Run locally
 
@@ -51,11 +51,11 @@ The current client uses explicit row and RPC response types in `src/lib/workout-
 - `src/pages/WorkoutPage.tsx`: compact workout editor, save/retry, rest timer, history.
 - `src/pages/ProgressPage.tsx`: completed-workout analytics and interactive heatmap.
 - `src/components/`: sample targets, private leaderboard placeholder, SVG muscle map.
-- `src/data/exercises.json`: canonical 300-exercise mappings. IDs match SQL and SVG regions.
+- `src/data/exercises.json`: canonical 301-exercise mappings. IDs match SQL and SVG regions.
 - `supabase/migrations/`: schema, ownership policies, starter exercise catalog.
 - `tests/`: PostgreSQL policy/constraint tests, deterministic mapping tests, mobile/desktop browser checks.
 
-The SVG architecture separates typed muscle IDs, front/back path geometry, involvement aggregation, and rendering. Fixed weights (`1` primary; lower values supporting) are illustrative editorial mappings, **not measured activation, fatigue, or recovery**. Selection uses stable IDs and maximum involvement, independent of order/duplicates. Each muscle has a text equivalent; color is supplementary. Both views share stable muscle IDs and unique accessible SVG titles. The catalog contains 300 editorially selected movements from the supplied package, not a statistically ranked list of the most popular lifts. Tracking modes and load conventions live in `src/data/exercise-tracking.json`.
+The SVG architecture separates typed muscle IDs, front/back path geometry, involvement aggregation, and rendering. Fixed weights (`1` primary; lower values supporting) are illustrative editorial mappings, **not measured activation, fatigue, or recovery**. Selection uses stable IDs and maximum involvement, independent of order/duplicates. Each muscle has a text equivalent; color is supplementary. Both views share stable muscle IDs and unique accessible SVG titles. The catalog contains 301 editorially selected movements from the supplied package, not a statistically ranked list of the most popular lifts. Tracking modes and load conventions live in `src/data/exercise-tracking.json`.
 
 `node scripts/generate-catalog.mjs` prints a catalog SQL snapshot to stdout for inspection; it never overwrites migration files. Once that migration is deployed, introduce catalog changes in a **new migration**, never rewrite migration history. A test checks JSON/SQL mapping parity.
 
@@ -75,7 +75,7 @@ The SVG architecture separates typed muscle IDs, front/back path geometry, invol
 
 All 24 tables have RLS and explicit grants. Anonymous database access is denied. Composite foreign keys enforce ownership across goals/targets, workouts/exercises/sets, meals/items, and AI requests/recommendations, including updates. Quantities have checks and explicit canonical units (kg, g, cm, m, seconds, kcal); dates use PostgreSQL timestamptz. Meal items snapshot consumed-portion nutrients rather than relying on mutable food entries.
 
-Cross-user access is restricted to aggregate comparison/trending RPCs and explicitly opted-in named benchmark scores. Raw profiles, measurements, workouts, and meal items stay private. Browser clients cannot write derived score tables, friendships, or catalogs directly. Named consent discloses the bodyweight inference tradeoff. AI functionality is not connected.
+Cross-user access is restricted to aggregate comparison/trending RPCs and explicitly opted-in named benchmark scores. Raw profiles, measurements, workouts, and meal items stay private. Browser clients cannot write derived score tables, friendships, or catalogs directly. Named consent discloses the bodyweight inference tradeoff. Paid AI is not connected; the optional workout-text trial runs locally in the browser.
 
 Tests execute the actual migrations in PGlite (PostgreSQL) with minimal `auth.users`, `auth.uid()`, and Supabase role shims. They verify account provisioning, grants, RLS visibility, cross-account references, owner CRUD, ownership changes, invalid data, cascade deletion, and catalog parity. Run equivalent checks against a staging Supabase project before production use.
 
@@ -83,7 +83,7 @@ Tests execute the actual migrations in PGlite (PostgreSQL) with minimal `auth.us
 
 Build with `npm run build` and serve `dist/` over HTTPS. Configure your host to rewrite non-asset routes to `index.html` so direct links to `/workout` and `/auth` work. Add the production Auth callback URL and public environment values to the host before building. No deployment is included in this PR.
 
-Next milestones: verify the hosted social/metrics update with real accounts, generate database types, connect Home targets to real data, expand the food catalog and meal editing, and add operational monitoring before a public launch. PWA/offline support and optional AI remain future work.
+Next milestones: verify the hosted social/metrics update with real accounts, generate database types, connect Home targets to real data, expand the food catalog and meal editing, and add operational monitoring before a public launch. PWA/offline support and production AI remain future work.
 
 Reference documentation: [Vite setup](https://vite.dev/guide/), [Supabase RLS](https://supabase.com/docs/guides/database/postgres/row-level-security), [Auth profile management](https://supabase.com/docs/guides/auth/managing-user-data).
 
@@ -141,8 +141,22 @@ Review the interpreted sets, start a workout if necessary, and select **Add draf
 
 ## Exercise profiles
 
-Open **Workout → Browse exercise profiles** or `/exercises`. All 300 catalog exercises have searchable profiles and stable `/exercises/:exerciseId` links. Profiles include broad muscle roles, front/back maps, logging conventions, technique cues, common mistakes, sample set/rep/rest ranges, gradual progression, optional superset ideas, and related movements. Thirteen common exercises have specific cues; other exercises explicitly use movement-family guidance. Technical/power movements and conditioning do not receive ordinary hypertrophy prescriptions. Timed/distance movements use their tracked units.
+Open **Workout → Browse exercise profiles** or `/exercises`. All 301 catalog exercises have searchable profiles and stable `/exercises/:exerciseId` links. Profiles include broad muscle roles, front/back maps, logging conventions, technique cues, common mistakes, sample set/rep/rest ranges, gradual progression, optional superset ideas, and related movements. Fourteen common exercises have specific cues; other exercises explicitly use movement-family guidance. Technical/power movements and conditioning do not receive ordinary hypertrophy prescriptions. Timed/distance movements use their tracked units.
 
 Muscle roles are educational approximations from the existing illustrative catalog: involvement >=0.75 is primary, 0.4–<0.75 secondary, and lower positive weights supporting. Hinge profiles treat lower-back involvement as stabilization where other primary movers are listed. Tibialis profiles name the anterior shin explicitly and omit the map because it has no shin region. These display corrections do not rewrite workout analytics or the stored exercise catalog.
 
 Superset ideas use explicit movement-family rules: push accessories pair with presses, biceps with back work, and knee-dominant leg work with hamstring curls. Opposing-muscle and legs/shoulders combinations are labeled alternatives. Each suggestion explains the session fit, exercise order, and shared fatigue. They are starting suggestions, not validated individualized pairings; heavy strength work is directed toward straight sets. No automatic pairing is offered for technical lifts, conditioning, hinges, or carries. General programming context links to ACSM's 2026 guidance and ACE's reciprocal-superset article; neither source is presented as endorsing the app's exact pairings or every exercise's sample ranges. All guide content is local. No database migration, paid AI, subscription, or network request is required to browse it.
+
+### Experimental local workout AI
+
+Workout → Type your workout → **Try free local AI (experimental)** downloads a pinned Qwen3-0.6B ONNX model from Hugging Face only after clicking **Download / run local AI**. Transformers.js runs inference in a cancellable browser worker using WebAssembly. No provider key, paid inference, Supabase AI call, or server processing is involved. Internet/data usage and device power still apply. The initial download is roughly 1 GB; allow several minutes and available memory. Browser caching is best effort. The worker is terminated on cancellation, input/unit changes, navigation, or the five-minute timeout. Model files are external downloads, not bundled into GitHub.
+
+This small-model trial accepts up to 1,500 characters and provides draft sets only. It can misidentify variants or omit information: compare all output with the original notes and explicitly confirm before adding. Unknown catalog IDs, invalid numbers, unsupported tracking modes, malformed responses and model clarification questions block import. These structural checks cannot prove semantic accuracy. No internet research, coaching, automatic completion or persistence is performed by the model. Standard shorthand review remains available without downloading anything.
+
+The standard parser also accepts `Incline bench press: 4 sets of 135x7`, singular/plural tricep and pressdown spellings, and the chest cable jackhammer. Unrecognized names offer a manual catalog selection. Incline bench shorthand resolves to the barbell variation, visibly shown in review; use an explicit dumbbell/machine name for those variations.
+
+Model: https://huggingface.co/onnx-community/Qwen3-0.6B-ONNX (revision pinned in `src/lib/workout-ai.ts`). Runtime: https://huggingface.co/docs/transformers.js. Unit tests validate the untrusted output boundary; routine CI does not download or benchmark model weights.
+
+Food searches normalize punctuation and suppress manufacturer-only matches (for example, Gold Peak tea owned by Coca-Cola). A known gift-bundle record is excluded from search without deleting historical meal references. This is a targeted relevance correction, not a guarantee that every imported label is complete or current.
+
+Local trial observation (2026-09-30): a real browser run with “I did incline bench for four sets of seven with 135 pounds” completed but failed catalog/set validation, so no draft was imported. Browser cache storage also failed in the test environment. This model is an opt-in experiment, not an accuracy-validated replacement for the standard parser. The prompt supplies 40 keyword-ranked catalog candidates; a missing candidate should trigger clarification rather than substitution.

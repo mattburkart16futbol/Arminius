@@ -2934,5 +2934,16 @@
       "hamstrings": 0.25,
       "core": 0.25
     }
+  },
+  {
+    "id": "cable-jackhammer-pushdown",
+    "name": "Cable jackhammer pushdown (chest)",
+    "equipment": "cable",
+    "muscles": {
+      "chest": 1,
+      "triceps": 0.5,
+      "shoulders": 0.5,
+      "core": 0.25
+    }
   }
 ]

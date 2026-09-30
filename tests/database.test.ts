@@ -251,7 +251,7 @@ describe("migrations and ownership boundaries", () => {
     }>(
       "select id,tracking_mode,load_mode,training_category,e1rm_eligible from exercises",
     );
-    expect(rows.rows).toHaveLength(300);
+    expect(rows.rows).toHaveLength(301);
     for (const row of rows.rows)
       expect(tracking[row.id]).toEqual({
         mode: row.tracking_mode,

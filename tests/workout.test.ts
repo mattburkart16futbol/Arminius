@@ -18,8 +18,8 @@ import {
 } from "../src/lib/analytics";
 
 describe("workout conventions and validation", () => {
-  it("defines tracking for all 300 catalog entries", () => {
-    expect(catalog).toHaveLength(300);
+  it("defines tracking for all catalog entries", () => {
+    expect(catalog).toHaveLength(301);
     expect(Object.keys(tracking).sort()).toEqual(
       catalog.map((e) => e.id).sort(),
     );
